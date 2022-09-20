@@ -24,15 +24,20 @@
 
             <?php 
                     $fp = fopen("work19_write.txt","a");
-                    fwrite($fp,$_GET["title_form"]);
+                    fwrite($fp,$_GET["title_form"]."\t");
                     fwrite($fp,$_GET["input_form"]."\n");
                     fclose($fp);
             ?>
 
+
+                    <!-- 読み込んだ文を「〇：△」と表示させるため、一文をexplodeで分ける。
+                    分けたものをvar_dumpで調べるとarrayになっていたので、インデックス指定してそれぞれの単語を取り出す。 -->
+                    
             <?php 
                     $fp = fopen("work19_write.txt","r");
                     while($line = fgets($fp)){
-                        print $line.":"."<br>";
+                        $lines = explode("\t",$line);
+                        print $lines[0]." : ".$lines[1]."<br>";
                     }
                     fclose($fp);
             ?>
