@@ -25,9 +25,7 @@
             <?php 
                     $fp = fopen("work19_write.txt","a");
                     
-                    // エスケープ処理した（XSSの攻撃を阻止するやつ）もつけると、出力時に過去の履歴まで消えてしまうのでつけない。
-                    // fwrite($fp,htmlspecialchars($_GET["title_form"],ENT_QUOTES,"UTF-8")."\t");
-                    // fwrite($fp,htmlspecialchars($_GET["input_form"],ENT_QUOTES,"UTF-8")."\n");
+                    // エスケープ処理した（XSSの攻撃を阻止するやつ）もつけて書き込み。
                     fwrite($fp,htmlspecialchars($_GET["title_form"],ENT_QUOTES,"UTF-8")."\t");
                     fwrite($fp,htmlspecialchars($_GET["input_form"],ENT_QUOTES,"UTF-8")."\n");
                     fclose($fp);
