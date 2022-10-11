@@ -4,10 +4,10 @@
         $password = 'Au3#DZ~G';   
         $database = 'bcdhm_hoj_pf0001';
 
-        $image_id =
+        $image_id = 9999;
         $image_name = $_POST['input_data'];
-        $public_flg =
-        $create_date =
+        $public_flg = 9999;
+        $create_date = date('Ymd');
         $update_date = date('Ymd');
         
 ?>
@@ -24,6 +24,9 @@
         <title>WORK30_1</title>
 
         <style>
+                * {
+                    box-sizing:border-box;
+              }
                 h1 {
                     font-size:20px; 
                 }
@@ -44,17 +47,28 @@
                     width: 31%;
                     border:1px solid #b7b7b7;
                     margin-right:5px;
+                    margin-bottom:5px;
+                    text-align: center;
+
 
                 }
 
-                .container {
+                .main {
+                    margin-left:50px;
+                    width:500px;
+                    /* border:1px solid gray; */
+                    /* background-color: blue; */
+                }
+
+                .contents-container {
                     display:flex;
                     flex-wrap: wrap;
-                    width:400px;
-                    background-color: red;
+                    /* border:1px solid gray; */
+                    margin-top:10px;
+
                 }
 
-                .container p {
+                .contents-container p {
                     text-align: center;
                     font-size:10px;
                     
@@ -63,6 +77,31 @@
                 .introduce-image {
                     width:100%;
 
+                }
+
+                .img-container {
+                    height:150px;
+                    margin-right:20px;
+                    margin-left:20px;
+                    /* background-color: green; */
+                }
+
+                .btn-wrapper{
+                    margin-bottom:2px;
+                }
+
+                .flg-button {
+                    display: inline-block;
+                    width: 90px;
+                    height:20px;
+                    font-size:11px;
+                }
+
+                .title{
+                    display:inline-block;
+                    margin-top:2px;
+                    margin-bottom:2px;
+                    color:#000000;
                 }
         </style>
 
@@ -92,9 +131,9 @@
                 
                 
                 //SQL文が送れない（データベースにinsert intoしても反映されない事象が起きた。調査した結果、カラム名「image_id」とかに""を付けてるとダメ。なにも付けないこと！）
-                //「 '$image_name'」の「''」を付けないと送信出来るときと出来ない時がある。
+                //「 '$image_name'」の「''」を付けないと送信出来るときと出来ない時がある。→変数と文字列なので連結しないと。しかし「'$image_name'」だけ他と連結がちがうのにOKなのはなぜ？
                 
-                $insert = "INSERT INTO gallery ( image_id , image_name, public_flg, create_date, update_date) VALUES ('3', '$image_name', '2', $update_date, '20221010');";
+                $insert = "INSERT INTO gallery ( image_id, image_name, public_flg, create_date, update_date) VALUES (".$image_id.", '$image_name', ".$public_flg.", ".$create_date." , ".$update_date.");";
                 $result=$db->query($insert);
                 $db->close();
         ?>
@@ -138,38 +177,69 @@
     
 
 
+        <div class=main>
+                <div class="contents-container">
+                    <div class="box1">
+                        <div class=img-container>
+                            <p class="title"><?php print $image_name;?></p>
+                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
+                            <input type="submit" class="flg-button" value="非表示にする" >
+                        </form>
+                    </div>
 
-        <div class="container">
-            <div class="box1">
-            <p><?php print $image_name;?></p>
-            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-            </div>
+                    <div class="box2">
+                        <div class=img-container>
+                            <p class="title"><?php print $image_name;?></p>
+                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
+                            <input type="submit" class="flg-button" value="非表示にする" >
+                        </form>
+                    </div>
 
-            <div class="box2">
-            <p>ここに文章</p>
-            <img class="introduce-image" src="絶対パス付きファイル名" alt="">
-            </div>
+                    <div class="box3">
+                        <div class=img-container>
+                            <p class="title"><?php print $image_name;?></p>
+                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
+                            <input type="submit" class="flg-button" value="非表示にする" >
+                        </form>
+                    </div>
 
-            <div class="box3">
-            <p>ここに文章</p>
-            <img class="introduce-image" src="絶対パス付きファイル名" alt="">
-            </div>
+                    <div class="box4">
+                        <div class=img-container>
+                            <p class="title"><?php print $image_name;?></p>
+                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
+                            <input type="submit" class="flg-button" value="非表示にする" >
+                        </form>
+                    </div>
 
-            <div class="box4">
-            <p>ここに文章</p>
-            <img class="introduce-image" src="絶対パス付きファイル名" alt="">
-            </div>
+                    <div class="box5">
+                        <div class=img-container>
+                            <p class="title"><?php print $image_name;?></p>
+                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
+                            <input type="submit" class="flg-button" value="非表示にする" >
+                        </form>
+                    </div>
 
-            <div class="box5">
-            <p>ここに文章</p>
-            <img class="introduce-image" src="絶対パス付きファイル名" alt="">
-            </div>
+                    <div class="box6">
+                        <div class=img-container>
+                            <p class="title"><?php print $image_name;?></p>
+                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
+                            <input type="submit" class="flg-button" value="非表示にする" >
+                        </form>
+                    </div>
 
-            <div class="box6">
-            <p>ここに文章</p>
-            <img class="introduce-image" src="絶対パス付きファイル名" alt="">
-            </div>
+                </div>
         </div>
-
     </body>
 </html>
