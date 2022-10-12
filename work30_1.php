@@ -1,15 +1,31 @@
+
+
 <?php
         $host = 'mysql34.conoha.ne.jp'; 
         $login_user = 'bcdhm_hoj_pf0001'; 
         $password = 'Au3#DZ~G';   
         $database = 'bcdhm_hoj_pf0001';
 
-        $image_id = 9999;
+        $image_id = 7777;
         $image_name = $_POST['input_data'];
-        $public_flg = 9999;
+        $public_flg = 8888;
         $create_date = date('Ymd');
         $update_date = date('Ymd');
         
+?>
+
+<!-- 初期化とXSSを防ぐための「エスケープ処理」 2種類（input_data、upload_image）-->
+<?php
+  $input_data ='';		
+  if(isset($_FILES['input_data'])){
+    $input_data = htmlspecialchars($_FILES['input_data'], ENT_QUOTES, 'UTF-8');
+  }
+
+  $upload_image ='';		
+  if(isset($_FILES['upload_image'])){
+    $upload_image = htmlspecialchars($_FILES['upload_image'], ENT_QUOTES, 'UTF-8');
+  }
+
 ?>
 
 
@@ -103,6 +119,10 @@
                     margin-bottom:2px;
                     color:#000000;
                 }
+                .msg{
+                    color:red;
+                }
+
         </style>
 
     </head>
@@ -113,10 +133,32 @@
 
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <h1>画像投稿</h1>
-            
- 
 
+            <!-- エラーメッセージや登録・更新完了メッセージ表示部分 -->
+            <?php
+                   //「画像名」は半角英数字以外または空白時はエラー表示
+                   if(!preg_match("/^[a-zA-Z]+$/",$input_data)|| $input_data==""){
+                    $str = "半角英数字以外の形式または入力がされていません";
+                    print "<span class='msg'>$str</span>";
+                    exit;
+                   }
+                   //「画像」はjpeg,png以外または空白時はエラー表示
+                   if($upload_image==""){
+                    $str = "投稿形式が「JPEG」「PNG」以外または画像が選択されていません";
+                    print "<span class='msg'>$str</span>";
+                    exit;
+                   }
 
+                $save = 'img/'.basename($upload_image['name']);
+
+                        if(move_uploaded_file($upload_image['tmp_name'],$save)){
+                            $str = "更新完了";
+                            print "<span class='msg'>$str</span>";
+                        }else{
+                            $str = "更新失敗";
+                            print "<span class='msg'>$str</span>";
+                        }
+            ?>
             <p>画像名：<input type="text" name="input_data"></p>
             <p>画像 : <input type="file" name="upload_image"></p>
             <p><input type="submit" value="画像投稿"></p>
@@ -138,23 +180,7 @@
                 $db->close();
         ?>
 
-        <?php
-                    if(!isset($_FILES['upload_image'])):
-                    print 'ファイル名が入力されていません';
-                    exit;
-                endif;
 
-                $save = 'img/'.basename($_FILES['upload_image']['name']);
-
-                        if(move_uploaded_file($_FILES['upload_image']['tmp_name'],$save)){
-                            print "アップロード完了";
-                        }else{
-                            print "アップロード失敗";
-                        }
-
-
-
-        ?>
     
     <?php
             $db = new mysqli($host, $login_user, $password, $database);
