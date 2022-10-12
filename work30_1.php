@@ -1,5 +1,4 @@
-
-
+<!-- 変数の各種詳細 -->
 <?php
         $host = 'mysql34.conoha.ne.jp'; 
         $login_user = 'bcdhm_hoj_pf0001'; 
@@ -142,23 +141,27 @@
                     print "<span class='msg'>$str</span>";
                     exit;
                    }
+
                    //「画像」はjpeg,png以外または空白時はエラー表示
-                   if($upload_image==""){
+                   if(!preg_match("/\.png$|\.jpeg$",$upload_image)|| $upload_image==""){
                     $str = "投稿形式が「JPEG」「PNG」以外または画像が選択されていません";
                     print "<span class='msg'>$str</span>";
                     exit;
                    }
 
-                $save = 'img/'.basename($upload_image['name']);
 
-                        if(move_uploaded_file($upload_image['tmp_name'],$save)){
-                            $str = "更新完了";
-                            print "<span class='msg'>$str</span>";
-                        }else{
-                            $str = "更新失敗";
-                            print "<span class='msg'>$str</span>";
-                        }
+                   //画像のアップロードOK/NGの判定
+                   $save = 'img/'.basename($upload_image['name']);
+
+                    if(move_uploaded_file($upload_image['tmp_name'],$save)){
+                        $str = "更新完了";
+                        print "<span class='msg'>$str</span>";
+                    }else{
+                        $str = "更新失敗";
+                        print "<span class='msg'>$str</span>";
+                    }
             ?>
+
             <p>画像名：<input type="text" name="input_data"></p>
             <p>画像 : <input type="file" name="upload_image"></p>
             <p><input type="submit" value="画像投稿"></p>
@@ -166,7 +169,8 @@
 
 
         <a href="work30_2.php">画像一覧ページへ</a>
-
+        
+        <!-- データベース（phpmyadmin）にフォームからデータ送信 -->
         <?php
                 $db = new mysqli($host, $login_user, $password, $database);
                 $db->set_charset("utf8");	
@@ -181,25 +185,23 @@
         ?>
 
 
-    
-    <?php
-            $db = new mysqli($host, $login_user, $password, $database);
-            $db->set_charset("utf8");
+        <!-- データベースからデータを取得して画像表示する -->
+        <?php
+                $db = new mysqli($host, $login_user, $password, $database);
+                $db->set_charset("utf8");
 
-            $select = "SELECT image_name FROM gallery ;";
-            if($result = $db->query($select)){
-                // 連想配列を取得
-                while ($row = $result->fetch_assoc()) {
-                    $get_img_url = 'https://portfolio.dc-itex.com/hachioji/0001/img/'.$row["image_name"];
-                    
+                $select = "SELECT image_name FROM gallery ;";
+                if($result = $db->query($select)){
+                    // 連想配列を取得
+                    while ($row = $result->fetch_assoc()) {
+                        $get_img_url = 'https://portfolio.dc-itex.com/hachioji/0001/img/'.$row["image_name"];
+                        
+                    }
+                    $result->close();
                 }
-
-                $result->close();
-            }
-            $db->close();	
-            
-         
-    ?>
+                $db->close();	
+                
+        ?>
     
 
 
