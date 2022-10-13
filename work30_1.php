@@ -6,7 +6,7 @@
         $database = 'bcdhm_hoj_pf0001';
 
         $image_id = 7777;
-        $image_name = $_POST['input_data'];
+        $image_name = $input_data;
         $public_flg = 8888;
         $create_date = date('Ymd');
         $update_date = date('Ymd');
@@ -14,15 +14,24 @@
 ?>
 
 <!-- 初期化とXSSを防ぐための「エスケープ処理」 2種類（input_data、upload_image）-->
+<!-- 「 htmlspecialchars」に配列は使えなく、配列から文字列を取り出して使うようにエラーが出る。 -->
 <?php
   $input_data ='';		
-  if(isset($_FILES['input_data'])){
-    $input_data = htmlspecialchars($_FILES['input_data'], ENT_QUOTES, 'UTF-8');
+  if(isset($_POST['input_data'])){
+    $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
+}
+
+
+
+
+  $upload_image_name ='';		
+  if(isset($_FILES['upload_image']['name'])){
+    $upload_image_name = htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
   }
 
-  $upload_image ='';		
-  if(isset($_FILES['upload_image'])){
-    $upload_image = htmlspecialchars($_FILES['upload_image'], ENT_QUOTES, 'UTF-8');
+  $upload_image_tmp_name ='';		
+  if(isset($_FILES['upload_image']['tmp_name'])){
+    $upload_image_tmp_name = htmlspecialchars($_FILES['upload_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
   }
 
 ?>
@@ -135,30 +144,39 @@
 
             <!-- エラーメッセージや登録・更新完了メッセージ表示部分 -->
             <?php
-                   //「画像名」は半角英数字以外または空白時はエラー表示
-                   if(!preg_match("/^[a-zA-Z]+$/",$input_data)|| $input_data==""){
-                    $str = "半角英数字以外の形式または入力がされていません";
-                    print "<span class='msg'>$str</span>";
-                    exit;
+                   //「画像名」は半角英数字以外はエラー表示
+                   if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data) && $input_data !== ""){
+                        $str = "「画像名」が半角英数字以外の形式になっています。";
+                        print "<span class='msg'>$str</span><br>";
+                    //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
+                    // exit;
                    }
 
-                   //「画像」はjpeg,png以外または空白時はエラー表示
-                   if(!preg_match("/\.png$|\.jpeg$",$upload_image)|| $upload_image==""){
-                    $str = "投稿形式が「JPEG」「PNG」以外または画像が選択されていません";
-                    print "<span class='msg'>$str</span>";
-                    exit;
+                   //「画像」はjpeg,png以外はエラー表示
+                   if(!preg_match("/\.png$/",$upload_image_name)||!preg_match("/\.jpeg$/",$upload_image_name) && $upload_image !== ""){
+                        $str = "「画像」の投稿形式（拡張子）が「JPEG」「PNG」以外になっています。";
+                        print "<span class='msg'>$str</span><br>";
+                     //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
+                    // exit;
                    }
 
 
                    //画像のアップロードOK/NGの判定
-                   $save = 'img/'.basename($upload_image['name']);
 
-                    if(move_uploaded_file($upload_image['tmp_name'],$save)){
-                        $str = "更新完了";
-                        print "<span class='msg'>$str</span>";
+                   //$upload_imageが配列であることを宣言しないと、$upload_image['tmp_name']の部分で「Illegal string offset」とエラーが出る。
+                   //「Illegal string offset」は「配列でない変数に対して、配列のつもりで値を代入してしまうために起こるエラー」のこと。
+                //    $upload_image=array();
+
+                   
+                   $save = 'img/'.basename($upload_image_name);
+
+
+                    if(move_uploaded_file($upload_image_tmp_name,$save)){
+                        $str = "更新完了しました。";
+                        print "<span class='msg'>$str</span><br>";
                     }else{
-                        $str = "更新失敗";
-                        print "<span class='msg'>$str</span>";
+                        $str = "更新失敗しました。";
+                        print "<span class='msg'>$str</span><br>";
                     }
             ?>
 
