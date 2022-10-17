@@ -6,7 +6,7 @@
         $database = 'bcdhm_hoj_pf0001';
 
         $image_id = 7777;
-        $image_name = $input_data;
+        // $image_name = $input_data;
         $public_flg = 8888;
         $create_date = date('Ymd');
         $update_date = date('Ymd');
@@ -145,7 +145,7 @@
             <!-- エラーメッセージや登録・更新完了メッセージ表示部分 -->
             <?php
                    //「画像名」は半角英数字以外はエラー表示
-                   if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data) && $input_data !== ""){
+                   if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data) || $input_data == ""){
                         $str = "「画像名」が半角英数字以外の形式になっています。";
                         print "<span class='msg'>$str</span><br>";
                     //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
@@ -153,7 +153,7 @@
                    }
 
                    //「画像」はjpeg,png以外はエラー表示
-                   if(!preg_match("/\.png$/",$upload_image_name)||!preg_match("/\.jpeg$/",$upload_image_name) && $upload_image !== ""){
+                   if((!preg_match("/\.png$/",$upload_image_name)||!preg_match("/\.jpeg$/",$upload_image_name)) || $upload_image == ""){
                         $str = "「画像」の投稿形式（拡張子）が「JPEG」「PNG」以外になっています。";
                         print "<span class='msg'>$str</span><br>";
                      //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
@@ -197,7 +197,7 @@
                 //SQL文が送れない（データベースにinsert intoしても反映されない事象が起きた。調査した結果、カラム名「image_id」とかに""を付けてるとダメ。なにも付けないこと！）
                 //「 '$image_name'」の「''」を付けないと送信出来るときと出来ない時がある。→変数と文字列なので連結しないと。しかし「'$image_name'」だけ他と連結がちがうのにOKなのはなぜ？
                 
-                $insert = "INSERT INTO gallery ( image_id, image_name, public_flg, create_date, update_date) VALUES (".$image_id.", '$image_name', ".$public_flg.", ".$create_date." , ".$update_date.");";
+                $insert = "INSERT INTO gallery ( image_id, image_name, public_flg, create_date, update_date) VALUES (".$image_id.", '$input_data', ".$public_flg.", ".$create_date." , ".$update_date.");";
                 $result=$db->query($insert);
                 $db->close();
         ?>
@@ -227,7 +227,7 @@
                 <div class="contents-container">
                     <div class="box1">
                         <div class=img-container>
-                            <p class="title"><?php print $image_name;?></p>
+                            <p class="title"><?php print $input_data;?></p>
                             <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                         </div>
                         <form method="post"  class= "btn-wrapper" action="work30_1.php">
@@ -237,7 +237,7 @@
 
                     <div class="box2">
                         <div class=img-container>
-                            <p class="title"><?php print $image_name;?></p>
+                            <p class="title"><?php print $input_data;?></p>
                             <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                         </div>
                         <form method="post"  class= "btn-wrapper" action="work30_1.php">
@@ -247,7 +247,7 @@
 
                     <div class="box3">
                         <div class=img-container>
-                            <p class="title"><?php print $image_name;?></p>
+                            <p class="title"><?php print $input_data;?></p>
                             <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                         </div>
                         <form method="post"  class= "btn-wrapper" action="work30_1.php">
@@ -257,7 +257,7 @@
 
                     <div class="box4">
                         <div class=img-container>
-                            <p class="title"><?php print $image_name;?></p>
+                            <p class="title"><?php print $input_data;?></p>
                             <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                         </div>
                         <form method="post"  class= "btn-wrapper" action="work30_1.php">
@@ -267,7 +267,7 @@
 
                     <div class="box5">
                         <div class=img-container>
-                            <p class="title"><?php print $image_name;?></p>
+                            <p class="title"><?php print $input_data;?></p>
                             <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                         </div>
                         <form method="post"  class= "btn-wrapper" action="work30_1.php">
@@ -277,7 +277,7 @@
 
                     <div class="box6">
                         <div class=img-container>
-                            <p class="title"><?php print $image_name;?></p>
+                            <p class="title"><?php print $input_data;?></p>
                             <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                         </div>
                         <form method="post"  class= "btn-wrapper" action="work30_1.php">
