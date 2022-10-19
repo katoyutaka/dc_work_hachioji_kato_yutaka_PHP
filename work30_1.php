@@ -5,7 +5,7 @@
         $password = 'Au3#DZ~G';   
         $database = 'bcdhm_hoj_pf0001';
 
-        $image_id = 7777;
+        // $image_id = 7777;
         // $image_name = $input_data;
         $public_flg = 8888;
         $create_date = date('Ymd');
@@ -197,7 +197,9 @@
                 //SQL文が送れない（データベースにinsert intoしても反映されない事象が起きた。調査した結果、カラム名「image_id」とかに""を付けてるとダメ。なにも付けないこと！）
                 //「 '$image_name'」の「''」を付けないと送信出来るときと出来ない時がある。→変数と文字列なので連結しないと。しかし「'$image_name'」だけ他と連結がちがうのにOKなのはなぜ？
                 
-                $insert = "INSERT INTO gallery ( image_id, image_name, public_flg, create_date, update_date) VALUES (".$image_id.", '$input_data', ".$public_flg.", ".$create_date." , ".$update_date.");";
+                // $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date) VALUES ('$input_data', ".$public_flg.", ".$create_date." , ".$update_date.");";
+                                
+                $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date) VALUES (".$input_data.", ".$public_flg.", ".$create_date." , ".$update_date.");";
                 $result=$db->query($insert);
                 $db->close();
         ?>
