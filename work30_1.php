@@ -60,12 +60,8 @@
                 }
 
 
-                .box1,
-                .box2,
-                .box3,
-                .box4,
-                .box5,
-                .box6 {
+                .box{
+
                     color: #fff;
                     font-weight: bold; 
                     width: 31%;
@@ -73,6 +69,7 @@
                     margin-right:5px;
                     margin-bottom:5px;
                     text-align: center;
+
 
 
                 }
@@ -89,6 +86,7 @@
                     flex-wrap: wrap;
                     /* border:1px solid gray; */
                     margin-top:10px;
+                    /* background-color: yellowgreen; */
 
                 }
 
@@ -160,6 +158,8 @@
                     // exit;
                    }
 
+                   //ここにすでにデータベースに投稿データがある場合は投稿できないようにするコードを書きたい。
+                   
 
                    //画像のアップロードOK/NGの判定
 
@@ -197,97 +197,46 @@
                 //SQL文が送れない（データベースにinsert intoしても反映されない事象が起きた。調査した結果、カラム名「image_id」とかに""を付けてるとダメ。なにも付けないこと！）
                 //「 '$image_name'」の「''」を付けないと送信出来るときと出来ない時がある。→変数と文字列なので連結しないと。しかし「'$image_name'」だけ他と連結がちがうのにOKなのはなぜ？
                 
-                // $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date) VALUES ('$input_data', ".$public_flg.", ".$create_date." , ".$update_date.");";
+                $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date) VALUES ('$input_data', ".$public_flg.", ".$create_date." , ".$update_date.");";
                                 
-                $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date) VALUES (".$input_data.", ".$public_flg.", ".$create_date." , ".$update_date.");";
+                // $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date) VALUES (".$input_data.", ".$public_flg.", ".$create_date." , ".$update_date.");";
                 $result=$db->query($insert);
                 $db->close();
         ?>
 
 
-        <!-- データベースからデータを取得して画像表示する -->
-        <?php
-                $db = new mysqli($host, $login_user, $password, $database);
-                $db->set_charset("utf8");
-
-                $select = "SELECT image_name FROM gallery ;";
-                if($result = $db->query($select)){
-                    // 連想配列を取得
-                    while ($row = $result->fetch_assoc()) {
-                        $get_img_url = 'https://portfolio.dc-itex.com/hachioji/0001/img/'.$row["image_name"];
-                        
-                    }
-                    $result->close();
-                }
-                $db->close();	
-                
-        ?>
-    
-
-
         <div class=main>
-                <div class="contents-container">
-                    <div class="box1">
-                        <div class=img-container>
-                            <p class="title"><?php print $input_data;?></p>
-                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
-                            <input type="submit" class="flg-button" value="非表示にする" >
-                        </form>
-                    </div>
+            <div class="contents-container"> 
+            <!-- データベースからデータを取得して画像表示する -->
+            <?php
+                    $db = new mysqli($host, $login_user, $password, $database);
+                    $db->set_charset("utf8");
 
-                    <div class="box2">
-                        <div class=img-container>
-                            <p class="title"><?php print $input_data;?></p>
-                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
-                            <input type="submit" class="flg-button" value="非表示にする" >
-                        </form>
-                    </div>
+                    $select = "SELECT * FROM gallery ;";
+                    if($result = $db->query($select)){
+                        // 連想配列を取得
+                        while ($row = $result->fetch_assoc()) {
+                            $get_img_url = 'https://portfolio.dc-itex.com/hachioji/0001/img/'.$row["image_name"];
+            ?>                         
+                                <div class="box">
+                                    <div class=img-container>
+                                        <p class="title"><?php print $row["image_name"];?></p>
+                                        <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                                    </div>
+                                    <form method="post"  class= "btn-wrapper" action="work30_1.php">
+                                        <input type="submit" class="flg-button" value="非表示にする" >
+                                    </form>
+                                </div>     
 
-                    <div class="box3">
-                        <div class=img-container>
-                            <p class="title"><?php print $input_data;?></p>
-                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
-                            <input type="submit" class="flg-button" value="非表示にする" >
-                        </form>
-                    </div>
-
-                    <div class="box4">
-                        <div class=img-container>
-                            <p class="title"><?php print $input_data;?></p>
-                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
-                            <input type="submit" class="flg-button" value="非表示にする" >
-                        </form>
-                    </div>
-
-                    <div class="box5">
-                        <div class=img-container>
-                            <p class="title"><?php print $input_data;?></p>
-                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
-                            <input type="submit" class="flg-button" value="非表示にする" >
-                        </form>
-                    </div>
-
-                    <div class="box6">
-                        <div class=img-container>
-                            <p class="title"><?php print $input_data;?></p>
-                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-                        <form method="post"  class= "btn-wrapper" action="work30_1.php">
-                            <input type="submit" class="flg-button" value="非表示にする" >
-                        </form>
-                    </div>
-
-                </div>
+            <?php
+                        }
+                        $result->close();
+                    }
+                    $db->close();	
+                    
+            ?>
+            
+            </div>
         </div>
     </body>
 </html>
