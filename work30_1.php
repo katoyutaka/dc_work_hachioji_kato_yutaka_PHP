@@ -140,6 +140,12 @@
 
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <h1>画像投稿</h1>
+
+            <?php
+  
+
+
+            ?>
  
             <!-- エラーメッセージや登録・更新完了メッセージ表示部分 -->
             <?php
@@ -170,17 +176,32 @@
                         if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data) || $input_data == ""){
                             $str = "「画像名」が半角英数字以外の形式になってるか、入力がされていません。";
                             print "<span class='msg'>$str</span><br>";
+                            // exit();
                         //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
                             
                         }
 
-                        //「画像」はjpeg,png以外または空白はエラー表示
-                        if((!preg_match("/\.png$/",$upload_image_name)||!preg_match("/\.jpeg$/",$upload_image_name)) || $upload_image == ""){
-                                $str = "「画像」の投稿形式（拡張子）が「JPEG」「PNG」以外の形式になっているか、選択されていません。";
-                                print "<span class='msg'>$str</span><br>";
-                            //  //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
+
+                        
+                        //絶対付きファイル名から拡張子のみを取り出す方法。
+                        $file=pathinfo($image_path);
+                        $filetype=$file["extension"];
+                        print $filetype;
+                        
+                        //拡張子判定部分（jpeg,png）
+                        if(!$filetype==="jpeg"||!$filetype==="png"){
+                            $str = "拡張子がJPEGまたはPNG以外の形式になっています。";
+                            print "<span class='msg'>$str</span><br>";
                             // exit();
                         }
+              
+                        // //「画像」はjpeg,png以外または空白はエラー表示
+                        // if((!preg_match("/\.png$/",$upload_image_name)||!preg_match("/\.jpeg$/",$upload_image_name)) || $upload_image == ""){
+                        //         $str = "「画像」の投稿形式（拡張子）が「JPEG」「PNG」以外の形式になっているか、選択されていません。";
+                        //         print "<span class='msg'>$str</span><br>";
+                        //     //  //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
+                        //     // exit();
+                        // }
 
 
 
