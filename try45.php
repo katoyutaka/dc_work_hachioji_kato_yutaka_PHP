@@ -1,5 +1,5 @@
 <?php 
-    $dsn = 'mysql:host="mysql34.conoha.ne.jp";dbname="bcdhm_hoj_pf0001"';
+    $dsn = 'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp';
     $login_user = 'bcdhm_hoj_pf0001'; 
     $password = 'Au3#DZ~G'; 
  ?>
