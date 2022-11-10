@@ -22,13 +22,13 @@
             $db->beginTransaction();	// トランザクション開始
 
             //クエリを生成する
-            $sql = "SELECT product_name, price FROM product WHERE product_id = :id";
+            $sql = "SELECT product_name, price FROM product WHERE product_id = ?";
 
             //prepareメソッドによるクエリの実行準備をする
             $stmt = $db -> prepare($sql);
 
             //値をバインドする
-            $stmt -> bindValue(":id", 10);
+            $stmt -> bindValue(1, "9");
             
 
             

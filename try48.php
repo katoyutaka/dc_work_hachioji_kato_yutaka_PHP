@@ -9,7 +9,7 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>WORK34</title>
+        <title>TRY48</title>
     </head>
     <body>
         <?php 
@@ -22,23 +22,19 @@
             $db->beginTransaction();	// トランザクション開始
 
             //クエリを生成する
-            $sql = "SELECT product_name, price FROM product WHERE product_id = :id";
+            $sql = "UPDATE product SET price = ? WHERE product_id = ?";
 
             //prepareメソッドによるクエリの実行準備をする
             $stmt = $db -> prepare($sql);
 
             //値をバインドする
-            $stmt -> bindValue(":id", 10);
-            
-
-            
+            $stmt -> bindValue(1, 170);
+            $stmt -> bindValue(2, "1");
 
             //クエリのの実行
             $stmt->execute();
-
-            $result=$stmt->fetch();
-            // print_r ($result);
-            print $result["product_name"].$result["price"];
+            $row = $stmt->rowCount();
+            echo $row.'件更新しました。'; 
             $db->commit();		// 正常に終了したらコミット
         } catch (PDOException $e){
             echo $e->getMessage();
