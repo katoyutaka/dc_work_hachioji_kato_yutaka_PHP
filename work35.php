@@ -6,22 +6,24 @@
 </head>
 <body>
     <?php
+            $number=rand(1,10);
 
             function func35($number){
                 
                 if ($number % 2 == 0){
-                    return $number*10;
+                    return "偶数であるため10を掛ける".$number*10;
                 } else {
-                    return $number*100;
+                    return "奇数であるため100を掛ける。結果は" .$number*100;
                 }
             }
                 
 
-        $number=rand(1,10);
+       
         $result= func35($number);
 
-        print $number."<br>";
-        print $result;
+        print "乱数の数値は".$number."である。<br>";
+
+        print $result."になります。";
 
   
     ?>
