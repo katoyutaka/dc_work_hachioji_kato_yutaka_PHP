@@ -1,8 +1,8 @@
 <?php
     
-    // EXPIRATION_PERIODが１分だと1*60*24*365で１年なので30倍で３０年
-    const EXPIRATION_PERIOD = 30;
-    $cookie_expiration= time()+EXPIRATION_PERIOD*60*24*365;
+    // cookieの保存期間を１日に設定
+    define("EXPIRATION_PERIOD", 1);
+    $cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
 
     // ➁
     // もしチェックボックスがチェックされたら、「$cookie_confirmation」にデータを格納して、チェックされなかったら空欄を格納する。
@@ -17,6 +17,14 @@
     } else {
         $login_id = "";
     }
+      // もしパスワードが入力されたら、「$password_id」の変数に格納する。入力されなかったら、「$password_id」の変数は空欄
+      if(isset($_POST["password_id"]) === TRUE){
+        $password_id = $_POST["password_id"];
+    } else {
+        $password_id = "";
+    }
+
+
 
 
     // ➂
@@ -25,16 +33,34 @@
         setcookie("login_id",$login_id,$cookie_expiration);
         setcookie("cookie_confirmation",$cookie_confirmation,$cookie_expiration);
     } else {
-        setcookie("login_id","",time()-220);
-        setcookie("cookie_confirmation","",time()-220);
+        setcookie("login_id","",time()-10);
+        setcookie("cookie_confirmation","",time()-10);
     }
+?>
+
+
+<!-- SQLデータベースからデータをもってきて、入力されたデータと照合させ、OK・NG判定をする部分 -->
+<?php
+    $dsn = 'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp';
+    $login_user = 'bcdhm_hoj_pf0001'; 
+    $password = 'Au3#DZ~G'; 
+
+    $db=new PDO($dsn,$login_user,$password);
+    $db->set_charset("utf8");
+
+    $sql = "SELECT user_id, user_name, password FROM user_table WHERE user_id = ".$login_id.";
+
+
+    変数名= 変数名(PDOオブジェクト)->query(SQL文);
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
    <meta charset="UTF-8">
-   <title>TRY53_SELF</title>
+   <title>WORK37_2</title>
 </head>
 <body>
    <p>ログイン（擬似的）が完了しました</p>

@@ -1,9 +1,15 @@
+<!-- この課題は入力したIDとパスワードがSQLのデータベースと一致したらログインできて画面が「ログイン（擬似的）が完了しました」に遷移。 -->
+<!-- 不一致や未入力ならばログインできないようにする。かつ、cookie機能を付ける。つまり２つ課題がある。 -->
+<!-- 可能ならば、初期にidとパスワードをSQLに登録させる「新規登録」の部分も追加したい。 -->
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
    <meta charset="UTF-8">
-   <title>TRY53_SELF</title>
+   <title>WORK37_1</title>
 </head>
 <body>
 
@@ -22,17 +28,12 @@ if(isset($_COOKIE["login_id"]) === TRUE){
     $login_id = "";
 }
 
-
-
-
 ?>
-<!-- ➀ -->
-<!-- ➄ もしcookie機能があるならば変数$login_idや$cookie_confirmationは出力して、機能ないなら空欄が出力される。 -->
-<!-- 「value="php print $login_id ?>」と「value="cookie_check" php print $cookie_confirmation ?>」のためにこれらのコードを書いているようなもの。 -->
 
 
-    <form method="post" action="home_self.php">
+    <form method="post" action="work37_2.php">
         <label>ログインID</label><input type="text" name="login_id" value="<?php print $login_id; ?> "><br>
+        <label>パスワード</label><input type="text" name="password_id" value="<?php print $password_id; ?> "><br>
         <input type="checkbox" name="cookie_confirmation" value="checked" <?php print $cookie_confirmation; ?>>次回からログインIDの入力を省略する<br>
         <input type="submit" value="ログイン">
     </form>
