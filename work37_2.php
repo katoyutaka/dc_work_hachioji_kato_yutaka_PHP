@@ -3,7 +3,7 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>TRY45</title>
+        <title>WORK37_2</title>
     </head>
 
     <body>
@@ -12,43 +12,39 @@
 
                 <?php
                     
-                    // // cookieの保存期間を１日に設定
-                    // define("EXPIRATION_PERIOD", 1);
-                    // $cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
+                    // cookieの保存期間を１日に設定
+                    define("EXPIRATION_PERIOD", 1);
+                    $cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
 
                     // // ➁
                     // // もしチェックボックスがチェックされたら、「$cookie_confirmation」にデータを格納して、チェックされなかったら空欄を格納する。
-                    // if(isset($_POST["cookie_confirmation"]) === TRUE){
-                    //     $cookie_confirmation = $_POST["cookie_confirmation"];
-                    // } else {
-                    //     $cookie_confirmation = "";
-                    // }
-                    // // もしログインIDが入力されたら、「$login_id」の変数に格納する。入力されなかったら、「$login_id」の変数は空欄
-                    // if(isset($_POST["login_id"]) === TRUE){
-                    //     $login_id = $_POST["login_id"];
-                    // } else {
-                    //     $login_id = "";
-                    // }
-                    // // もしパスワードが入力されたら、「$password_id」の変数に格納する。入力されなかったら、「$password_id」の変数は空欄
-                    // if(isset($_POST["password_id"]) === TRUE){
-                    //     $password_id = $_POST["password_id"];
-                    // } else {
-                    //     $password_id = "";
-                    // }
+                    if(isset($_POST["cookie_confirmation"]) === TRUE){
+                        $cookie_confirmation = $_POST["cookie_confirmation"];
+                    } else {
+                        $cookie_confirmation = "";
+                    }
+                    // もしログインIDが入力されたら、「$login_id」の変数に格納する。
+                    if(isset($_POST["login_id"]) === TRUE){
+                        $login_id = $_POST["login_id"];
+                    }
+                    // もしパスワードが入力されたら、「$password_id」の変数に格納する。
+                    if(isset($_POST["password_id"]) === TRUE){
+                        $password_id = $_POST["password_id"];
+                    }
 
 
 
 
                     // ➂
                     // 上記で、チェックがあれば（変数「$cookie_confirmation」に値が入れば）、cookie機能つけて、ないなら機能なしでcookie削除。
-                //     if($cookie_confirmation === "checked"){
-                //         setcookie("login_id",$login_id,$cookie_expiration);
-                //         setcookie("cookie_confirmation",$cookie_confirmation,$cookie_expiration);
-                //     } else {
-                //         setcookie("login_id","",time()-10);
-                //         setcookie("cookie_confirmation","",time()-10);
-                //     }
-                // ?>
+                    if($cookie_confirmation === "checked"){
+                        setcookie("login_id",$login_id,$cookie_expiration);
+                        setcookie("cookie_confirmation",$cookie_confirmation,$cookie_expiration);
+                    } else {
+                        setcookie("login_id","",time()-100);
+                        setcookie("cookie_confirmation","",time()-100);
+                    }
+                ?>
 
 
 
@@ -65,19 +61,21 @@
             // $db->set_charset("utf8");
             
             // 「WHERE  user_id = $login_id」部分をカットして確認
-            $sql = "SELECT user_id, user_name, password FROM user_table WHERE  user_id = ".$_POST['login_id']." ";
+            $sql = "SELECT user_id, user_name, password FROM user_table WHERE  user_id = ".$login_id.';"';
+
             
             
             $result = $db->query($sql);
             
             $row = $result->fetch();
-            print $_POST['login_id']."<br>";
-            print $_POST['password_id']."<br>";
-            print $row["user_id"]."<br>";
-            print $row["user_name"]."<br>";
-            print $row["password"]."<br>";
+            // print $login_id."<br>";
+            // print $password_id."<br>";
+            // print $row["user_id"]."<br>";
+            // print $row["user_name"]."<br>";
+            // print $row["password"]."<br>";
 
-            if($_POST['password_id']===$row["password"]){
+            if($password_id===$row["password"]){
+                print "<p>ログイン（擬似的）が完了しました</p>";
                 print $row["user_name"]."さん、ようこそ！";
             } else {
                 print "ログインに失敗しました";
