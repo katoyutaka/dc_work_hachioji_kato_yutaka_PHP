@@ -16,6 +16,7 @@
                     print "チェックボックスのボックスの入力した内容：".htmlspecialchars($_GET["select"][1],ENT_QUOTES,"UTF-8");
                     print "<br>";
                     print "チェックボックスのボックスの入力した内容：".htmlspecialchars($_GET["select"][2],ENT_QUOTES,"UTF-8");
+                    print_r ($_GET["select"]);
             ?>
     
     </body>

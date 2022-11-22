@@ -18,6 +18,8 @@
 
                     // // ➁
                     // // もしチェックボックスがチェックされたら、「$cookie_confirmation」にデータを格納して、チェックされなかったら空欄を格納する。
+                    // こちらは$_POSTに値があるならば、、（work37_1は$COOKIEに値があるならば）
+
                     if(isset($_POST["cookie_confirmation"]) === TRUE){
                         $cookie_confirmation = $_POST["cookie_confirmation"];
                     } else {

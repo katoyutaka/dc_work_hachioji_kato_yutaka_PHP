@@ -15,7 +15,7 @@
 
 <?php
 // <!-- ➃ -->
-// <!-- cookie機能がセット（setcookie）があれば「$cookie_confirmation」の変数にcookieでゲットした値を格納する。入力されなかったら、「$cookie_confirmation」の変数は空欄。 -->
+// <!-- cookie機能がセット（setcookie）があれば「$cookie_confirmation」の変数にcookieでゲットした値を格納する。入力されなかったら、「$cookie_confirmation」の変数は空欄。 --
 if(isset($_COOKIE["cookie_confirmation"]) === TRUE){
     $cookie_confirmation = "checked";
 } else {

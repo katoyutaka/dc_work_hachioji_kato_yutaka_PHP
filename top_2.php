@@ -1,6 +1,6 @@
 <!-- 下に$_SESSION["login_id"]があるので、セッションスタートの関数使う。 -->
 <?php
-    session_start();
+    // session_start();
 
     define('EXPIRATION_PERIOD', 1);
     $cookie_expiration = time() + 'EXPIRATION_PERIOD' * 60 *24 * 365;
@@ -51,19 +51,20 @@
     }
  
 
+    if(isset( $_SESSION["login_id"])){
+        print "<br>".$_POST["login_id"]."さん：ログイン中です。<br>";
+    } else {
+        header("Location:try55.php");
+        exit();
 
-
-    
-
+    }
     
 ?>
 
-<?php
-    print $_POST["login_id"]."さん：ログイン中です。<br><br>";
-?>
 
-<form>
-    <input type="submit" name="logout" value="ログアウト">
+<form method="post" action="try55_2.php">
+    <input type="hidden" name="logout">
+    <input type="submit" value="ログアウト">
 </form>
 
 
