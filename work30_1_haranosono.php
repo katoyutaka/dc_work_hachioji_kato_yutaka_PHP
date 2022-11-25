@@ -23,14 +23,14 @@ if (!empty($_POST)) {
     if (isset($_POST['input_data'])) {
         $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
     } else {
-        $validation_errors[] = '画像名が入力されていません';
+        $validation_errors[] = '画像名が入力されていません'."<br>";
     }
     $upload_image_name = '';
     if (isset($_FILES['upload_image']['name'])) {
         $upload_image_name = htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
         $image_path = './img/'.htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
     } else {
-        $validation_errors[] = 'アップロードファイル名に問題があります';
+        $validation_errors[] = 'アップロードファイル名に問題があります'."<br>";
     }
 
     $upload_image_tmp_name = '';
@@ -38,13 +38,13 @@ if (!empty($_POST)) {
         $upload_image_tmp_name = htmlspecialchars($_FILES['upload_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
     }
     if (!preg_match('/^[a-zA-Z0-9]+$/', $input_data)) {
-        $validation_errors[] = '「画像名」が半角英数字以外の形式になってるか、入力がされていません。';
+        $validation_errors[] = '「画像名」が半角英数字以外の形式になってるか、入力がされていません。'."<br>";
     }
     $file = pathinfo($image_path);
     $filetype = $file['extension'];
     print $filetype;
     if ($filetype !== 'jpeg' && $filetype !== 'png') {
-        $validation_errors[] = '拡張子がJPEGまたはPNG以外の形式になっています。';
+        $validation_errors[] = '拡張子がJPEGまたはPNG以外の形式になっています。'."<br>";
     }
 
     if (count($validation_errors) == 0) {
@@ -55,7 +55,7 @@ if (!empty($_POST)) {
             $str = '更新成功しました。';
             print "<span class='msg'>$str</span><br>";
         } else {
-            $str = 'データベースに既に同じファイル名が存在している為か、その他の理由により更新失敗しました。(データベースエラー)';
+            $str = 'データベースに既に同じファイル名が存在している為か、その他の理由により更新失敗しました。(データベースエラー)'."<br>";
             print "<span class='msg'>$str</span><br>";
         }
     } else {
@@ -160,7 +160,7 @@ if (!empty($_POST)) {
 
     <body>
         <h1>画像投稿</h1>
-        <form method="post" action="work30_1.php" enctype="multipart/form-data">
+        <form method="post" action="work30_1_haranosono.php" enctype="multipart/form-data">
             <p>画像名：<input type="text" name="input_data"></p>
             <p>画像 : <input type="file" name="upload_image"></p>
             <p><input type="submit" value="画像投稿"></p>
