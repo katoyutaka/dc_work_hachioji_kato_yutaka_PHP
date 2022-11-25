@@ -12,27 +12,42 @@
 ?>
 
 
+
+<!-- バリデーションチェック -->
 <?php
-  $input_data ='';		
-  if(isset($_POST['input_data'])){
-    $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
-  }
+    if(!empty($_POST)){
+
+        $input_data ='';		
+        if(isset($_POST['input_data'])){
+            $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
+        } else {
+            $validation_error[]="";
+        }
+
+        $upload_image_name ='';		
+        if(isset($_FILES['upload_image']['name'])){
+            $upload_image_name = htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
+        }
+
+        $upload_image_tmp_name ='';		
+        if(isset($_FILES['upload_image']['tmp_name'])){
+            $upload_image_tmp_name = htmlspecialchars($_FILES['upload_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
+        }
+
+        $image_path ='';		
+        if(isset($_FILES['upload_image']['name'])){
+            $image_path = 'https://portfolio.dc-itex.com/hachioji/0001/img/'.htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
+        }
+
+        }
+    }
 
 
-  $upload_image_name ='';		
-  if(isset($_FILES['upload_image']['name'])){
-    $upload_image_name = htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
-  }
 
-  $upload_image_tmp_name ='';		
-  if(isset($_FILES['upload_image']['tmp_name'])){
-    $upload_image_tmp_name = htmlspecialchars($_FILES['upload_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
-  }
 
-  $image_path ='';		
-  if(isset($_FILES['upload_image']['name'])){
-    $image_path = 'https://portfolio.dc-itex.com/hachioji/0001/img/'.htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
-  }
+
+
+
 
 ?>
 
@@ -149,6 +164,7 @@
                 
                 if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data)){
                     $str = "「画像名」が半角英数字以外の形式になってるか、入力がされていません。";
+                    
                 }else{
                     $file=pathinfo($image_path);
                     $filetype=$file["extension"];
@@ -160,7 +176,7 @@
                     }else{
                         $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date,image_path) VALUES ('$input_data',".$public_flg.",".$create_date.",".$update_date.",'$image_path');";
 
-                        //ここにすでにデータベースに投稿データがある場合は投稿できないようにするコードを書きたい!!!→トランザクション・ロールバック機能で対応しした。
+
                         if($result=$db->query($insert)){
                             $save = 'img/'.basename($upload_image_name);
                             move_uploaded_file($upload_image_tmp_name,$save);
@@ -185,34 +201,10 @@
 
 
                         
-                        // $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date) VALUES (".$input_data.", ".$public_flg.", ".$create_date." , ".$update_date.");";
-                  
+                     
                     
                 
 
-                   //画像のアップロードOK/NGの判定
-
-                   //$upload_imageが配列であることを宣言しないと、$upload_image['tmp_name']の部分で「Illegal string offset」とエラーが出る。
-                   //「Illegal string offset」は「配列でない変数に対して、配列のつもりで値を代入してしまうために起こるエラー」のこと。
-                //    $upload_image=array();
-                                        // //「画像」はjpeg,png以外または空白はエラー表示
-                        // if((!preg_match("/\.png$/",$upload_image_name)||!preg_match("/\.jpeg$/",$upload_image_name)) || $upload_image == ""){
-                        //         $str = "「画像」の投稿形式（拡張子）が「JPEG」「PNG」以外の形式になっているか、選択されていません。";
-                        //         print "<span class='msg'>$str</span><br>";
-                        //     //  //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
-                        //     // exit();
-                        // }
-                                            
-                        //SQL文が送れない（データベースにinsert intoしても反映されない事象が起きた。調査した結果、カラム名「image_id」とかに""を付けてるとダメ。なにも付けないこと！）
-                        //「 '$image_name'」の「''」を付けないと送信出来るときと出来ない時がある。→変数と文字列なので連結しないと。しかし「'$image_name'」だけ他と連結がちがうのにOKなのはなぜ？
-                        //→→原因判明した！！！まず、$input_dataと$image_pathは文字列なのでシングルまたはダブルクォーテーションをつけなければならないが、$input_dataは先頭でダブルつかっているので、ダブルだと反応してしまうので、シングルでなければならない。
-                        //ただし、連結は不要なのか？
-                        //update,delete,insertの時は、トランザクション・ロールバック機能をつける。
-                        // print "<span class='msg'>$str</span><br>";
-                        // exit();
-                        //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
-                        //                         <!-- 初期化とXSSを防ぐための「エスケープ処理」 2種類（input_data、upload_image）-->
-                        // <!-- 「 htmlspecialchars」に配列は使えなく、配列から文字列を取り出して使うようにエラーが出る。 -->
 
 
                    
@@ -250,17 +242,17 @@
                                         <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                                     </div>
 
-                                    <?php $public_flg = $row["public_flg"];?>
+
                                     <form method="post"  class= "btn-wrapper" action="work30_1.php">
                                         <?php 
-                                        if($public_flg==0){
+                                        if($post["off_button"]){
                                         ?>
-                                            <input type="submit" class="flg-button" value="非表示にする" >";
+                                            <input type="submit" name="off_button" value="非表示にする" >";
                                         
                                         <?php
                                         }else{
                                         ?>
-                                            <input type="submit" class="flg-button" value="表示にする" >";
+                                            <input type="submit" name="on_button" value="表示にする" >";
                                         <?php
                                         }
                                         ?>
@@ -278,4 +270,29 @@
             </div>
         </div>
     </body>
-</html>
+
+
+    <!-- 【まとめたらノートに書くメモ部分】 ------------------------------------------------------------------------------------->
+     <!-- //$upload_imageが配列であることを宣言しないと、$upload_image['tmp_name']の部分で「Illegal string offset」とエラーが出る。
+     //「Illegal string offset」は「配列でない変数に対して、配列のつもりで値を代入してしまうために起こるエラー」のこと。
+     //    $upload_image=array();
+     // //「画像」はjpeg,png以外または空白はエラー表示
+     // if((!preg_match("/\.png$/",$upload_image_name)||!preg_match("/\.jpeg$/",$upload_image_name)) || $upload_image == ""){
+     //         $str = "「画像」の投稿形式（拡張子）が「JPEG」「PNG」以外の形式になっているか、選択されていません。";
+     //         print "<span class='msg'>$str</span><br>";
+     //     //  //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
+     //     // exit();
+     // }    
+     //SQL文が送れない（データベースにinsert intoしても反映されない事象が起きた。調査した結果、カラム名「image_id」とかに""を付けてるとダメ。なにも付けないこと！）
+     //「 '$image_name'」の「''」を付けないと送信出来るときと出来ない時がある。→変数と文字列なので連結しないと。しかし「'$image_name'」だけ他と連結がちがうのにOKなのはなぜ？
+     //→→原因判明した！！！まず、$input_dataと$image_pathは文字列なのでシングルまたはダブルクォーテーションをつけなければならないが、$input_dataは先頭でダブルつかっているので、ダブルだと反応してしまうので、シングルでなければならない。
+     //ただし、連結は不要なのか？
+     //update,delete,insertの時は、トランザクション・ロールバック機能をつける。
+     // print "<span class='msg'>$str</span><br>";
+     // exit();
+     //exitをつけると最初からNG状態の表示になり、つけないとマッチ機能が働かない？
+     //                         <!-- 初期化とXSSを防ぐための「エスケープ処理」 2種類（input_data、upload_image）-->
+     <!-- 「 htmlspecialchars」に配列は使えなく、配列から文字列を取り出して使うようにエラーが出る。 -->   
+</html> 
+
+

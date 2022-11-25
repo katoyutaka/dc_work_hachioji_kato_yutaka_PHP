@@ -11,6 +11,8 @@
     if(isset($_POST["logout"])){
         $session = session_name();
         $_SESSION=[];
+
+        if(isset())
     }
 
 
