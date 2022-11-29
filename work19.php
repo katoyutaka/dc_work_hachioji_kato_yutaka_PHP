@@ -54,7 +54,7 @@
                                 $lines[] = $line;
                                }
                                fclose($fp); 
-                               $lines =array_reverse($lines);     
+                               $lines =array_reverse($lines);  
                          ?>
 
                         <ul>

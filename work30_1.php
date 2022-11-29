@@ -8,6 +8,7 @@
         $public_flg = 0;
         $create_date = date('Ymd');
         $update_date = date('Ymd');
+        $error_msg = array();
         $error_msg=[];
 
 
@@ -19,7 +20,7 @@
         }else{
             $db->set_charset("utf8");
         }
-    
+
 ?>
 
 
@@ -58,13 +59,42 @@
         if(!$filetype == "jpeg" && !$filetype == "png"){
             $validation_errors[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
         }
+    }    
+        
+        $number = $_POST["hidden"];
+        // print $number;
 
-        // $flg_button = "";
-        // $flg_name = "表示する";
-        // if(isset($_POST["flg_button"])){
-        //     $flg_button = htmlspecialchars($_POST["flg_button"], ENT_QUOTES, 'UTF-8');
+    $j = 0;
+    while($j <= $i){
+        print $j;
+        print $number;
+        print $i;   
+        if(($j === $number)){
+                $on_off = "非表示にする";
+                $bk_color = "gray";
+                $cg_display = "none";
+                
+        } else {
+                $on_off = "表示する";
+                $bk_color = "";
+                $cg_display = "block";
+        }
+        $j++;
+    }
+
+
+        // if(($_POST["on_off_button"] == "表示する")){
+        //         $on_off = "非表示にする";
+        //         $bk_color = "gray";
+        //         $cg_display = "none";
+                
+        // } else {
+        //         $on_off = "表示する";
+        //         $bk_color = "";
+        //         $cg_display = "block";
         // }
-        // print $flg_button;
+
+
 
 
 // バリデーションチェックOKならSQL文(insert文)送る
@@ -86,7 +116,6 @@
                  print "<span class='msg'>$err</span><br>";
             }
         }
-    }
 
 // SQL文（select文）送る
         $db = new mysqli($host, $login_user, $password, $database);
@@ -99,7 +128,6 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -109,7 +137,9 @@
         <style>
                 * {
                     box-sizing:border-box;
-              }
+                    vertical-align: middle;
+                }
+              
                 h1 {
                     font-size:20px; 
                 }
@@ -118,19 +148,48 @@
                     font-size:18px; 
                 }
 
-                .box {
-                        color: #fff;
-                        font-weight: bold; 
-                        width: 31%;
-                        border:1px solid #b7b7b7;
-                        margin-right:5px;
-                        margin-bottom:5px;
-                        text-align: center;
-                    }
+                .box0{
+                    color: #fff;
+                    font-weight: bold; 
+                    width: 200px;
+                    height:200px;
+                    border:1px solid #b7b7b7;
+                    margin-right:5px;
+                    margin-bottom:5px;
+                    text-align: center;
+                    background-color:<?php print $cg_display; ?> ;
+                }
                 
+
+                .box1{
+                    color: #fff;
+                    font-weight: bold; 
+                    width: 200px;
+                    height:200px;
+                    border:1px solid #b7b7b7;
+                    margin-right:5px;
+                    margin-bottom:5px;
+                    text-align: center;
+                    background-color:<?php print $cg_display; ?> ;
+                }
+
+                .box2{
+                    color: #fff;
+                    font-weight: bold; 
+                    width: 200px;
+                    height:200px;
+                    border:1px solid #b7b7b7;
+                    margin-right:5px;
+                    margin-bottom:5px;
+                    text-align: center;
+                    background-color:<?php print $cg_display; ?> ;
+                }
+
+
+
                 .main {
                     margin-left:50px;
-                    width:500px;
+                    width:650px;
                     /* border:1px solid gray; */
                     /* background-color: blue; */
                 }
@@ -150,17 +209,48 @@
                 
                 }
                 
-                .introduce-image {
-                    width:100%;
 
+                .introduce-image{
+                    width:100%;
+                    max-width: 135px;
+                    max-height: 135px;
+                    display: <?php print $cg_display;?>;
+                    margin: 0 auto;
                 }
 
-                .img-container {
+                .img-container0 {
                     height:150px;
                     margin-right:20px;
                     margin-left:20px;
+                    margin-top: 5px;
                     /* background-color: green; */
+                    background-color: <?php print $bk_color;?>;
+                    margin: 0 auto;
+                    width:100%;
                 }
+
+                .img-container1 {
+                    height:150px;
+                    margin-right:20px;
+                    margin-left:20px;
+                    margin-top: 5px;
+                    /* background-color: green; */
+                    background-color: <?php print $bk_color;?>;
+                    margin: 0 auto;
+                    width:100%;
+                }
+
+                .img-container2 {
+                    height:150px;
+                    margin-right:20px;
+                    margin-left:20px;
+                    margin-top: 5px;
+                    /* background-color: green; */
+                    background-color: <?php print $bk_color;?>;
+                    margin: 0 auto;
+                    width:100%;
+                }
+
 
                 .btn-wrapper{
                     margin-bottom:2px;
@@ -183,9 +273,15 @@
                     color:red;
                 }
 
-                .test:active{
-                    color:blue;
-                    background-color: green;
+                .on_off_button  {
+                    display: inline-block;
+                    font-size: 12px;
+                    text-align: center;
+                }
+
+                .button-container {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
                 }
 
         </style>
@@ -207,37 +303,40 @@
         <div class=main>
             <div class="contents-container"> 
 
+
+
             <?php
+                
+                $flag =array();
+                $i = 0;
+                $flag[0] = 0;
                 while ($row = $result->fetch_assoc()):
                 $get_img_url = $row["image_path"];
+                $flag[] = $i + 1;
+                
+              
             ?>
                                  
-                <div class="box">
-                <div class=img-container>
-                    <p class="title"><?php print $row['image_name'];?></p>
-                    <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                </div>
-                
-                <?php
-                    $flg_name = a;
+                <div class="box<?php print $i;?>">
+                    <div class= img-container<?php print $i;?>>
+                        <p class="title"><?php print $row['image_name'];?></p>
+                        <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                    </div>
 
-                ?>
-                <form method="post"  class= "on_button off_button" action="work30_1.php">
-                    <input type="submit" name="flg_button" value= <?php "$flg_name"?>>;
-                </form>
-            </div>    
-            <?php endwhile ?> 
+                    <form  class = "button-container" method="post" action="">
+                        <input type = "hidden" name = "hidden" value = "<?php print $i;?>">
+                        <input class ="on_off_button" type="submit" name="on_off_button" value= "<?php print $on_off;?>">
+                    </form>
+                </div>
+            <?php
+                $i++; 
+                endwhile 
+            ?> 
+
             </div>
         </div>
 
-            <div class="test">
-                <form method="post">
-                <p>写真投稿サイト</p>
-                <input type="submit" name="" value="表示する">;
-                </form>
-            </div>
-    
-
+        
 
     </body>
 </html>

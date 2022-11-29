@@ -1,57 +1,35 @@
 
+<!-- 取得の最大値がMAXとする時 -->
 
 <?php 
-$i=1;
-while ($i<4){
-    $bk.$i="";
-    $msg.$i="非表示";
+ const MAX = 3;
+ ?>
+
+<?php
+
+$i =0;
+while($i <MAX){
+
+
+        if($_POST['"on_btn'.$i.'"']=="表示"){
+            $bk.$i = "white";
+            $msg.$i = "非表示";
+        }
+
+        if($_POST['"on_btn'.$i.'"']=="非表示"){
+          $bk.$i = "white";
+          $msg.$i = "非表示";
+         
+
+      }
+
     $i++;
-    
-} 
-
-?>
-
-<?php 
-if($_POST["on_btn1"]=="表示"){
-    $bk1 = "white";
-    $msg1 = "非表示";
 }
 
-if($_POST["on_btn1"]=="非表示"){
-    $bk1 = "gray";
-    $msg1 = "表示";
-}
-
-
+$msg3 = "非表示"
  ?>
 
 
-<?php 
-if($_POST["on_btn2"]=="表示"){
-    $bk2 = "white";
-    $msg2 = "非表示";
-}
-
-if($_POST["on_btn2"]=="非表示"){
-    $bk2 = "gray";
-    $msg2 = "表示";
-}
-
- ?>
-
-
-
-<?php 
-if($_POST["on_btn3"]=="表示"){
-    $bk3 = "white";
-    $msg3 = "非表示";
-}
-
-if($_POST["on_btn3"]=="非表示"){
-    $bk3 = "gray";
-    $msg3 = "表示";
-}
- ?>
 
 
 <!DOCTYPE html> 
@@ -60,10 +38,16 @@ if($_POST["on_btn3"]=="非表示"){
     <meta charset="UTF-8"> 
     <title>try1122_1</title>
     <style>
-     .box1{
+
+
+     <?php
+     $j =3;
+
+     ?>
+
+      .box1{
        background-color:<?php print $bk1;?>;
       }
-
      .box2{
        background-color:<?php print $bk2;?>;
       }
@@ -80,35 +64,35 @@ if($_POST["on_btn3"]=="非表示"){
   </head>
   <body>
 
-<div class="box1">
+<?php
+
+
+while($i<MAX){
+$i = 0;
+?>
+
+
+<div class='"box'.<?php $i; ?>.'"'>
 <h1>こんにちは</h1>
 </div>
 
-<form method ="post" action ="">
-<input type = "submit" name ="on_btn1" value ="<?php print $msg1; ?>">
-</form>
-
-<div class="box2">
-<h1>こんにちは</h1>
-</div>
 
 <form method ="post" action ="">
-<input type = "submit" name ="on_btn2" value ="<?php print $msg2; ?>">
+<input type = "submit" name ='"on_btn'.<?php $i; ?> .'"' value ="<?php print $msg.$i; ?>">
 </form>
 
+<?php
+$i++;
+}
 
-<div class="box3">
-<h1>こんにちは</h1>
-</div>
+?>
 
-<form method ="post" action ="">
-<input type = "submit" name ="on_btn3" value ="<?php print $msg3; ?>">
-</form>
-
+<
 
 
 
 
-   
+
+
   </body>
 </html>
