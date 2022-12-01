@@ -75,9 +75,9 @@ if($_POST["on_btn3"]=="非表示"){
       }
 
 
-      .box1 .box2 .box3{
-       display:flex;
-       }
+      /* /* .box1 .box2 .box3{
+       /* display:flex; */
+      
     </style>
   </head>
   <body>

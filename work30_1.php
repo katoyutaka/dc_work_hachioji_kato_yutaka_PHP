@@ -10,6 +10,7 @@
         $update_date = date('Ymd');
         $error_msg = array();
         $error_msg=[];
+        
 
 
         $db = new mysqli($host, $login_user, $password, $database);
@@ -59,40 +60,16 @@
         if(!$filetype == "jpeg" && !$filetype == "png"){
             $validation_errors[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
         }
+
+         
+        $number = "";
+        if(isset($_POST["hidden"])){
+            $number = htmlspecialchars($_POST["hidden"], ENT_QUOTES, 'UTF-8');
+        }
+
     }    
         
-        $number = $_POST["hidden"];
-        // print $number;
 
-    $j = 0;
-    while($j <= $i){
-        print $j;
-        print $number;
-        print $i;   
-        if(($j === $number)){
-                $on_off = "非表示にする";
-                $bk_color = "gray";
-                $cg_display = "none";
-                
-        } else {
-                $on_off = "表示する";
-                $bk_color = "";
-                $cg_display = "block";
-        }
-        $j++;
-    }
-
-
-        // if(($_POST["on_off_button"] == "表示する")){
-        //         $on_off = "非表示にする";
-        //         $bk_color = "gray";
-        //         $cg_display = "none";
-                
-        // } else {
-        //         $on_off = "表示する";
-        //         $bk_color = "";
-        //         $cg_display = "block";
-        // }
 
 
 
@@ -122,7 +99,10 @@
         $db->set_charset("utf8");
         $select = "SELECT * FROM gallery ;";
         $result = $db->query($select);
+        // $max = mysqli_num_rows($result);
         $db->close();
+
+
     
 ?>
 
@@ -148,7 +128,7 @@
                     font-size:18px; 
                 }
 
-                .box0{
+                .box{
                     color: #fff;
                     font-weight: bold; 
                     width: 200px;
@@ -157,49 +137,17 @@
                     margin-right:5px;
                     margin-bottom:5px;
                     text-align: center;
-                    background-color:<?php print $cg_display; ?> ;
                 }
-                
-
-                .box1{
-                    color: #fff;
-                    font-weight: bold; 
-                    width: 200px;
-                    height:200px;
-                    border:1px solid #b7b7b7;
-                    margin-right:5px;
-                    margin-bottom:5px;
-                    text-align: center;
-                    background-color:<?php print $cg_display; ?> ;
-                }
-
-                .box2{
-                    color: #fff;
-                    font-weight: bold; 
-                    width: 200px;
-                    height:200px;
-                    border:1px solid #b7b7b7;
-                    margin-right:5px;
-                    margin-bottom:5px;
-                    text-align: center;
-                    background-color:<?php print $cg_display; ?> ;
-                }
-
-
-
+                    
                 .main {
                     margin-left:50px;
                     width:650px;
-                    /* border:1px solid gray; */
-                    /* background-color: blue; */
                 }
 
                 .contents-container {
                     display:flex;
                     flex-wrap: wrap;
-                    /* border:1px solid gray; */
                     margin-top:10px;
-                    /* background-color: yellowgreen; */
 
                 }
 
@@ -208,45 +156,22 @@
                     font-size:10px;
                 
                 }
-                
+                    
 
                 .introduce-image{
                     width:100%;
                     max-width: 135px;
                     max-height: 135px;
-                    display: <?php print $cg_display;?>;
                     margin: 0 auto;
+                    display: block;
+                    
                 }
 
-                .img-container0 {
+                .img-container {
                     height:150px;
                     margin-right:20px;
                     margin-left:20px;
                     margin-top: 5px;
-                    /* background-color: green; */
-                    background-color: <?php print $bk_color;?>;
-                    margin: 0 auto;
-                    width:100%;
-                }
-
-                .img-container1 {
-                    height:150px;
-                    margin-right:20px;
-                    margin-left:20px;
-                    margin-top: 5px;
-                    /* background-color: green; */
-                    background-color: <?php print $bk_color;?>;
-                    margin: 0 auto;
-                    width:100%;
-                }
-
-                .img-container2 {
-                    height:150px;
-                    margin-right:20px;
-                    margin-left:20px;
-                    margin-top: 5px;
-                    /* background-color: green; */
-                    background-color: <?php print $bk_color;?>;
                     margin: 0 auto;
                     width:100%;
                 }
@@ -284,6 +209,9 @@
                     margin-bottom: 10px;
                 }
 
+
+
+
         </style>
 
     </head>
@@ -291,6 +219,8 @@
 
 
     <body>
+ 
+            
         <h1>画像投稿</h1>
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <p>画像名：<input type="text" name="input_data"></p>
@@ -306,34 +236,28 @@
 
 
             <?php
-                
-                $flag =array();
-                $i = 0;
-                $flag[0] = 0;
-                while ($row = $result->fetch_assoc()):
+                while($row = $result->fetch_assoc()){;
                 $get_img_url = $row["image_path"];
-                $flag[] = $i + 1;
                 
-              
             ?>
                                  
-                <div class="box<?php print $i;?>">
-                    <div class= img-container<?php print $i;?>>
+                <div class="box">
+                    <div class= img-container>
                         <p class="title"><?php print $row['image_name'];?></p>
                         <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                     </div>
 
                     <form  class = "button-container" method="post" action="">
-                        <input type = "hidden" name = "hidden" value = "<?php print $i;?>">
-                        <input class ="on_off_button" type="submit" name="on_off_button" value= "<?php print $on_off;?>">
+                        <input type ="hidden" name="hidden" value ="hidden">
+                        <input type="submit" name="btn" value="表示する">
                     </form>
                 </div>
-            <?php
-                $i++; 
-                endwhile 
-            ?> 
 
+                <?php
+                }
+            ?> 
             </div>
+
         </div>
 
         
