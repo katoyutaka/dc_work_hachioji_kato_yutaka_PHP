@@ -2,7 +2,7 @@
  <html lang="ja"> 
      <head> 
          <meta charset="UTF-8"> 
-         <title>OK1130</title>
+         <title>OK1202</title>
                 <?php 
                 $number=$_POST["hidden"];
                 ?>

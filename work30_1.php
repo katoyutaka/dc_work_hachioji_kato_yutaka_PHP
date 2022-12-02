@@ -22,6 +22,7 @@
             $db->set_charset("utf8");
         }
 
+        
 ?>
 
 
@@ -62,10 +63,7 @@
         }
 
          
-        $number = "";
-        if(isset($_POST["hidden"])){
-            $number = htmlspecialchars($_POST["hidden"], ENT_QUOTES, 'UTF-8');
-        }
+
 
     }    
         
@@ -99,8 +97,38 @@
         $db->set_charset("utf8");
         $select = "SELECT * FROM gallery ;";
         $result = $db->query($select);
+        $num_rows = mysqli_num_rows($result);
         // $max = mysqli_num_rows($result);
         $db->close();
+
+
+//公開非公開データのアップデート（但し単数のSQL文なのでトランザクションの処理は不要）
+        if(isset($_POST["flag_hidden"])){
+
+            $public_flg = htmlspecialchars($_POST["flag_hidden"], ENT_QUOTES, 'UTF-8');
+
+            $db = new mysqli($host, $login_user, $password, $database); 
+            $db->set_charset("utf8");
+            $update = "UPDATE gallery SET public_flg = '$public_flg' WHERE image_id = '$count';"; 
+            if($result2 =$db->query($update)){
+                $save = 'img/'.basename($upload_image_name);
+                move_uploaded_file($upload_image_tmp_name,$save);
+                $str = "更新成功しました";
+                print "<span class='msg'>$str</span><br>";
+            } else {
+                $str = "何らかの理由により更新失敗しました。"."<br>";
+                print "<span class='msg'>$str</span><br>";
+        }
+
+        $db->close();
+
+
+        if(isset($_POST["count_hidden"])){
+            $count = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
+    }
+
+}
+
 
 
     
@@ -165,6 +193,7 @@
                     margin: 0 auto;
                     display: block;
                     
+
                 }
 
                 .img-container {
@@ -174,6 +203,8 @@
                     margin-top: 5px;
                     margin: 0 auto;
                     width:100%;
+                    display: inline-block;
+                    
                 }
 
 
@@ -220,7 +251,8 @@
 
     <body>
  
-            
+        <?php print $public_flg;?>
+        <?php print $count;?> 
         <h1>画像投稿</h1>
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <p>画像名：<input type="text" name="input_data"></p>
@@ -236,8 +268,11 @@
 
 
             <?php
-                while($row = $result->fetch_assoc()){;
-                $get_img_url = $row["image_path"];
+                
+                $public_flg = 0;
+                $j = 1;
+                while($row = $result->fetch_assoc()){
+                    $get_img_url = $row["image_path"];
                 
             ?>
                                  
@@ -248,12 +283,14 @@
                     </div>
 
                     <form  class = "button-container" method="post" action="">
-                        <input type ="hidden" name="hidden" value ="hidden">
+                        <input type ="hidden" name="flag_hidden" value ="1">
+                        <input type ="hidden" name="count_hidden" value ="<?php print $j;?>">
                         <input type="submit" name="btn" value="表示する">
                     </form>
                 </div>
 
                 <?php
+                $j++;
                 }
             ?> 
             </div>
