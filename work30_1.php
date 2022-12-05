@@ -61,7 +61,9 @@
         if(!$filetype == "jpeg" && !$filetype == "png"){
             $validation_errors[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
         }
-
+        if(isset($_POST["count_hidden"])){
+            $count = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
+        }
          
 
 
@@ -92,24 +94,30 @@
             }
         }
 
+        // ALTER TABLE `tablename` auto_increment = 1;
+
 // SQL文（select文）送る
         $db = new mysqli($host, $login_user, $password, $database);
         $db->set_charset("utf8");
-        $select = "SELECT * FROM gallery ;";
+        $a= "ALTER table gallery drop id";
+        $db->query($a);
+        $db_>query("ALTER table gallery add id int(11) primary key not null auto_increment first");
+        $db_>query("ALTER TABLE gallery AUTO_INCREMENT = 1");
+        $select = "SELECT * FROM gallery";
+
+
         $result = $db->query($select);
-        $num_rows = mysqli_num_rows($result);
-        // $max = mysqli_num_rows($result);
         $db->close();
 
-
-//公開非公開データのアップデート（但し単数のSQL文なのでトランザクションの処理は不要）
+ 
         if(isset($_POST["flag_hidden"])){
 
             $public_flg = htmlspecialchars($_POST["flag_hidden"], ENT_QUOTES, 'UTF-8');
 
             $db = new mysqli($host, $login_user, $password, $database); 
             $db->set_charset("utf8");
-            $update = "UPDATE gallery SET public_flg = '$public_flg' WHERE image_id = '$count';"; 
+            // ここの定数を変数にするところからやる！
+            $update = "UPDATE gallery SET public_flg = ".$public_flg." WHERE id = ".$count.";";
             if($result2 =$db->query($update)){
                 $save = 'img/'.basename($upload_image_name);
                 move_uploaded_file($upload_image_tmp_name,$save);
@@ -122,10 +130,8 @@
 
         $db->close();
 
+    
 
-        if(isset($_POST["count_hidden"])){
-            $count = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
-    }
 
 }
 
@@ -133,7 +139,6 @@
 
     
 ?>
-
 
 
 <!DOCTYPE html>
