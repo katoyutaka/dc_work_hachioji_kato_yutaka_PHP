@@ -62,7 +62,7 @@
             $validation_errors[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
         }
         if(isset($_POST["count_hidden"])){
-            $count = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
+            $number = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
         }
          
 
@@ -101,39 +101,56 @@
         $db->set_charset("utf8");
         $a= "ALTER table gallery drop id";
         $db->query($a);
-        $db_>query("ALTER table gallery add id int(11) primary key not null auto_increment first");
-        $db_>query("ALTER TABLE gallery AUTO_INCREMENT = 1");
+        $b = "ALTER table gallery add id int(11) primary key not null auto_increment first";
+        $db->query($b);
+        $c = "ALTER TABLE gallery AUTO_INCREMENT = 1";
+        $db->query($c);
         $select = "SELECT * FROM gallery";
-
-
         $result = $db->query($select);
+        $count = mysqli_num_rows($result);
         $db->close();
 
  
-        if(isset($_POST["flag_hidden"])){
+        // if(isset($_POST["flag_hidden"])){
 
-            $public_flg = htmlspecialchars($_POST["flag_hidden"], ENT_QUOTES, 'UTF-8');
+        //     $public_flg = htmlspecialchars($_POST["flag_hidden"], ENT_QUOTES, 'UTF-8');
 
-            $db = new mysqli($host, $login_user, $password, $database); 
+        //     $db = new mysqli($host, $login_user, $password, $database); 
+        //     $db->set_charset("utf8");
+        //     $update = "UPDATE gallery SET public_flg = ".$public_flg." WHERE id = ".$number.";";
+        //     if($result2 =$db->query($update)){
+        //         $save = 'img/'.basename($upload_image_name);
+        //         move_uploaded_file($upload_image_tmp_name,$save);
+        //         $str = "更新成功しました";
+        //         print "<span class='msg'>$str</span><br>";
+        //     } else {
+        //         $str = "何らかの理由により更新失敗しました。"."<br>";
+        //         print "<span class='msg'>$str</span><br>";
+        // }
+
+        // $db->close();
+         
+
+        if($_POST["btn"] == "表示する"){
+
+
+            $db = new mysqli($host, $login_user, $password, $database);
             $db->set_charset("utf8");
-            // ここの定数を変数にするところからやる！
-            $update = "UPDATE gallery SET public_flg = ".$public_flg." WHERE id = ".$count.";";
-            if($result2 =$db->query($update)){
-                $save = 'img/'.basename($upload_image_name);
-                move_uploaded_file($upload_image_tmp_name,$save);
-                $str = "更新成功しました";
-                print "<span class='msg'>$str</span><br>";
-            } else {
-                $str = "何らかの理由により更新失敗しました。"."<br>";
-                print "<span class='msg'>$str</span><br>";
+            $update = "UPDATE gallery SET public_flg = '0' WHERE id = ".$number.";";
+            $db->query($update);
+            $db->close();
+        } else {
+            
+
+            $db = new mysqli($host, $login_user, $password, $database);
+            $db->set_charset("utf8");
+            $update = "UPDATE gallery SET public_flg = '1' WHERE id = ".$number.";";
+            $db->query($update);
+            $db->close();
+
         }
 
-        $db->close();
-
-    
-
-
-}
+// }
 
 
 
@@ -160,18 +177,52 @@
                 p {
                     font-size:18px; 
                 }
+                
+                <?php
+                $p = 1;
+                $int_number = intval($number);  
+                while ($p <= $count){
 
-                .box{
-                    color: #fff;
-                    font-weight: bold; 
-                    width: 200px;
-                    height:200px;
-                    border:1px solid #b7b7b7;
-                    margin-right:5px;
-                    margin-bottom:5px;
-                    text-align: center;
+                    if ($p === $int_number){
+                        $color = "gray";
+                        $display = "表示する";
+                ?>
+                        .box<?php print $p;?>{
+                            color: #fff;
+                            font-weight: bold; 
+                            width: 200px;
+                            height:200px;
+                            border:1px solid #b7b7b7;
+                            margin-right:5px;
+                            margin-bottom:5px;
+                            text-align: center;
+                            background-color: <?php print $color ;?>;
+                        }
+                    <?php } else {
+                        $color = "white";
+                        $display = "非表示にする";
+                    ?>
+                        .box<?php print $p;?>{
+                            color: #fff;
+                            font-weight: bold; 
+                            width: 200px;
+                            height:200px;
+                            border:1px solid #b7b7b7;
+                            margin-right:5px;
+                            margin-bottom:5px;
+                            text-align: center;
+                            background-color: <?php print $color ;?>;
+                           }
+                        <?php 
+                        }
+                        ?>
+    
+                
+                <?php
+                $p++; 
                 }
-                    
+                ?>  
+
                 .main {
                     margin-left:50px;
                     width:650px;
@@ -255,9 +306,10 @@
 
 
     <body>
- 
+
+        <?php  print $count; ?>
         <?php print $public_flg;?>
-        <?php print $count;?> 
+        <?php print $number;?> 
         <h1>画像投稿</h1>
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <p>画像名：<input type="text" name="input_data"></p>
@@ -274,14 +326,22 @@
 
             <?php
                 
-                $public_flg = 0;
+                // $public_flg = 0;
                 $j = 1;
                 while($row = $result->fetch_assoc()){
                     $get_img_url = $row["image_path"];
+
+                    if($row["public_flg"] === "1"){
+                        $display = "表示する";
+                        $color = "gray";
+                    } else {
+                        $display = "非表示にする";
+                        $color = "white";
+                    }
                 
             ?>
                                  
-                <div class="box">
+                <div class="box<?php print $j;?>">
                     <div class= img-container>
                         <p class="title"><?php print $row['image_name'];?></p>
                         <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
@@ -290,7 +350,7 @@
                     <form  class = "button-container" method="post" action="">
                         <input type ="hidden" name="flag_hidden" value ="1">
                         <input type ="hidden" name="count_hidden" value ="<?php print $j;?>">
-                        <input type="submit" name="btn" value="表示する">
+                        <input type="submit" name="btn" value="<?php print $display ?>">
                     </form>
                 </div>
 
