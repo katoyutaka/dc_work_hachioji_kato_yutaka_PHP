@@ -22,10 +22,7 @@
             $db->set_charset("utf8");
         }
 
-        
 ?>
-
-
 
 <!-- バリデーションチェック -->
 <?php
@@ -65,8 +62,6 @@
             $number = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
         }
          
-
-
     }    
         
 
@@ -74,7 +69,7 @@
 
 
 
-// バリデーションチェックOKならSQL文(insert文)送る
+// バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
         if (empty($validation_errors) ){
 
             $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date,image_path) VALUES ('$input_data',".$public_flg.",".$create_date.",".$update_date.",'$image_path');";
@@ -96,43 +91,23 @@
 
         // ALTER TABLE `tablename` auto_increment = 1;
 
-// SQL文（select文）送る
+// SQL文（select文）送る（➁登録後の画面表示）
+        $display = "非表示にする";
+        $color = "white";
+
         $db = new mysqli($host, $login_user, $password, $database);
         $db->set_charset("utf8");
-        $a= "ALTER table gallery drop id";
-        $db->query($a);
-        $b = "ALTER table gallery add id int(11) primary key not null auto_increment first";
-        $db->query($b);
-        $c = "ALTER TABLE gallery AUTO_INCREMENT = 1";
-        $db->query($c);
         $select = "SELECT * FROM gallery";
         $result = $db->query($select);
         $count = mysqli_num_rows($result);
         $db->close();
 
- 
-        // if(isset($_POST["flag_hidden"])){
 
-        //     $public_flg = htmlspecialchars($_POST["flag_hidden"], ENT_QUOTES, 'UTF-8');
-
-        //     $db = new mysqli($host, $login_user, $password, $database); 
-        //     $db->set_charset("utf8");
-        //     $update = "UPDATE gallery SET public_flg = ".$public_flg." WHERE id = ".$number.";";
-        //     if($result2 =$db->query($update)){
-        //         $save = 'img/'.basename($upload_image_name);
-        //         move_uploaded_file($upload_image_tmp_name,$save);
-        //         $str = "更新成功しました";
-        //         print "<span class='msg'>$str</span><br>";
-        //     } else {
-        //         $str = "何らかの理由により更新失敗しました。"."<br>";
-        //         print "<span class='msg'>$str</span><br>";
-        // }
-
-        // $db->close();
-         
-
+// ➂表示・非表示ボタンが押されたらデータベースに登録
         if($_POST["btn"] == "表示する"){
 
+            // $display = "非表示にする";
+            // $color = "white";
 
             $db = new mysqli($host, $login_user, $password, $database);
             $db->set_charset("utf8");
@@ -141,6 +116,8 @@
             $db->close();
         } else {
             
+            // $display = "表示する";
+            // $color = "gray";
 
             $db = new mysqli($host, $login_user, $password, $database);
             $db->set_charset("utf8");
@@ -150,6 +127,18 @@
 
         }
 
+// ➃データベース（表示・非表示の）情報を画面表示
+            $db = new mysqli($host, $login_user, $password, $database);
+            $db->set_charset("utf8");
+            $a= "ALTER table gallery drop id";
+            $db->query($a);
+            $b = "ALTER table gallery add id int(11) primary key not null auto_increment first";
+            $db->query($b);
+            $c = "ALTER TABLE gallery AUTO_INCREMENT = 1";
+            $db->query($c);
+            $select = "SELECT * FROM gallery";
+            $flag_result = $db->query($select);
+            $db->close();
 // }
 
 
@@ -241,16 +230,45 @@
                 
                 }
                     
-
-                .introduce-image{
-                    width:100%;
-                    max-width: 135px;
-                    max-height: 135px;
-                    margin: 0 auto;
-                    display: block;
+                <?php
+                $q = 1;
+                $int_number = intval($number); 
+                while ($q <= $count){
                     
+                    if ($q === $int_number){
+                        $img_display = "none";
+                ?>
+            
+                        .introduce-image<?php print $q;?>{
+                            width:100%;
+                            max-width: 135px;
+                            max-height: 135px;
+                            margin: 0 auto;
+                            display: <?php print $img_display?>;
 
+            
+                        } 
+                    
+            <?php } else {
+                     $img_display = "block";
+            ?>
+            
+                        .introduce-image<?php print $q?>{
+                            width:100%;
+                            max-width: 135px;
+                            max-height: 135px;
+                            margin: 0 auto;
+                            display: <?php print $img_display?>;
+
+                        }
+                <?php
                 }
+                ?>
+
+            <?php 
+            $q++;
+            }
+            ?>
 
                 .img-container {
                     height:150px;
@@ -326,16 +344,16 @@
 
             <?php
                 
-                // $public_flg = 0;
+                
                 $j = 1;
                 while($row = $result->fetch_assoc()){
                     $get_img_url = $row["image_path"];
 
                     if($row["public_flg"] === "1"){
-                        $display = "表示する";
+                        // $display = "表示する";
                         $color = "gray";
                     } else {
-                        $display = "非表示にする";
+                        // $display = "非表示にする";
                         $color = "white";
                     }
                 
@@ -344,7 +362,7 @@
                 <div class="box<?php print $j;?>">
                     <div class= img-container>
                         <p class="title"><?php print $row['image_name'];?></p>
-                        <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        <img class="introduce-image<?php print $j;?>" src= "<?php print $get_img_url; ?>" alt="">
                     </div>
 
                     <form  class = "button-container" method="post" action="">
