@@ -61,12 +61,7 @@
             $number = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
         }
          
-    }    
-        
-
-
-
-
+   
 
 // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
         if (empty($validation_errors) ){
@@ -87,12 +82,10 @@
                  print "<span class='msg'>$err</span><br>";
             }
         }
-
+}
 
 
 // SQL文（select文）送る（➁登録後の画面表示）
-
-
 
         $db = new mysqli($host, $login_user, $password, $database);
         $db->set_charset("utf8");
@@ -154,50 +147,18 @@
                     font-size:18px; 
                 }
 
-               <?php
 
-                $p = 1;
-                while($row = $result->fetch_assoc()){
-                    if([$row["public_flg"] === "1"]){
-
-                        $color = "gray";
-                ?>
-                        .box<?php print $p;?>{
-                            color: #fff;
-                            font-weight: bold; 
-                            width: 200px;
-                            height:200px;
-                            border:1px solid #b7b7b7;
-                            margin-right:5px;
-                            margin-bottom:5px;
-                            text-align: center;
-                            background-color: <?php print $color ;?>;
-                        }
-
-                   <?php 
-                   } else {
-
-                        $color = "white";
-                    ?>
-                        .box<?php print $p;?>{
-                            color: #fff;
-                            font-weight: bold; 
-                            width: 200px;
-                            height:200px;
-                            border:1px solid #b7b7b7;
-                            margin-right:5px;
-                            margin-bottom:5px;
-                            text-align: center;
-                            background-color: <?php print $color ;?>;
-                           }
-                        <?php 
-                        }
-                        ?>
-                
-                <?php
-                $p++; 
-                }
-                ?>  
+                .box{
+                    color: #fff;
+                    font-weight: bold; 
+                    width: 200px;
+                    height:200px;
+                    border:1px solid #b7b7b7;
+                    margin-right:5px;
+                    margin-bottom:5px;
+                    text-align: center;
+                    background-color: gray;
+                }  
 
                 .main {
                     margin-left:50px;
@@ -217,48 +178,18 @@
                 
                 }
                     
-                <?php
-                $q = 1;
-            //    ここが問題！
-                while($row = $result->fetch_assoc()){
+              
+      
+                .introduce-image{
+                    width:100%;
+                    max-width: 135px;
+                    max-height: 135px;
+                    margin: 0 auto;
+                    display: block;
                     
-                    if($row["public_flg"] === "1"){
-        
-                        $img_display = "none";
-                ?>
-            
-                        .introduce-image<?php print $q;?>{
-                            width:100%;
-                            max-width: 135px;
-                            max-height: 135px;
-                            margin: 0 auto;
-                            display: <?php print $img_display?>;
 
-                        } 
-                    
-            <?php 
-            } else {
-  
-                        $img_display = "block";
-            ?>
-            
-                        .introduce-image<?php print $q?>{
-                            width:100%;
-                            max-width: 135px;
-                            max-height: 135px;
-                            margin: 0 auto;
-                            display: <?php print $img_display?>;
-
-                        }
-                <?php
                 }
-                ?>
-
-            <?php 
-            $q++;
-            }
-            ?>
-
+   
                 .img-container {
                     height:150px;
                     margin-right:20px;
@@ -266,7 +197,7 @@
                     margin-top: 5px;
                     margin: 0 auto;
                     width:100%;
-                    display: inline-block;
+                    display: inline;
                     
                 }
 
@@ -301,20 +232,15 @@
                 .button-container {
                     margin-top: 10px;
                     margin-bottom: 10px;
+
                 }
 
         </style>
 
     </head>
 
-
-
     <body>
 
-
-        <?php print $max; ?>
-        <?php print $public_flg;?>
-        <?php print $number;?> 
         <h1>画像投稿</h1>
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <p>画像名：<input type="text" name="input_data"></p>
@@ -331,6 +257,8 @@
 
             <?php
                 
+                // ポイントはデータベースから持ってきたflag情報をfetch_assocのループの中で場合分けして、各変数も全てここにいれる！
+
                 $j = 1;
                 while($row = $result->fetch_assoc()){
 
@@ -338,12 +266,21 @@
 
                     if($row["public_flg"] === "1"){
                         $display = "表示する";
+                        $color = "gray";
+                        $img_display = "none";
+
+                    } else {
+                        $display = "非表示にする";
+                        $color = "white";
+                        $img_display = "block";
+
+                    } 
                     ?>
 
-                        <div class="box<?php print $j;?>">
-                        <div class= img-container>
+                        <div style="background:<?php print $color; ?>;" class="box">
+                        <div style="display:<?php print $img_display;?>;" class= img-container>
                             <p class="title"><?php print $row['image_name'];?></p>
-                            <img class="introduce-image<?php print $j;?>" src= "<?php print $get_img_url; ?>" alt="">
+                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
                         </div>
     
                         <form  class = "button-container" method="post" action="">
@@ -352,33 +289,12 @@
                         </form>
                         </div>
                        
+                   
                     <?php
-                    } else {
-
-                        $display = "非表示にする";
-                    ?>
-
-                        <div style="background: #00ff00;" class="box<?php print $j;?>">
-                        <div class= img-container>
-                            <p class="title"><?php print $row['image_name'];?></p>
-                            <img class="introduce-image<?php print $j;?>" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-
-                        <form  class = "button-container" method="post" action="">
-                            <input type ="hidden" name="count_hidden" value ="<?php print $j;?>">
-                            <input type="submit" name="btn" value="<?php print $display ?>">
-                        </form>
-                        </div>
-                    <?php
+                    $j++;
                     }
                    ?>
                                  
-                
-
-                <?php
-                $j++;
-                }
-            ?> 
             </div>
 
         </div>
