@@ -5,13 +5,11 @@
         $password = 'Au3#DZ~G';   
         $database = 'bcdhm_hoj_pf0001';
 
-        $public_flg = 0;
         $create_date = date('Ymd');
         $update_date = date('Ymd');
         $error_msg = array();
         $error_msg=[];
         
-
 
         $db = new mysqli($host, $login_user, $password, $database);
         if($db->connect_error){
@@ -21,6 +19,7 @@
         }else{
             $db->set_charset("utf8");
         }
+
 
 ?>
 
@@ -89,25 +88,31 @@
             }
         }
 
-        // ALTER TABLE `tablename` auto_increment = 1;
+
 
 // SQL文（select文）送る（➁登録後の画面表示）
-        $display = "非表示にする";
-        $color = "white";
+
+
 
         $db = new mysqli($host, $login_user, $password, $database);
         $db->set_charset("utf8");
+        $a= "ALTER table gallery drop id";
+        $db->query($a);
+        $b = "ALTER table gallery add id int(11) primary key not null auto_increment first";
+        $db->query($b);
+        $c = "ALTER TABLE gallery AUTO_INCREMENT = 1";
+        $db->query($c);
         $select = "SELECT * FROM gallery";
         $result = $db->query($select);
-        $count = mysqli_num_rows($result);
+        $max = mysqli_num_rows($result);
         $db->close();
 
 
+
 // ➂表示・非表示ボタンが押されたらデータベースに登録
+      if(isset($_POST["btn"])){
         if($_POST["btn"] == "表示する"){
 
-            // $display = "非表示にする";
-            // $color = "white";
 
             $db = new mysqli($host, $login_user, $password, $database);
             $db->set_charset("utf8");
@@ -115,9 +120,6 @@
             $db->query($update);
             $db->close();
         } else {
-            
-            // $display = "表示する";
-            // $color = "gray";
 
             $db = new mysqli($host, $login_user, $password, $database);
             $db->set_charset("utf8");
@@ -126,22 +128,7 @@
             $db->close();
 
         }
-
-// ➃データベース（表示・非表示の）情報を画面表示
-            $db = new mysqli($host, $login_user, $password, $database);
-            $db->set_charset("utf8");
-            $a= "ALTER table gallery drop id";
-            $db->query($a);
-            $b = "ALTER table gallery add id int(11) primary key not null auto_increment first";
-            $db->query($b);
-            $c = "ALTER TABLE gallery AUTO_INCREMENT = 1";
-            $db->query($c);
-            $select = "SELECT * FROM gallery";
-            $flag_result = $db->query($select);
-            $db->close();
-// }
-
-
+    }
 
     
 ?>
@@ -166,15 +153,14 @@
                 p {
                     font-size:18px; 
                 }
-                
-                <?php
-                $p = 1;
-                $int_number = intval($number);  
-                while ($p <= $count){
 
-                    if ($p === $int_number){
+               <?php
+
+                $p = 1;
+                while($row = $result->fetch_assoc()){
+                    if([$row["public_flg"] === "1"]){
+
                         $color = "gray";
-                        $display = "表示する";
                 ?>
                         .box<?php print $p;?>{
                             color: #fff;
@@ -187,9 +173,11 @@
                             text-align: center;
                             background-color: <?php print $color ;?>;
                         }
-                    <?php } else {
+
+                   <?php 
+                   } else {
+
                         $color = "white";
-                        $display = "非表示にする";
                     ?>
                         .box<?php print $p;?>{
                             color: #fff;
@@ -205,7 +193,6 @@
                         <?php 
                         }
                         ?>
-    
                 
                 <?php
                 $p++; 
@@ -232,10 +219,11 @@
                     
                 <?php
                 $q = 1;
-                $int_number = intval($number); 
-                while ($q <= $count){
+            //    ここが問題！
+                while($row = $result->fetch_assoc()){
                     
-                    if ($q === $int_number){
+                    if($row["public_flg"] === "1"){
+        
                         $img_display = "none";
                 ?>
             
@@ -246,11 +234,12 @@
                             margin: 0 auto;
                             display: <?php print $img_display?>;
 
-            
                         } 
                     
-            <?php } else {
-                     $img_display = "block";
+            <?php 
+            } else {
+  
+                        $img_display = "block";
             ?>
             
                         .introduce-image<?php print $q?>{
@@ -314,9 +303,6 @@
                     margin-bottom: 10px;
                 }
 
-
-
-
         </style>
 
     </head>
@@ -325,7 +311,8 @@
 
     <body>
 
-        <?php  print $count; ?>
+
+        <?php print $max; ?>
         <?php print $public_flg;?>
         <?php print $number;?> 
         <h1>画像投稿</h1>
@@ -344,33 +331,49 @@
 
             <?php
                 
-                
                 $j = 1;
                 while($row = $result->fetch_assoc()){
+
                     $get_img_url = $row["image_path"];
 
                     if($row["public_flg"] === "1"){
-                        // $display = "表示する";
-                        $color = "gray";
-                    } else {
-                        // $display = "非表示にする";
-                        $color = "white";
-                    }
-                
-            ?>
-                                 
-                <div class="box<?php print $j;?>">
-                    <div class= img-container>
-                        <p class="title"><?php print $row['image_name'];?></p>
-                        <img class="introduce-image<?php print $j;?>" src= "<?php print $get_img_url; ?>" alt="">
-                    </div>
+                        $display = "表示する";
+                    ?>
 
-                    <form  class = "button-container" method="post" action="">
-                        <input type ="hidden" name="flag_hidden" value ="1">
-                        <input type ="hidden" name="count_hidden" value ="<?php print $j;?>">
-                        <input type="submit" name="btn" value="<?php print $display ?>">
-                    </form>
-                </div>
+                        <div class="box<?php print $j;?>">
+                        <div class= img-container>
+                            <p class="title"><?php print $row['image_name'];?></p>
+                            <img class="introduce-image<?php print $j;?>" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+    
+                        <form  class = "button-container" method="post" action="">
+                            <input type ="hidden" name="count_hidden" value ="<?php print $j;?>">
+                            <input type="submit" name="btn" value="<?php print $display ?>">
+                        </form>
+                        </div>
+                       
+                    <?php
+                    } else {
+
+                        $display = "非表示にする";
+                    ?>
+
+                        <div style="background: #00ff00;" class="box<?php print $j;?>">
+                        <div class= img-container>
+                            <p class="title"><?php print $row['image_name'];?></p>
+                            <img class="introduce-image<?php print $j;?>" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
+
+                        <form  class = "button-container" method="post" action="">
+                            <input type ="hidden" name="count_hidden" value ="<?php print $j;?>">
+                            <input type="submit" name="btn" value="<?php print $display ?>">
+                        </form>
+                        </div>
+                    <?php
+                    }
+                   ?>
+                                 
+                
 
                 <?php
                 $j++;
@@ -380,7 +383,6 @@
 
         </div>
 
-        
-
+    
     </body>
 </html>
