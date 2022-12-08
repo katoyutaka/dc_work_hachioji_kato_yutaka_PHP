@@ -64,23 +64,26 @@
    
 
 // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
+           
         if (empty($validation_errors) ){
 
-            $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date,image_path) VALUES ('$input_data',".$public_flg.",".$create_date.",".$update_date.",'$image_path');";
-            if($result=$db->query($insert)){
-                $save = 'img/'.basename($upload_image_name);
-                move_uploaded_file($upload_image_tmp_name,$save);
-                $str = "更新成功しました";
-                print "<span class='msg'>$str</span><br>";
-            } else {
-                $str = "データベースに既に同じファイル名が存在している為か、その他の理由により更新失敗しました。"."<br>";
-                print "<span class='msg'>$str</span><br>";
-            
-            }
+                $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date,image_path) VALUES ('$input_data',".$public_flg.",".$create_date.",".$update_date.",'$image_path');";
+                if($result=$db->query($insert)){
+                    $save = 'img/'.basename($upload_image_name);
+                    move_uploaded_file($upload_image_tmp_name,$save);
+                    $str = "更新成功しました";
+                    print "<span class='msg'>$str</span><br>";
+                } else {
+                    $str = "データベースに既に同じファイル名が存在している為か、その他の理由により更新失敗しました。"."<br>";
+                    print "<span class='msg'>$str</span><br>";
+                
+                }
+
         } else {
-            foreach($validation_errors as $err){
-                 print "<span class='msg'>$err</span><br>";
-            }
+                foreach($validation_errors as $err){
+                    print "<span class='msg'>$err</span><br>";
+                }
+               
         }
 }
 
@@ -182,10 +185,11 @@
       
                 .introduce-image{
                     width:100%;
-                    max-width: 135px;
-                    max-height: 135px;
+                    max-width: 128px;
+                    max-height: 128px;
                     margin: 0 auto;
                     display: block;
+                    
                     
 
                 }
