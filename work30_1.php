@@ -18,6 +18,7 @@
 
         }else{
             $db->set_charset("utf8");
+            $db->close();
         }
 
 
@@ -25,67 +26,104 @@
 
 <!-- バリデーションチェック -->
 <?php
+
     if(!empty($_POST)){
 
-        $input_data ='';		
+        $input_data ='';
+        // $validation_error[] = '';
+        	
         if(isset($_POST['input_data'])){
             $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
         } else {
-            $validation_errors[]="画像名に問題があるか、未入力です"."<br>";
+            $validation_error[]="画像名に問題があるか、未入力です"."<br>";
         }
 
         $upload_image_name ='';
-        $image_path ='';		
+        $image_path ='';
+
         if(isset($_FILES['upload_image']['name'])){
             $upload_image_name = htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
             $image_path =  './img/'.htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
         } else {
-            $validation_errors[] = "アップロードファイル名に問題があるか、未選択です"."<br>";
+            $validation_error[] = "アップロードファイル名に問題があるか、未選択です"."<br>";
         }
 
-        $upload_image_tmp_name ='';		
+        $upload_image_tmp_name ='';
+
         if(isset($_FILES['upload_image']['tmp_name'])){
             $upload_image_tmp_name = htmlspecialchars($_FILES['upload_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
         }
 
         if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data)){
-            $validation_errors[] = "「画像名」が半角英数字以外の形式になってるか、未入力です。"."<br>";
+            $validation_error[] = "「画像名」が半角英数字以外の形式になってるか、未入力です。"."<br>";
         }
+
         $file=pathinfo($image_path);
         $filetype=$file["extension"];
             
-        if(!$filetype == "jpeg" && !$filetype == "png"){
-            $validation_errors[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
+        if(!($filetype === "jpeg")){
+                if(!($filetype === "png")){
+                    $validation_error[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
+                } 
         }
+    
+
         if(isset($_POST["count_hidden"])){
             $number = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
         }
          
-   
+
 
 // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
            
-        if (empty($validation_errors) ){
+        if (empty($validation_error) ){
 
-                $insert = "INSERT INTO gallery ( image_name, public_flg, create_date, update_date,image_path) VALUES ('$input_data',".$public_flg.",".$create_date.",".$update_date.",'$image_path');";
+                $db = new mysqli($host, $login_user, $password, $database);
+                $db->set_charset("utf8");
+                $insert = "INSERT INTO gallery (id,image_name, public_flg, create_date, update_date,image_path) VALUES ('10','$input_data','0',".$create_date.",".$update_date.",'$image_path');";
+
                 if($result=$db->query($insert)){
                     $save = 'img/'.basename($upload_image_name);
                     move_uploaded_file($upload_image_tmp_name,$save);
                     $str = "更新成功しました";
                     print "<span class='msg'>$str</span><br>";
+                    $db->close();
                 } else {
                     $str = "データベースに既に同じファイル名が存在している為か、その他の理由により更新失敗しました。"."<br>";
                     print "<span class='msg'>$str</span><br>";
+                    $db->close();
                 
                 }
 
         } else {
-                foreach($validation_errors as $err){
+                foreach($validation_error as $err){
                     print "<span class='msg'>$err</span><br>";
+                    
                 }
                
         }
-}
+
+        // ➂表示・非表示ボタンが押されたらデータベースに登録
+            if($_POST["btn"] == "表示する"){
+
+
+                $db = new mysqli($host, $login_user, $password, $database);
+                $db->set_charset("utf8");
+                $update = "UPDATE gallery SET public_flg = '0' WHERE id = ".$number.";";
+                $db->query($update);
+                $db->close();
+
+            } else {
+
+                $db = new mysqli($host, $login_user, $password, $database);
+                $db->set_charset("utf8");
+                $update = "UPDATE gallery SET public_flg = '1' WHERE id = ".$number.";";
+                $db->query($update);
+                $db->close();
+
+            }
+        
+    }
 
 
 // SQL文（select文）送る（➁登録後の画面表示）
@@ -103,28 +141,6 @@
         $max = mysqli_num_rows($result);
         $db->close();
 
-
-
-// ➂表示・非表示ボタンが押されたらデータベースに登録
-      if(isset($_POST["btn"])){
-        if($_POST["btn"] == "表示する"){
-
-
-            $db = new mysqli($host, $login_user, $password, $database);
-            $db->set_charset("utf8");
-            $update = "UPDATE gallery SET public_flg = '0' WHERE id = ".$number.";";
-            $db->query($update);
-            $db->close();
-        } else {
-
-            $db = new mysqli($host, $login_user, $password, $database);
-            $db->set_charset("utf8");
-            $update = "UPDATE gallery SET public_flg = '1' WHERE id = ".$number.";";
-            $db->query($update);
-            $db->close();
-
-        }
-    }
 
     
 ?>
@@ -154,13 +170,13 @@
                 .box{
                     color: #fff;
                     font-weight: bold; 
-                    width: 200px;
-                    height:200px;
+                    width: 180px;
+                    height:220px;
                     border:1px solid #b7b7b7;
                     margin-right:5px;
                     margin-bottom:5px;
                     text-align: center;
-                    background-color: gray;
+                    
                 }  
 
                 .main {
@@ -239,12 +255,16 @@
 
                 }
 
+                .img-wrapper{
+                    height:170px;
+                }
+
         </style>
 
     </head>
 
     <body>
-
+                        
         <h1>画像投稿</h1>
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <p>画像名：<input type="text" name="input_data"></p>
@@ -252,7 +272,9 @@
             <p><input type="submit" value="画像投稿"></p>
         </form>
 
-        <a href="work30_2.php">画像一覧ページへ</a>
+        <form method="get" action="work30_2.php">
+        <a href="work30_2.php?data1=<?php print $max;?>&data2=<?php print $row100;?>">画像一覧ページへ</a>
+        </form>
         
         <div class=main>
             <div class="contents-container"> 
@@ -271,20 +293,22 @@
                     if($row["public_flg"] === "1"){
                         $display = "表示する";
                         $color = "gray";
-                        $img_display = "none";
+                        $img_display = "hidden";
 
                     } else {
                         $display = "非表示にする";
                         $color = "white";
-                        $img_display = "block";
+                        $img_display = "visible";
 
                     } 
-                    ?>
+            ?>
 
                         <div style="background:<?php print $color; ?>;" class="box">
-                        <div style="display:<?php print $img_display;?>;" class= img-container>
+                        <div class ="img-wrapper">
+                        <div style="visibility:<?php print $img_display;?>;" class= img-container>
                             <p class="title"><?php print $row['image_name'];?></p>
                             <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
+                        </div>
                         </div>
     
                         <form  class = "button-container" method="post" action="">
@@ -292,12 +316,11 @@
                             <input type="submit" name="btn" value="<?php print $display ?>">
                         </form>
                         </div>
-                       
-                   
-                    <?php
+                    
+            <?php
                     $j++;
                     }
-                   ?>
+            ?>
                                  
             </div>
 
