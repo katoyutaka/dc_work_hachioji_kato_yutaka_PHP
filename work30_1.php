@@ -5,8 +5,6 @@
         $password = 'Au3#DZ~G';   
         $database = 'bcdhm_hoj_pf0001';
 
-        $create_date = date('Ymd');
-        $update_date = date('Ymd');
         $error_msg = array();
         $error_msg=[];
         
@@ -27,12 +25,11 @@
 <!-- バリデーションチェック -->
 <?php
 
-    if(!empty($_POST)){
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $input_data ='';
-        // $validation_error[] = '';
         	
-        if(isset($_POST['input_data'])){
+        if(!empty($_POST['input_data'])){
             $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
         } else {
             $validation_error[]="画像名に問題があるか、未入力です"."<br>";
@@ -80,6 +77,9 @@
 
                 $db = new mysqli($host, $login_user, $password, $database);
                 $db->set_charset("utf8");
+
+                $create_date = date('Ymd');
+                $update_date = date('Ymd');
                 $insert = "INSERT INTO gallery (id,image_name, public_flg, create_date, update_date,image_path) VALUES ('10','$input_data','0',".$create_date.",".$update_date.",'$image_path');";
 
                 if($result=$db->query($insert)){
@@ -103,6 +103,8 @@
                
         }
 
+
+
         // ➂表示・非表示ボタンが押されたらデータベースに登録
             if($_POST["btn"] == "表示する"){
 
@@ -111,6 +113,8 @@
                 $db->set_charset("utf8");
                 $update = "UPDATE gallery SET public_flg = '0' WHERE id = ".$number.";";
                 $db->query($update);
+                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE id = ".$number.";";
+                $db->query($update);
                 $db->close();
 
             } else {
@@ -118,6 +122,8 @@
                 $db = new mysqli($host, $login_user, $password, $database);
                 $db->set_charset("utf8");
                 $update = "UPDATE gallery SET public_flg = '1' WHERE id = ".$number.";";
+                $db->query($update);
+                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE id = ".$number.";";
                 $db->query($update);
                 $db->close();
 
