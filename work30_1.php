@@ -144,7 +144,6 @@
         $db->query($c);
         $select = "SELECT * FROM gallery";
         $result = $db->query($select);
-        $max = mysqli_num_rows($result);
         $db->close();
 
 
