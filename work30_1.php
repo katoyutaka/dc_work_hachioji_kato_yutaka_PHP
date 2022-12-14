@@ -80,7 +80,7 @@
 
                 $create_date = date('Ymd');
                 $update_date = date('Ymd');
-                $insert = "INSERT INTO gallery (id,image_name, public_flg, create_date, update_date,image_path) VALUES ('10','$input_data','0',".$create_date.",".$update_date.",'$image_path');";
+                $insert = "INSERT INTO gallery (id,image_name, public_flg, create_date, update_date,image_path) VALUES ('','$input_data','0',".$create_date.",".$update_date.",'$image_path');";
 
                 if($result=$db->query($insert)){
                     $save = 'img/'.basename($upload_image_name);
