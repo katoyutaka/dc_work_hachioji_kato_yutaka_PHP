@@ -70,7 +70,6 @@
         }
          
 
-
 // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
            
         if (empty($validation_error) ){
