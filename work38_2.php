@@ -64,27 +64,17 @@
 
 <!-- SQLデータベースからデータをもってきて、入力されたデータと照合させ、OK・NG判定をする部分 -->
         <?php
-            // $dsn = 'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp';
-            // $login_user = 'bcdhm_hoj_pf0001'; 
-            // $password = 'Au3#DZ~G'; 
-
-            $db=new mysqli($dsn,$login_user,$password);
+            $db = new mysqli($host, $login_user, $password, $database);
             $db->set_charset("utf8");
             
             // 「WHERE  user_id = $login_id」部分をカットして確認
-            $sql = "SELECT user_id, user_name, password FROM user_table WHERE  user_id = ".$login_id.';"';
-
+            $sql = "SELECT user_id, user_name, password FROM user_table WHERE  user_id = '$login_id';";
             
             
             $result = $db->query($sql);
             $db->close();
             
             while($row = $result->fetch_assoc()){
-            // print $login_id."<br>";
-            // print $password_id."<br>";
-            // print $row["user_id"]."<br>";
-            // print $row["user_name"]."<br>";
-            // print $row["password"]."<br>";
 
                 if($password_id===$row["password"]){
                     print "<p>ログイン（擬似的）が完了しました</p>";
