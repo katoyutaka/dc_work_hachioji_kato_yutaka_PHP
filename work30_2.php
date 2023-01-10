@@ -1,4 +1,5 @@
 
+
 <?php
         $host = 'mysql34.conoha.ne.jp'; 
         $login_user = 'bcdhm_hoj_pf0001'; 

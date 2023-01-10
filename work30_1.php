@@ -1,4 +1,5 @@
 
+
 <?php
         $host = 'mysql34.conoha.ne.jp'; 
         $login_user = 'bcdhm_hoj_pf0001'; 
@@ -68,8 +69,7 @@
         if(isset($_POST["count_hidden"])){
             $number = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
         }
-    // ↓131行目の波かっこをここに持ってくると空の画像が表示されて不具合発生。   
-    // }
+
 // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
            
         if (empty($validation_error) ){
@@ -127,7 +127,6 @@
                 $db->close();
 
             }
-    // ↓ここの波かっこを72行目に持ってくると不具合発生
       }
 
 // SQL文（select文）送る（➁登録後の画面表示）
