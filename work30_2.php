@@ -14,7 +14,7 @@
 
         $db = new mysqli($host, $login_user, $password, $database);
         $db->set_charset("utf8");
-        $select = "SELECT * FROM gallery";
+        $select = "SELECT * FROM gallery WHERE public_flg = 0";
         $result = $db->query($select);
         $db->close();
         
