@@ -36,8 +36,8 @@
 <body>
 
     <form method="post" action="work38_2.php">
-        <label>ログインID</label><input type="text" name="login_id" value="<?php print $login_id; ?> "><br>
-        <label>パスワード</label><input type="text" name="password_id" value="<?php print $password_id; ?> "><br>
+        <label>ログインID</label><input type="text" name="login_id" value="<?php print $login_id; ?>"><br>
+        <label>パスワード</label><input type="text" name="password_id" value="<?php print $password_id; ?>"><br>
         <input type="checkbox" name="cookie_confirmation" value="checked" <?php print $cookie_confirmation; ?>>次回からログインIDの入力を省略する<br>
         <input type="submit" value="ログイン">
     </form>

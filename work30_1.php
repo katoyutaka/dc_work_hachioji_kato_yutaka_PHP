@@ -6,8 +6,8 @@
         $password = 'Au3#DZ~G';   
         $database = 'bcdhm_hoj_pf0001';
 
-        $error_msg = array();
-        $error_msg=[];
+        // $error_msg = array();
+        // $error_msg=[];
         
 
         $db = new mysqli($host, $login_user, $password, $database);
@@ -23,10 +23,13 @@
 
 ?>
 
+<!-- 毎回接続は不要？ -->
 <!-- バリデーションチェック -->
 <?php
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
+        if(isset($_POST["submit"])){
+            
 
         $input_data ='';
         	
@@ -66,8 +69,8 @@
         }
     
 
-        if(isset($_POST["count_hidden"])){
-            $number = htmlspecialchars($_POST["count_hidden"], ENT_QUOTES, 'UTF-8');
+        if(isset($_POST["id_value"])){
+            $number = htmlspecialchars($_POST["id_value"], ENT_QUOTES, 'UTF-8');
         }
 
 // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
@@ -110,9 +113,9 @@
 
                 $db = new mysqli($host, $login_user, $password, $database);
                 $db->set_charset("utf8");
-                $update = "UPDATE gallery SET public_flg = '0' WHERE id = ".$number.";";
+                $update = "UPDATE gallery SET public_flg = '0' WHERE image_id = ".$number.";";
                 $db->query($update);
-                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE id = ".$number.";";
+                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
                 $db->query($update);
                 $db->close();
 
@@ -120,28 +123,29 @@
 
                 $db = new mysqli($host, $login_user, $password, $database);
                 $db->set_charset("utf8");
-                $update = "UPDATE gallery SET public_flg = '1' WHERE id = ".$number.";";
+                $update = "UPDATE gallery SET public_flg = '1' WHERE image_id = ".$number.";";
                 $db->query($update);
-                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE id = ".$number.";";
+                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
                 $db->query($update);
                 $db->close();
 
             }
+        }
       }
 
 // SQL文（select文）送る（➁登録後の画面表示）
 
         $db = new mysqli($host, $login_user, $password, $database);
         $db->set_charset("utf8");
-        $a= "ALTER table gallery drop id";
-        $db->query($a);
-        $b = "ALTER table gallery add id int(11) primary key not null auto_increment first";
-        $db->query($b);
-        $c = "ALTER TABLE gallery AUTO_INCREMENT = 1";
-        $db->query($c);
+        // $a= "ALTER table gallery drop id";
+        // $db->query($a);
+        // $b = "ALTER table gallery add id int(11) primary key not null auto_increment first";
+        // $db->query($b);
+        // $c = "ALTER TABLE gallery AUTO_INCREMENT = 1";
+        // $db->query($c);
         $select = "SELECT * FROM gallery";
         $result = $db->query($select);
-        $db->close();
+        
 
 
     
@@ -271,7 +275,7 @@
         <form method="post" action="work30_1.php" enctype="multipart/form-data">
             <p>画像名：<input type="text" name="input_data"></p>
             <p>画像 : <input type="file" name="upload_image"></p>
-            <p><input type="submit" value="画像投稿"></p>
+            <p><input type="submit" name="submit" value="画像投稿"></p>
         </form>
 
         <form method="get" action="work30_2.php">
@@ -284,11 +288,13 @@
 
 
             <?php
-                
+                // ポイントはデータベースからidをもってきて、それをボタンにつける。ボタンに名前をつけてやる。それで、ボタンのid = データベースidで表示・非表示分ける。
                 // ポイントはデータベースから持ってきたflag情報をfetch_assocのループの中で場合分けして、各変数も全てここにいれる！
 
-                $j = 1;
-                while($row = $result->fetch_assoc()){
+                
+                // $j = 1;
+                $rows = $result->fetch_assoc();
+                foreach($rows as $row){
 
                     $get_img_url = $row["image_path"];
 
@@ -303,8 +309,9 @@
                         $img_display = "visible";
 
                     } 
-            ?>
 
+            ?>
+      
                         <div style="background:<?php print $color; ?>;" class="box">
                         <div class ="img-wrapper">
                         <div style="visibility:<?php print $img_display;?>;" class= img-container>
@@ -314,14 +321,15 @@
                         </div>
     
                         <form  class = "button-container" method="post" action="">
-                            <input type ="hidden" name="count_hidden" value ="<?php print $j;?>">
+                            <input type ="hidden" name="id_value" value ="<?php print $row["image_id"]?>">
                             <input type="submit" name="btn" value="<?php print $display ?>">
                         </form>
                         </div>
                     
             <?php
-                    $j++;
+                    // $j++;
                     }
+                    $db->close();
             ?>
                                  
             </div>
