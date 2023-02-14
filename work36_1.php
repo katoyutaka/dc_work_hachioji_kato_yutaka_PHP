@@ -5,17 +5,18 @@
        define("LOGIN_USER",'bcdhm_hoj_pf0001');
        define("PASSWORD",'Au3#DZ~G');
 
-
-        try{
-            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-        } catch (PDOException $e){
-            echo $e->getMessage();
-            exit();
-        }
-
-
-
-
+//データベース接続の関数
+       function func_db_open(){
+            try{
+                $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+                return $db;
+            } catch (PDOException $e){
+                echo $e->getMessage();
+                exit();
+            }
+       }
+        
+// バリデーションチェックの関数
         function validation_func($validation_input_data,$validation_upload_image,$validation_tmp_name){
 
                 if(!empty($validation_input_data)){
@@ -59,6 +60,7 @@
         }
 
 
+// 表示・非表示の関数➀
         function func_public_flg($row_public_flg){
             if($row_public_flg === "1"){
                 define("DISPLAY", "表示する");
@@ -75,10 +77,27 @@
         }
 
 
+// 表示・非表示の関数➁
+        function func_btn($btn){
 
+            $number = htmlspecialchars($_POST["id_value"], ENT_QUOTES, 'UTF-8');
+            $db = func_db_open();
 
+            if($btn == "表示する"){
+                $update = "UPDATE gallery SET public_flg = '0' WHERE image_id = ".$number.";";
+                $db->query($update);
+                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
+                $db->query($update);
+            } 
 
-       
+            if($btn == "非表示にする"){
+                $update = "UPDATE gallery SET public_flg = '1' WHERE image_id = ".$number.";";
+                $db->query($update);
+                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
+                $db->query($update);
+            }
+
+        }
 
 ?>
 
@@ -93,7 +112,6 @@
                     $validation_input_data =$_POST['input_data'];
                     $validation_upload_image = $_FILES['upload_image']['name'];
                     $validation_tmp_name = $_FILES['upload_image']['tmp_name'];
-
 
                     validation_func($validation_input_data,$validation_upload_image,$validation_tmp_name);
                     
@@ -117,7 +135,6 @@
                                 $str = "データベースに既に同じファイル名が存在している為か、その他の理由により更新失敗しました。"."<br>";
                                 print "<span class='msg'>$str</span><br>";
                                 
-                            
                             }
 
                     } else {
@@ -133,41 +150,14 @@
 
         // ➂表示・非表示ボタンが押されたらデータベースに登録
         if(isset($_POST["btn"])){
-
-            $number = htmlspecialchars($_POST["id_value"], ENT_QUOTES, 'UTF-8');
-
-            if($_POST["btn"] == "表示する"){
-
-                
-                $update = "UPDATE gallery SET public_flg = '0' WHERE image_id = ".$number.";";
-                $db->query($update);
-                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
-                $db->query($update);
-                
-
-            } 
-
-            if($_POST["btn"] == "非表示にする"){
-                
-                $update = "UPDATE gallery SET public_flg = '1' WHERE image_id = ".$number.";";
-                $db->query($update);
-                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
-                $db->query($update);
-                
-
-            }
-
-
+            $btn = $_POST["btn"];
+            func_btn($btn);
         }
 
       }
 
 // SQL文（select文）送る（➁登録後の画面表示）
 
-        
-        $select = "SELECT * FROM gallery";
-        $result = $db->query($select);
-        
 ?>
 
 
@@ -308,16 +298,15 @@
 
             <?php
                
+                $db = func_db_open();
+                $select = "SELECT * FROM gallery";
+                $result = $db->query($select);
+               
                 while($row = $result->fetch()){
-
-
                     $get_img_url = $row["image_path"];
                     $row_public_flg = $row["public_flg"]; 
 
-
                     func_public_flg($row_public_flg);
-
-                
 
             ?>
       
@@ -336,7 +325,7 @@
                         </div>
                     
             <?php
-                    }
+               }
                     
             ?>
                                  
