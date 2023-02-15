@@ -24,6 +24,22 @@ echo '<li>変数が無い';
 echo '<li>empty:'.empty($key2);//1
 echo '<li>isset:'.isset($key2);//何も表示されない。false
 echo '</ul>';
+
+
+
+define("DISPLAY","非表示にする");
+$DISPLAY = "非表示にする";
+
+print DISPLAY;
+print $DISPLAY;
+
+
+
+
 ?>
+
+<form  class = "button-container" method="post" action="">
+    <input type="submit" name="btn" value="<?php print DISPLAY ?>">
+</form>
 </body>
 </html>

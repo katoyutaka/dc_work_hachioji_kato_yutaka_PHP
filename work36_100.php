@@ -61,10 +61,26 @@
 
 
 // 表示・非表示の関数➀
-        // function func_public_flg($row_public_flg){
+        function func_public_flg($row_public_flg){
+                   
+                   print $row_public_flg;
+
+                    if($row_public_flg === "1"){
+                        // エラーはここがグローバル変数でないからでは？
+                       global $display = "表示する";
+                       global $color = "gray";
+                        $img_display = "hidden";
+    
+                    } else {
+                        
+                        $display = "非表示にする";
+                        $color = "white";
+                        $img_display = "visible";
+    
+                    }
 
  
-        // }
+        }
 
 
 // 表示・非表示の関数➁
@@ -319,23 +335,22 @@
                     $get_img_url = $row["image_path"];
                     $row_public_flg = $row["public_flg"]; 
 
+                    func_public_flg($row_public_flg);
+
                     // func_public_flg($row_public_flg);
 
-                    if($row_public_flg === "1"){
-                        $display = "表示する";
-                        // define("DISPLAY","表示する");
-                        $color = "gray";
-                        $img_display = "hidden";
+                    // if($row_public_flg === "1"){
+                    //     $display = "表示する";
+                    //     $color = "gray";
+                    //     $img_display = "hidden";
     
-                    } else {
+                    // } else {
                         
-                        $display = "非表示にする";
-                        // 20230215_ここをdefineにすると変になる。他のシートでdefineの使い方を調べたが問題なかった。
-                        // // define("DISPLAY","非表示にする");
-                        $color = "white";
-                        $img_display = "visible";
+                    //     $display = "非表示にする";
+                    //     $color = "white";
+                    //     $img_display = "visible";
     
-                    }
+                    // }
            
 
             ?>
