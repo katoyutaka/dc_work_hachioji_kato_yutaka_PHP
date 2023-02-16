@@ -33,6 +33,20 @@ $DISPLAY = "非表示にする";
 print DISPLAY;
 print $DISPLAY;
 
+function func(){
+    $computer1 = 3;
+    $computer2 = 5;
+
+    $list[0]= $computer1;
+    $list[1]= $computer2;
+    return $list;
+}
+
+
+$list =func();
+print $list[0];
+print $list[1];
+
 
 
 

@@ -1,9 +1,9 @@
 
 
 <?php
-       define($dsn,'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
-       define( $login_user,'bcdhm_hoj_pf0001');
-       define($password,'Au3#DZ~G');
+       define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
+       define("LOGIN_USER",'bcdhm_hoj_pf0001');
+       define("PASSWORD",'Au3#DZ~G');
 
         $create_date = date('Ymd');
         $update_date = date('Ymd');
@@ -11,7 +11,14 @@
         $error_msg=[];
         
 
-        $db=new PDO($dsn,$login_user,$password);
+    
+        try{
+            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+        } catch (PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
+       
         $select = "SELECT * FROM gallery WHERE public_flg = 0";
         $result = $db->query($select);
         
@@ -139,7 +146,7 @@
 
         <br>
         <form>
-        <a href="work30_1.php?">画像投稿ページへ</a>
+        <a href="work36_1.php?">画像投稿ページへ</a>
         <form>
 
     </body>

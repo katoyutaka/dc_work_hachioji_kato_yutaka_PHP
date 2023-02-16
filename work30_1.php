@@ -1,5 +1,3 @@
-
-
 <?php
         $host = 'mysql34.conoha.ne.jp'; 
         $login_user = 'bcdhm_hoj_pf0001'; 
@@ -273,7 +271,7 @@
         </form>
 
         <form method="get" action="work30_2.php">
-        <a href="work30_2.php?data1=<?php print $max;?>&data2=<?php print $row100;?>">画像一覧ページへ</a>
+        <a href="work30_2.php?">画像一覧ページへ</a>
         </form>
         
         <div class=main>
