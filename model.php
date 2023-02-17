@@ -70,6 +70,17 @@ function h_array($array) {
   foreach ($array as $keys => $values) {
     foreach ($values as $key => $value) {
       //ここの値にh関数を使用して置き換える
+      // print("///");
+      // print($keys);
+      // print("/");
+      // print($values);
+      // print("//");
+      // print($key);
+      // print("/");
+      // print($value);
+      // print("///");
+
+
       $array[$keys][$key] = h($value);
     }
   }
