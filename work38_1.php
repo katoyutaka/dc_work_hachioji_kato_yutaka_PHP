@@ -1,29 +1,59 @@
 
+
+
 <?php
     session_start();
-
-    if($_flag_a=="on"){
-        print "セッション中です";
+    if ($_SESSION['err_flg']) {
+        echo "<p>ログインが失敗しました:正しいログインID（半角英数字）を入力してください。</p>";
     }
- 
-    if(isset($_POST["logout"])){
 
+    $_SESSION['err_flg'] = False;
+
+    //ログアウト処理がされた場合
+    if (isset($_POST["logout"])) {
+
+        // セッション名を取得する
         $session = session_name();
+        // セッション変数を削除
         $_SESSION = [];
 
+        // セッションID（ユーザ側のCookieに保存されている）を削除
         if (isset($_COOKIE[$session])) {
+            // sessionに関連する設定を取得
+            $params = session_get_cookie_params();
 
+            // cookie削除
             setcookie($session, '', time() - 30, '/');
-            print "<p>ログアウトされました。</p>";
+            $message = "<p>ログアウトされました。</p>";
         }
+
     } else {
+        // ログイン中のユーザーであるかを確認する
         if (isset($_SESSION['login_id'])) {
-            header('Location: work38_2.php');
+            // ログイン中である場合は、top.phpにリダイレクト（転送）する
+            header('Location: top.php');
             exit();
         }
     }
 
+
+
+    // <!-- ➃ -->
+
+    if(isset($_COOKIE["cookie_confirmation"]) === TRUE){
+        $cookie_confirmation = "checked";
+    } else {
+        $cookie_confirmation = "";
+    }
+
+    if(isset($_COOKIE["login_id"]) === TRUE){
+        $login_id = $_COOKIE["login_id"];
+    } else {
+        $login_id = "";
+    }
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -36,9 +66,9 @@
 <body>
 
     <form method="post" action="work38_2.php">
-        <label>ログインID</label><input type="text" name="login_id" value="<?php print $login_id; ?>"><br>
-        <label>パスワード</label><input type="text" name="password_id" value="<?php print $password_id; ?>"><br>
-        <input type="checkbox" name="cookie_confirmation" value="checked" <?php print $cookie_confirmation; ?>>次回からログインIDの入力を省略する<br>
+        <label>ログインID</label><input type="text" name="login_id" value="<?php print $login_id;?>"><br>
+        <label>パスワード</label><input type="password" name="password_id" value="<?php print $password_id;?>"><br>
+        <input type="checkbox" name="cookie_confirmation" value="checked"<?php print $cookie_confirmation;?>>次回からログインIDの入力を省略する<br>
         <input type="submit" value="ログイン">
     </form>
 
