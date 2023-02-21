@@ -1,15 +1,14 @@
 
-<?php
-       
+<?php      
        define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
        define("LOGIN_USER",'bcdhm_hoj_pf0001');
        define("PASSWORD",'Au3#DZ~G');
 
 //データベース接続の関数
        function func_db_open(){
+        global $db;
             try{
                 $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-                return $db;
             } catch (PDOException $e){
                 echo $e->getMessage();
                 exit();
@@ -17,50 +16,43 @@
        }
         
 // バリデーションチェックの関数
-        function validation_func($validation_input_data,$validation_upload_image,$validation_tmp_name,$input_data,$image_path){
+        function validation_func(){
+            global $input_data;
+            global $validation_error;
+            global $upload_image_name;
+            global $image_path;
+            global $upload_image_tmp_name;
 
-                if(!empty($validation_input_data)){
+                if(!empty($validation_error)){
+                    
                     $input_data ='';
-                    $input_data = htmlspecialchars($validation_input_data, ENT_QUOTES, 'UTF-8');
-                    $list[3] = $input_data;
-                    return $list;
+                    $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
 
                 } else {
                     $validation_error[]="画像名に問題があるか、未入力です"."<br>";
-                    $list[5] = $validation_error;
-                    return $list;
-
+                   
                 }
 
-                
                 if(isset($validation_upload_image)){
                     $upload_image_name ='';
                     $image_path ='';
 
                     $upload_image_name = htmlspecialchars($validation_upload_image, ENT_QUOTES, 'UTF-8');
                     $image_path =  './img/'.htmlspecialchars($validation_upload_image, ENT_QUOTES, 'UTF-8');
-                    $list[4] = $image_path;
-                    return $list;
 
                 } else {
                     $validation_error[] = "アップロードファイル名に問題があるか、未選択です"."<br>";
-                    $list[5] = $validation_error;
-                    return $list;
 
                 }
 
                 if(isset($validation_tmp_name)){
                     $upload_image_tmp_name ='';
                     $upload_image_tmp_name = htmlspecialchars($validation_tmp_name, ENT_QUOTES, 'UTF-8');
-                    $list[2] = $upload_image_tmp_name;
-                    return $list;
                 }
 
                 
                 if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data)){
                     $validation_error[] = "「画像名」が半角英数字以外の形式になってるか、未入力です。"."<br>";
-                    $list[5] = $validation_error;
-                    return $list;
                 }
                 
                 $file=pathinfo($image_path);
@@ -69,43 +61,36 @@
                 if(!($filetype === "jpeg")){
                     if(!($filetype === "png")){
                         $validation_error[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
-                        $list[5] = $validation_error;
-                        return $list;
                     } 
                 }
 
-        
         }
 
-
-// 表示・非表示の関数➀
-// ローカル変数使用するのでreturnと複数返り値の対処でarray使用して、関数外でも使用できるようにした。
         function func_public_flg($row_public_flg){
+            global $display;
+            global $color;
+            global $img_display;
 
                     if($row_public_flg === "1"){
                        $display = "表示する";
                        $color = "gray";
                        $img_display = "hidden";
-
-                       return array($display,$color,$img_display);
     
                     } else {
                         $display = "非表示にする";
                         $color = "white";
-                        $img_display = "visible";
-
-                        return array($display,$color,$img_display);
-    
+                        $img_display = "visible";    
                     }
         }
 
 
 // 表示・非表示の関数➁
         function func_btn($btn){
+            global $db;
+            global $number;
 
             $number = htmlspecialchars($_POST["id_value"], ENT_QUOTES, 'UTF-8');
-            $db = func_db_open();
-            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+            func_db_open();
 
 
             if($btn == "表示する"){
@@ -126,25 +111,17 @@
         }
 
 ?>
-
+<!-- ---------------------------------------------- -->
 <?php
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(isset($_POST["submit"])){
+  
+            var_dump($input_data);
             
-                    
-                    $validation_input_data =$_POST['input_data'];
-                    $validation_upload_image = $_FILES['upload_image']['name'];
-                    $validation_tmp_name = $_FILES['upload_image']['tmp_name'];
+                    validation_func();
 
-                    $list = validation_func($validation_input_data,$validation_upload_image,$validation_tmp_name,$input_data,$image_path);
-                    // $list[0] = ;
-                    // $list[1] = ;
-                    var_dump(($list));
-                    $list[2] = $upload_image_tmp_name;
-                    $list[3] = $input_data;
-                    $list[4] = $image_path;
-                    $list[5] = $validation_error;
+                    var_dump($validation_error);
 
                     if (empty($validation_error) ){
 
@@ -152,6 +129,12 @@
                             $update_date = date('Ymd');
                             $insert = "INSERT INTO gallery (image_name, public_flg, create_date, update_date,image_path) VALUES ('$input_data','0',".$create_date.",".$update_date.",'$image_path');";
                             $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+
+
+                            print $validation_upload_image;
+                            print $validation_tmp_name;
+                            print $input_data;
+                            print $image_path;
 
                             if($result=$db->query($insert)){
                                 $save = 'img/'.basename($upload_image_name);
@@ -188,7 +171,7 @@
     //   }
 
 // SQL文（select文）送る（➁登録後の画面表示）
-        $db = func_db_open();
+        func_db_open();
         $select = "SELECT * FROM gallery";
         $result = $db->query($select);
 
@@ -337,10 +320,7 @@
                     $get_img_url = $row["image_path"];
                     $row_public_flg = $row["public_flg"]; 
 
-                    $flag = func_public_flg($row_public_flg);
-                    $display = $flag[0];
-                    $color =  $flag[1];
-                    $img_display =  $flag[2];
+                    func_public_flg($row_public_flg);
 
                     // define("DISPLAY","$flag[0]");にすると反応しなくなるのはなぜ？
 
