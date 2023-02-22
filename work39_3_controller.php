@@ -3,15 +3,13 @@
 <?php
     require_once("work39_3_model.php");
 
+    get_connection();
 
-    $db1 = get_connection();
+    get_product_list();
 
-    $list = get_product_list($db1);
+    get_sql_result($db,$sql);
 
-    $db1 = $list[0];
-    $sql = $list[1];
-    
-    $data2 = get_sql_result($db1,$sql);
+    $product_data = h_array($data);
 
 
     include_once("work39_3_view.php");

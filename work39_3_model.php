@@ -7,9 +7,9 @@
         define("LOGIN_USER",'bcdhm_hoj_pf0001');
         define("PASSWORD",'Au3#DZ~G');
 
+        global $db;
              try{
                  $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-                 return $db;
              } catch (PDOException $e){
                  echo $e->getMessage();
                  exit();
@@ -17,23 +17,33 @@
         }
 
 
-        function get_product_list($db1){
+        function get_product_list(){
+            global $sql;
             $sql = "SELECT * FROM product";
-            $list[0]=$db1;
-            $list[1]=$sql;
-            return $list;
-
         }
 
-         function get_sql_result($db1,$sql){
-            $result = $db1->query($sql);
+         function get_sql_result($db,$sql){
+            global $result;
+            global $data;
+          
+            $result = $db->query($sql);
             while($row = $result->fetch()){
-                $data1[]= $row;
+                $data[]= $row;
             }
-       
-            return $data1;
          }
+
+         function h($str) {
+            return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+          }
        
+        function h_array($array) {
+            foreach ($array as $keys => $values) {
+                foreach ($values as $key => $value) {
+                    $array[$keys][$key] = h($value);
+                }
+            }
+            return $array;
+        }
 
     
 ?>

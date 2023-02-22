@@ -34,7 +34,7 @@
             </tr>
 
             <?php
-              foreach($data2 as $value){  
+              foreach($product_data as $value){  
             ?>
                     <tr>
                         <td><?php print $value["product_name"]; ?></td>
