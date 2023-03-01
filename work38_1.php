@@ -1,29 +1,30 @@
 
 <?php
     session_start();
-    $_SESSION['err_flg'] = FALSE;
-
+    $message = "";
 
     if ($_SESSION['err_flg'] === TRUE) {
-        echo "<p>ログインが失敗しました:正しいログインID（半角英数字）を入力してください。</p>";
+        $message = $_SESSION["message"];
+        $_SESSION = [];
     }
-
-    // $_SESSION['err_flg'] = FALSE;
 
     //ログアウト処理がされた場合
     if (isset($_POST["logout"])) {
 
+        //ログアウトされた場合、セッション変数内の個人情報データ削除とクッキー側のセッションID削除
         $_SESSION = [];
         $session = session_name();
         setcookie($session, '', time() - 30, '/');
         $message = "<p>ログアウトされました。</p>";
 
-    } else {
-        if ($_SESSION['err_flg'] = FALSE){
-            header('Location:work38_2.php');
-            exit();
-        }
+    } 
+    
+    //ログイン中はwork38_2.phpへ遷移する
+    if (isset($_SESSION['login_id'])){
+        header('Location:work38_2.php');
+        exit();
     }
+
 
 
     // <!-- ➃ -->
@@ -55,7 +56,6 @@
     }  
 
 ?>
-
 
     <form method="post" action="work38_2.php">
         <label>ログインID</label><input type="text" name="login_id" value="<?php print $login_id;?>"><br>
