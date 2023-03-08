@@ -39,7 +39,7 @@
                 .sign_up_wrapper{
                     margin: 0 auto;
                     width:100%;
-                    width:700px;
+                    width:1000px;
                 }
 
                 .sign_up_text{
@@ -48,10 +48,11 @@
                 }
 
                 .user_sign_up_wrapper{
-                    width:700px;
-                    text-align: left;
+                    width:1000px;
+                    text-align:center;
                     /* margin-top: 50px; */
                     border-top: 1px solid #b7b7b7;
+                    margin:0 auto;
                 
                 }
 
@@ -65,13 +66,14 @@
                     font-size: 16px;
                     font-family: system-ui;
                     letter-spacing: 2px;
-                    width: 1400px;
+                    width: 1000px;
+                    
                 }
 
                 .user_name_form,.password_name_form{
                     background-color: #f8f8f8;
                     height: 35px;
-                    width: 400px;
+                    width: 700px;
                     border:1px solid #66FFCC;
                     border-radius: 1px;
                 }
@@ -79,32 +81,36 @@
                 .name_form_container{
                     display:flex;
                     margin-top:40px;
+                    margin-left:230px;
+                    width: 700px;
                 }
 
                 .label_1{
+                    display:flex;
                     height:35px;
-                    margin-right:120px;
+                    margin-right:40px;
                     line-height: 35px;
+                    width:300px;
                 }
 
                 .label_2{
+                    display:flex;
                     height:35px;
-                    margin-right:120px;
+                    margin-right:40px;
                     line-height: 35px;
+                    width:300px;
                 }
 
                 .label_3{
+                    display:flex;
                     height:35px;
-                    margin-right:60px;
+                    margin-right:40px;
                     line-height: 35px;
+                    width:300px;
                 }
 
                 .main-container{
-                    margin:0 auto;
-                    width: 100%;;
                     margin-top:5px;
-                    width:1400px;
-                    
                 }
 
                 .check-button,.reverse-button{
@@ -126,13 +132,20 @@
 
                 .reverse-button{
                     color:#000099;
-                    margin-left:100px;
+                    /* margin-left:100px; */
                 }
 
                 .button_container{
-                    display:flex;
+                    /* display:flex; */
+                    width:100%;
+                    margin:0 auto;
                     margin-top:100px;
 
+                }
+
+                .sign_up_form{
+                    width:700px;
+                    /* width:100%; */
                 }
 
 
@@ -175,14 +188,15 @@
                             <input type="text" class="password_name_form" name="sign_up_password">
                         </div>
                         
-
-                        <div class="button_container">
-                            <input type="submit" class="reverse-button" value="戻る">
-                            <input type="submit" class="check-button" value="確認する">
-                        </div>
-
-
                     </div>
+
+                    <div class="button_container">
+                        <input type="submit" class="reverse-button" value="戻る">
+                        <input type="submit" class="check-button" value="確認する">
+                    </div>
+
+
+                    
                     </form>   
 
                 </div>
