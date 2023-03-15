@@ -74,21 +74,23 @@
     //バリデーションチェックOKならばデータベースに新規登録
             if (empty($validation_error) ){
 
-                
-                $create_date = date('Ymd');
-                $update_date = date('Ymd');
-                $insert = "INSERT INTO ec_user_table (user_name, password, create_date, update_date) VALUES ('$sign_up_user_name','$sign_up_password_1',".$create_date.",".$update_date.");";
+                header('Location:confirm_sign_up.php');
 
-                $db=new PDO(DSN,LOGIN_USER,PASSWORD);
                 
-                if($result=$db->query($insert)){
-                    $str = "新規会員登録完了しました。";
-                    print "<span class='msg'>$str</span><br>";  
-                } else {
-                    $str = "既に会員登録済みです。"."<br>";
-                    print "<span class='msg'>$str</span><br>";
+                // $create_date = date('Ymd');
+                // $update_date = date('Ymd');
+                // $insert = "INSERT INTO ec_user_table (user_name, password, create_date, update_date) VALUES ('$sign_up_user_name','$sign_up_password_1',".$create_date.",".$update_date.");";
+
+                // $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+                
+                // if($result=$db->query($insert)){
+                //     $str = "新規会員登録完了しました。";
+                //     print "<span class='msg'>$str</span><br>";  
+                // } else {
+                //     $str = "既に会員登録済みです。"."<br>";
+                //     print "<span class='msg'>$str</span><br>";
                     
-                }
+                // }
 
             }else{
                 foreach($validation_error as $err){
@@ -102,29 +104,6 @@
     
     
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -265,10 +244,18 @@
                     background-color: #000099;
                     color:white;
                     margin-left:10px;
+                    cursor: pointer;
                 }
+
+                /* .check-button:hover{
+                    color: red;
+                    transition: all 0.6s;
+                } */
 
                 .reverse-button{
                     color:#000099;
+                    /* transition: all 0.6s; */
+                    cursor: pointer;
                     /* margin-left:100px; */
                 }
 
@@ -318,12 +305,12 @@
                             
                             <div class="name_form_container">
                                 <p class="label_2">パスワード（半角英数字）</p>
-                                <input type="text" class="password_name_form" name="sign_up_password_1">
+                                <input type="password" class="password_name_form" name="sign_up_password_1">
                             </div>
 
                             <div class="name_form_container">
                                 <p class="label_3">パスワード(再確認)</p>
-                                <input type="text" class="password_name_form" name="sign_up_password_2">
+                                <input type="password" class="password_name_form" name="sign_up_password_2">
                             </div>
                             
                         </div>
