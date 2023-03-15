@@ -1,4 +1,137 @@
 
+<?php
+       define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
+       define("LOGIN_USER",'bcdhm_hoj_pf0001');
+       define("PASSWORD",'Au3#DZ~G');
+
+        
+
+       try{
+            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+   
+        } catch (PDOException $e){
+            print $e->getMessage();
+            exit();
+        }
+
+?>
+
+<?php
+
+    //バリデーションチェック実施
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        if(isset($_POST["check-button"])){
+
+            $validation_error = array();
+
+            $sign_up_user_name ='';
+            if(!empty($_POST['sign_up_user_name'])){
+
+                $sign_up_user_name = htmlspecialchars($_POST['sign_up_user_name'], ENT_QUOTES, 'UTF-8');
+
+                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_user_name)){
+                    $validation_error[] = "ユーザー名が半角英数字以外の形式になっています。"."<br>";
+                }
+
+            } else {
+                $validation_error[]="ユーザー名が未入力です"."<br>";
+            }
+        
+
+            $sign_up_password_1="";
+            if(!empty($_POST['sign_up_password_1'])){
+
+                $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+
+                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_password_1)){
+                    $validation_error[] = "パスワードが半角英数字以外の形式になっています。"."<br>";
+                }
+
+            } else {
+                $validation_error[]="パスワードが未入力です"."<br>";
+            }
+
+            $sign_up_password_2="";
+            if(!empty($_POST['sign_up_password_2'])){
+
+                $sign_up_password_2 = htmlspecialchars($_POST['sign_up_password_2'], ENT_QUOTES, 'UTF-8');
+
+                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_password_2)){
+                    $validation_error[] = "パスワード（再確認）が半角英数字以外の形式になっています。"."<br>";
+                }
+
+            } else {
+                $validation_error[]="パスワード（再確認）が未入力です"."<br>";
+            }
+
+            if(!($sign_up_password_1 === $sign_up_password_2)){
+                $validation_error[]="パスワードが一致しません"."<br>";
+            }
+            
+
+
+
+    //バリデーションチェックOKならばデータベースに新規登録
+            if (empty($validation_error) ){
+
+                
+                $create_date = date('Ymd');
+                $update_date = date('Ymd');
+                $insert = "INSERT INTO ec_user_table (user_name, password, create_date, update_date) VALUES ('$sign_up_user_name','$sign_up_password_1',".$create_date.",".$update_date.");";
+
+                $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+                
+                if($result=$db->query($insert)){
+                    $str = "新規会員登録完了しました。";
+                    print "<span class='msg'>$str</span><br>";  
+                } else {
+                    $str = "既に会員登録済みです。"."<br>";
+                    print "<span class='msg'>$str</span><br>";
+                    
+                }
+
+            }else{
+                foreach($validation_error as $err){
+                    print "<span class='msg'>$err</span><br>";
+                    
+                }
+            
+            }
+        }
+    }
+    
+    
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -27,6 +160,10 @@
                 * {
                     box-sizing:border-box;
                     vertical-align: middle;
+                }
+
+                .msg{
+                    color:red;
                 }
 
                 h2 {
@@ -171,29 +308,30 @@
             <div class="user_sign_up_wrapper">
                 <div class="main-container">
                     <p class="label_user">お客様情報</p>
-                    <form method="post">
-                    <div class="sign_up_form">
-                        <div class="name_form_container">
-                            <p class="label_1">ユーザー名</p>
-                            <input type="text" class="user_name_form" name="sign_up_user_name">
-                        </div>
-                        
-                        <div class="name_form_container">
-                            <p class="label_2">パスワード</p>
-                            <input type="text" class="password_name_form" name="sign_up_password">
+
+                    <form method="post" action="sign_up.php">
+                        <div class="sign_up_form">
+                            <div class="name_form_container">
+                                <p class="label_1">ユーザー名（半角英数字）</p>
+                                <input type="text" class="user_name_form" name="sign_up_user_name">
+                            </div>
+                            
+                            <div class="name_form_container">
+                                <p class="label_2">パスワード（半角英数字）</p>
+                                <input type="text" class="password_name_form" name="sign_up_password_1">
+                            </div>
+
+                            <div class="name_form_container">
+                                <p class="label_3">パスワード(再確認)</p>
+                                <input type="text" class="password_name_form" name="sign_up_password_2">
+                            </div>
+                            
                         </div>
 
-                        <div class="name_form_container">
-                            <p class="label_3">パスワード(再確認)</p>
-                            <input type="text" class="password_name_form" name="sign_up_password">
+                        <div class="button_container">
+                            <input type="submit" class="reverse-button" name="reverse-button" value="戻る">
+                            <input type="submit" class="check-button"  name="check-button" value="確認する">
                         </div>
-                        
-                    </div>
-
-                    <div class="button_container">
-                        <input type="submit" class="reverse-button" value="戻る">
-                        <input type="submit" class="check-button" value="確認する">
-                    </div>
 
 
                     
