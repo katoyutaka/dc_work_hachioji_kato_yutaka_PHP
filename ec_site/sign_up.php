@@ -1,5 +1,7 @@
 
 <?php
+      session_start();
+
        define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
        define("LOGIN_USER",'bcdhm_hoj_pf0001');
        define("PASSWORD",'Au3#DZ~G');
@@ -28,6 +30,8 @@
             if(!empty($_POST['sign_up_user_name'])){
 
                 $sign_up_user_name = htmlspecialchars($_POST['sign_up_user_name'], ENT_QUOTES, 'UTF-8');
+               
+
 
                 if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_user_name)){
                     $validation_error[] = "ユーザー名が半角英数字以外の形式になっています。"."<br>";
@@ -66,31 +70,17 @@
 
             if(!($sign_up_password_1 === $sign_up_password_2)){
                 $validation_error[]="パスワードが一致しません"."<br>";
+
             }
-            
-
-
 
     //バリデーションチェックOKならばデータベースに新規登録
             if (empty($validation_error) ){
 
+                $_SESSION["sign_up_user_name"]=$sign_up_user_name;
+                $_SESSION["sign_up_password_1"]=$sign_up_password_1;
+
                 header('Location:confirm_sign_up.php');
 
-                
-                // $create_date = date('Ymd');
-                // $update_date = date('Ymd');
-                // $insert = "INSERT INTO ec_user_table (user_name, password, create_date, update_date) VALUES ('$sign_up_user_name','$sign_up_password_1',".$create_date.",".$update_date.");";
-
-                // $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-                
-                // if($result=$db->query($insert)){
-                //     $str = "新規会員登録完了しました。";
-                //     print "<span class='msg'>$str</span><br>";  
-                // } else {
-                //     $str = "既に会員登録済みです。"."<br>";
-                //     print "<span class='msg'>$str</span><br>";
-                    
-                // }
 
             }else{
                 foreach($validation_error as $err){
@@ -104,8 +94,6 @@
     
     
 ?>
-
-
 
 
 
@@ -272,6 +260,18 @@
                     /* width:100%; */
                 }
 
+                .link_text{
+                    float: right;
+                }
+
+                .img{
+                    background-image:url"(ec_site/images/status1.png)";
+        
+                    
+                    /* float: right; */
+                    width:400px;
+                }
+
 
     </style>
               
@@ -279,7 +279,10 @@
 <body>
 
     
+<div class="img">
+    <img scr="/status1.png">
 
+</div>
     <h2>New Customer 新規会員登録</h2>
         <div class="sign_up_wrapper">
             <div class="sign_up_text">
@@ -305,7 +308,7 @@
                             
                             <div class="name_form_container">
                                 <p class="label_2">パスワード（半角英数字）</p>
-                                <input type="password" class="password_name_form" name="sign_up_password_1">
+                                <input type="password" class="password_name_form" name="sign_up_password_1" >
                             </div>
 
                             <div class="name_form_container">
@@ -319,6 +322,7 @@
                             <input type="submit" class="reverse-button" name="reverse-button" value="戻る">
                             <input type="submit" class="check-button"  name="check-button" value="確認する">
                         </div>
+                        <a href="sign_up.php?" class="link_text">ログイン画面はこちらから</a>
 
 
                     
