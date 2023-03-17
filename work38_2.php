@@ -29,9 +29,11 @@
                 $password = 'Au3#DZ~G'; 
     
                 $db=new PDO($dsn,$login_user,$password);
-                $sql = "SELECT user_id, user_name, password FROM user_table WHERE  user_id = ".$login_id.';"';
-                $result = $db->query($sql);
-                $row = $result->fetch();
+                $sql = "SELECT user_id, user_name, password FROM user_table WHERE user_id = :login_id";
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':login_id', $login_id, PDO::PARAM_INT);
+                $stmt->execute();
+                $row = $stmt->fetch();
 
                 //さらにデータベースと一致したら、セッション変数に正式に個人情報を保存する。
                 if($password_id === $row["password"]){

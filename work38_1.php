@@ -15,6 +15,7 @@
         $_SESSION = [];
         $session = session_name();
         setcookie($session, '', time() - 30, '/');
+        session_destroy();
         $message = "<p>ログアウトされました。</p>";
 
     } 
