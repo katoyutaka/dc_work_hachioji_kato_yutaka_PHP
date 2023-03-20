@@ -168,44 +168,42 @@
 
                 }
                 .label1{
-                    margin-left:120px;
                     margin-top: 60px;
-                    display:flex;
                     height:35px;
                     line-height: 35px;
                     font-weight: bold;
+                    width: 50%;
                 }
 
                 .label2{
-                    margin-left:120px;
                     margin-top: 60px;
-                    display:flex;
                     height:35px;
                     line-height: 35px;
+                    width: 50%;
                 }
 
                 .label3{
-                    margin-left:120px;
                     margin-top: 80px;  
-                    display:flex;
                     height:35px;
                     line-height: 35px;
                     font-weight: bold;
+                    width: 50%;
                 }
 
                 
                 .label4{
-                    margin-left:120px;
                     margin-top: 80px;  
-                    display:flex;
                     height:35px;
                     line-height: 35px;
+                    width: 50%;
                 }
                 
 
                 .form_container{
                     display:flex;
-                    width:600px;
+                    justify-content: space-between;
+                    width:500px;
+                    text-align: center;
 
                 }
                 .sub_wrapper{
@@ -246,7 +244,7 @@
                 <input type="submit" class="reverse-button" name="reverse-button" value="戻る">
                 <input type="submit" class="confirm-button"  name="confirm-button" value="登録する">
             </div>
-            <a href="sign_up.php?" class="link_text">ログイン画面はこちらから</a>
+            <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
             
         </form>
 

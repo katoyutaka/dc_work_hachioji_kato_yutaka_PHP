@@ -312,7 +312,7 @@
                             </div>
 
                             <div class="name_form_container">
-                                <p class="label_3">パスワード(再確認)</p>
+                                <p class="label_3">パスワード (再確認)</p>
                                 <input type="password" class="password_name_form" name="sign_up_password_2">
                             </div>
                             
@@ -322,7 +322,7 @@
                             <input type="submit" class="reverse-button" name="reverse-button" value="戻る">
                             <input type="submit" class="check-button"  name="check-button" value="確認する">
                         </div>
-                        <a href="sign_up.php?" class="link_text">ログイン画面はこちらから</a>
+                        <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
 
 
                     

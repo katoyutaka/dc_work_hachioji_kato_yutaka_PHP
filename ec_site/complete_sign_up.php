@@ -159,7 +159,7 @@
         <p class="label_user2"></p>
        
       
-        <a href="sign_up.php?" class="link_text">ログイン画面はこちらから</a>
+        <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
      </div>
 
 
