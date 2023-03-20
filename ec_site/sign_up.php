@@ -264,8 +264,6 @@
                     float: right;
                 }
 
-                .img{
-                    background-image:url"(ec_site/images/status1.png)";
         
                     
                     /* float: right; */
@@ -279,10 +277,6 @@
 <body>
 
     
-<div class="img">
-    <img scr="/status1.png">
-
-</div>
     <h2>New Customer 新規会員登録</h2>
         <div class="sign_up_wrapper">
             <div class="sign_up_text">
@@ -293,7 +287,7 @@
             <div>
                
             </div>  
-            <img class="image" src= ".ec_site/images/status1.png" alt="" > 
+            <img src= "/images/status1.png"> 
             
             <div class="user_sign_up_wrapper">
                 <div class="main-container">
