@@ -39,6 +39,7 @@
                     session_destroy();
 
                     header('Location:complete_sign_up.php');
+                    exit();
 
 
                 } else {
@@ -52,6 +53,7 @@
 
         if(isset($_POST["reverse-button"])){
             header('Location:sign_up.php');
+            exit();
         }
     }
 
@@ -216,10 +218,27 @@
                     float: right;
                 }
 
+                .top_wrapper{
+                    /* width: 1000px; */
+                    height:80px;
+                    padding-right:100px;
+                    /* padding-bottom: 100px; */
+                    padding-top: 20px;
+                }
+
+                
+                .image{
+                    width:250px;
+                    float:right;
+                }
+
     </style>
               
 </head>
 <body>
+    <div class="top_wrapper">
+        <img src='img/status3.png' class="image">
+    </div>
 
      <div class="main_wrapper">
         <?php print "<span class='msg'>$str</span><br>";?>

@@ -80,6 +80,7 @@
                 $_SESSION["sign_up_password_1"]=$sign_up_password_1;
 
                 header('Location:confirm_sign_up.php');
+                exit();
 
 
             }else{
@@ -94,6 +95,7 @@
     
     
 ?>
+
 
 
 
@@ -135,7 +137,7 @@
 
                 h2 {
                     margin-top: 70px;
-                    margin-bottom: 40px;
+                    /* margin-bottom: 40px; */
                     text-align: center;
                 }
 
@@ -264,12 +266,17 @@
                     float: right;
                 }
 
-                .img{
-                    background-image:url"(ec_site/images/status1.png)";
-        
+                .image{
+                    width:250px;
+                    float:right;
+                }
+
+                .top_wrapper{
+                    /* width: 1000px; */
+                    height:80px;
+                    padding-right:200px;
+                    padding-bottom: 100px;
                     
-                    /* float: right; */
-                    width:400px;
                 }
 
 
@@ -278,22 +285,24 @@
 </head>
 <body>
 
-    
-<div class="img">
-    <img scr="/status1.png">
 
-</div>
+
+    
+
     <h2>New Customer 新規会員登録</h2>
+
+
+    <div class="top_wrapper">
+        <img src='img/status1.png' class="image">
+    </div>
+
         <div class="sign_up_wrapper">
             <div class="sign_up_text">
-                <p>会員登録は無料です。</p>
-                <p>一度ご登録していただきますと、ご注文の際にユーザー名などの</p>
-                <p>入力が不要になり安全かつ簡単にご利用いただけます。</p>
+            <p>JEWELRY HOMME ONLINE SHOP 会員へのお申込みにあたっては、以下の項目にご入力が必要です。<br>下記の項目に入力の上、「確認する」ボタンを押して下さい。</p>
             </div> 
             <div>
                
             </div>  
-            <img class="image" src= ".ec_site/images/status1.png" alt="" > 
             
             <div class="user_sign_up_wrapper">
                 <div class="main-container">

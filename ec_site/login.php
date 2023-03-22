@@ -4,7 +4,6 @@
        define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
        define("LOGIN_USER",'bcdhm_hoj_pf0001');
        define("PASSWORD",'Au3#DZ~G');
-
         
        try{
             $db=new PDO(DSN,LOGIN_USER,PASSWORD);
@@ -16,7 +15,88 @@
 
 ?>
 
-<div id="></div>
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        if(isset($_POST["sign_up_button"])){
+            header('Location:sign_up.php');
+            exit();
+        }
+
+
+
+        if(isset($_POST["login_button"])){
+            
+            $validation_error = array();
+
+            $sign_up_user_name ='';
+            if(!empty($_POST['sign_up_user_name'])){
+
+                $sign_up_user_name = htmlspecialchars($_POST['sign_up_user_name'], ENT_QUOTES, 'UTF-8');
+               
+                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_user_name)){
+                    $validation_error[] = "ユーザー名が半角英数字以外の形式になっています。"."<br>";
+                }
+
+            } else {
+                $validation_error[]="ユーザー名が未入力です"."<br>";
+            }
+        
+
+            $sign_up_password_1="";
+            if(!empty($_POST['sign_up_password_1'])){
+
+                $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+
+                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_password_1)){
+                    $validation_error[] = "パスワードが半角英数字以外の形式になっています。"."<br>";
+                }
+
+            } else {
+                $validation_error[]="パスワードが未入力です"."<br>";
+            }
+
+        
+
+    //バリデーションチェックOKならばデータベースと照合
+            if (empty($validation_error) ){
+
+                $select = "'SELECT * FROM ec_user_table WHERE user_name = '.$sign_up_user_name.'";
+
+                if ($result = $db->query($select)) {
+                    while($row = $result->fetch()){
+                        print $row["password"];
+                    }
+                        
+    
+                    if($row["password"]===$sign_up_password_1){
+                        header('Location:complete_sign_up.php');
+                        exit();
+    
+                    } else {
+                        $str = "ユーザーIDまたはパスワードが一致しません";
+                           
+                    }
+
+                }
+
+     
+            
+
+
+
+            }else{
+                foreach($validation_error as $err){
+                    print "<span class='msg'>$err</span><br>";
+                    
+                }
+            }
+        }
+    }
+
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -126,19 +206,12 @@
                     line-height: 35px;
                     width: 200px;
                     text-align: left;
-                }
-
-                .form_container{
-                    /* display:flex; */
-                    /* width:600px; */
-                    float:left;
-
+                    /* margin-left:20px; */
                 }
 
                 .sub_wrapper{
                     width: 1000px;
                     height: 500px;
- 
                 }
 
                 .link_text{
@@ -148,18 +221,18 @@
                 }
 
                 .sub_container1{
-                    border:1px solid blue;
+                    /* border:1px solid blue; */
                     width: 460px;
-                    height: 500px;
+                    height: 600px;
                     float: left;
                     text-align: center;
                     margin-top: 30px;
 
                 }
                 .sub_container2{
-                    border:1px solid blue;
+                    /* border:1px solid blue; */
                     width: 460px;
-                    height: 500px;
+                    height: 600px;
                     float:right;
                     text-align: center;
                     margin-top: 30px;
@@ -183,14 +256,17 @@
                 .user_name_form,.password_name_form{
                     background-color: #f8f8f8;
                     height: 35px;
-                    width: 300px;
+                    width: 380px;
                     border:1px solid #66FFCC;
                     border-radius: 1px;
+                    display: block;
+                    text-align: left;
                 }
 
                 .third_wrapper{
-                    margin-top:20px;
-                    margin-left: 20px;
+                   margin-top:20px;
+                   margin-left:40px;
+                   height:220px;
                 }
 
                 
@@ -199,19 +275,34 @@
                     color:white;
                     cursor: pointer;
                     height: 50px;
-                    width: 300px;
-                    float:left;
+                    width: 380px;
+                    /* float:left; */
                     margin-top: 20px;
                     font-family: system-ui;
                     letter-spacing: 2px;
                 }
 
-                .cookie_confirmation{
-                    font-size: 10px;
-
-                    
-
+                .sign_up_button{
+                    background-color: #000099;
+                    color:white;
+                    cursor: pointer;
+                    height: 50px;
+                    width: 380px;
+                    margin-top: 50px;
+                    font-family: system-ui;
+                    letter-spacing: 2px;
                 }
+
+                .checkbox{
+                    float:left;
+                    font-size:14px;
+                    margin-top:10px;
+                }
+
+                .msg{
+                    color:red;
+                }
+
 
 
 
@@ -223,6 +314,20 @@
      <div class="main_wrapper">
         
         <div class="text">XXXXXXX<br>XXXXXXX</div>
+        <div class="err">
+            <?php
+                if(!empty($validation_error)){
+                    foreach($validation_error as $err){
+                        print "<p class='msg'>$err</p><br>";
+                        
+                }
+            }
+            
+            ?>
+
+        </div>
+        <?php print "<span class='msg'>$str</span><br>";?>
+
         <div class="sub_wrapper">
             <p class="label_user1">Login</p>
                <div class="sub_container1">
@@ -241,17 +346,31 @@
                         <p class="sub_label2">パスワード</p>
                         <input type="password" class="password_name_form" name="sign_up_password_1" >
                         <br>
-                        <input type="checkbox"  class="cookie_confirmation" name="cookie_confirmation" value="checked" <?php print $cookie_check; ?>>ユーザ名を記憶する<br>
+                        <div class="checkbox">
+                            <input type="checkbox"  class="cookie_confirmation" name="cookie_confirmation" value="checked" <?php print $cookie_check; ?>>ユーザ名を記憶する
+                        </div>
+                        
                     </div>
-
+                </div> 
+                
+                <form method="post" action="">
                     <input type="submit" class="login_button"  name="login_button" value="ログインする">
-               </div>
+                </form>
+                
+               
                
                
                 </div>
 
                <div class="sub_container2">
                  <p class="label_user3">New Customer  <span>新規会員登録</span></p>
+
+                    <div class="sign_up_text">
+                        <p class="text">会員登録は無料です。<br>一度ご登録していただきますと、ご注文の際にユーザー名などの<br>入力が不要になり安全かつ簡単にご利用いただけます。</p>
+                    </div>
+                    <form method="post" action="">
+                        <input type="submit" class="sign_up_button"  name="sign_up_button" value="会員登録する">
+                    </form>
                </div>
 
         </div>
