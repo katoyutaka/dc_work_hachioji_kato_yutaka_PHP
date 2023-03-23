@@ -88,7 +88,7 @@
 
                 .button_container{
                     width:100%;
-                    margin-top:150px;
+                    margin-top:80px;
                     width:600px;
                     display: flex;
 
