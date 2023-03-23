@@ -141,7 +141,7 @@
                     font-size: 16px;
                     /* width: 1000px; */
                     padding-left:50px;
-                    margin-top:50px;
+                    /* margin-top:50px; */
                     color:white;
                     
                 }
@@ -155,7 +155,7 @@
                     line-height: 40px;
                     font-size: 24px;
                     width: 1000px;
-                    margin-top:20px;
+                    /* margin-top:20px; */
                     color:#02235F;
                     
                 }
@@ -313,7 +313,6 @@
      <p class="label_user">JEWELRY HOMME 銀座本店オープン</p>
      <div class="main_wrapper">
         
-        <div class="text">XXXXXXX<br>XXXXXXX</div>
         <div class="err">
             <?php
                 if(!empty($validation_error)){

@@ -15,6 +15,25 @@
 
 ?>
 
+<?php
+     if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        if(isset($_POST["agree-button"])){
+            header('Location:sign_up.php');
+            exit();
+        }
+
+        if(isset($_POST["resist-button"])){
+            header('Location:login.php');
+            exit();
+        }
+
+    }
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -40,7 +59,6 @@
                 }
 
 
-
                 * {
                     box-sizing:border-box;
                     vertical-align: middle;
@@ -60,7 +78,6 @@
                     font-size: 16px;
                     width: 1000px;
                     padding-left:50px;
-                    margin-top:10px;
 
                     
                 }
@@ -166,17 +183,10 @@
                     float: right;
                 }
 
-                .top_wrapper{
-                    /* width: 1000px; */
-                    height:80px;
-                    padding-right:100px;
-                    /* padding-bottom: 100px; */
-                    padding-top: 10px;
-                }
 
                 
                 .image{
-                    width:220px;
+                    width:250px;
                     float:right;
                 }
 
@@ -206,16 +216,23 @@
                     font-size: 12px;
 
                 }
+
+                .image_wrapper{
+                    width: 1000px;
+                    height:95px;
+                    margin:0 auto;
+                }
+
     </style>
               
 </head>
 <body>
     <p class="header">JEWELRY HOMME 銀座本店オープン</p>
-    <div class="top_wrapper">
-        <img src='img/status0.png' class="image">
-    </div>
+        <div class="image_wrapper">
+            <img src='img/status0.png' class="image">
+        </div>
 
-     <div class="main_wrapper">
+    <div class="main_wrapper">
         <?php print "<span class='msg'>$str</span><br>";?>
         <p class="label_user">登録前にご確認下さい</p>
         <div class="text">「JEWELRY HOMME ONLINE SHOP」入会お申込の前に、以下の会員規約・利用規約を必ずお読み下さい。<br>ご同意いただける方は、「同意する」をクリックして入会お申込フォームへお進み下さい。</div>
@@ -373,21 +390,19 @@
             <br>
             JEWELRY HOMME ONLINESHOP問い合わせ窓口<br>
             メール: kyupi13@gamil.com<br>
-            お電話: 070-XXXX-XXXX (受付時間：平日11:00～17:30 ※年末年始除く)<br>
+            お電話: 0120-0000-0000 (受付時間：平日11:00～17:30 ※年末年始除く)<br>
             <br>
             <br>
 
         </div>
     </div>
        
-        <form method="post" action="confirm_sign_up.php">
-            <div class="button_container">
-                <input type="submit" class="resist-button" name="resist-button" value="規約に同意しない">
-                <input type="submit" class="agree-button"  name="agree-button" value="規約に同意する">
-            </div>
-            <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
-            
-        </form>
+    <form method="post" action="">
+        <div class="button_container">
+            <input type="submit" class="resist-button" name="resist-button" value="規約に同意しない">
+            <input type="submit" class="agree-button"  name="agree-button" value="規約に同意する">
+        </div>
+    </form>
 
 
 </body>

@@ -91,6 +91,15 @@
             
             }
         }
+
+
+
+
+        if(isset($_POST["reverse-button"])){
+            header('Location:membership_terms.php');
+            exit();
+
+        }
     }
     
     
@@ -125,7 +134,6 @@
                     padding: 0;
                 }
 
-
                 * {
                     box-sizing:border-box;
                     vertical-align: middle;
@@ -136,7 +144,7 @@
                 }
 
                 h2 {
-                    margin-top: 70px;
+                    margin-top: 40px;
                     /* margin-bottom: 40px; */
                     text-align: center;
                 }
@@ -253,7 +261,7 @@
                     /* display:flex; */
                     width:100%;
                     margin:0 auto;
-                    margin-top:100px;
+                    margin-top:80px;
 
                 }
 
@@ -271,12 +279,10 @@
                     float:right;
                 }
 
-                .top_wrapper{
-                    /* width: 1000px; */
-                    height:80px;
-                    padding-right:200px;
-                    padding-bottom: 100px;
-                    
+                .image_wrapper{
+                    width: 1000px;
+                    height:90px;
+                    margin:0 auto;
                 }
 
 
@@ -291,10 +297,10 @@
 
     <h2>New Customer 新規会員登録</h2>
 
-
-    <div class="top_wrapper">
-        <img src='img/status1.png' class="image">
-    </div>
+        <div class="image_wrapper">
+            <img src='img/status1.png' class="image">
+        </div>
+        
 
         <div class="sign_up_wrapper">
             <div class="sign_up_text">
