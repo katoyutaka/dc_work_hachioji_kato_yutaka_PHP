@@ -224,7 +224,7 @@
                         width: 1000px;
                         height:90px;
                         margin:0 auto;
-                        margin-top: 40px;
+                        margin-top:20px;
                     }
 
         </style>
@@ -238,7 +238,6 @@
         </div>
                 
         <div class="main_wrapper">
-            <?php print "<span class='msg'>$str</span><br>";?>
             <p class="label_user">入力内容の確認</p>
             <div class="text">お客様の入力された内容は以下の通りでよろしいでしょうか？<br>よろしければ「登録する」ボタンを押して下さい。</div>
             <p class="label_user2">お客様情報</p>

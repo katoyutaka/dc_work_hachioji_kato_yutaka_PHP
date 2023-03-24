@@ -61,7 +61,7 @@
 
                 * {
                     box-sizing:border-box;
-                    vertical-align: middle;
+                    vertical-align: bottom;
                     font-family: system-ui;
                     letter-spacing: 2px;
                     /* font-family:"Yu Mincho"; */
@@ -221,6 +221,7 @@
                     width: 1000px;
                     height:95px;
                     margin:0 auto;
+                    margin-top: 20px;
                 }
 
     </style>
@@ -229,11 +230,10 @@
 <body>
     <p class="header">JEWELRY HOMME 銀座本店オープン</p>
         <div class="image_wrapper">
-            <img src='img/status0.png' class="image">
+            <img src='img/status1.png' class="image">
         </div>
 
     <div class="main_wrapper">
-        <?php print "<span class='msg'>$str</span><br>";?>
         <p class="label_user">登録前にご確認下さい</p>
         <div class="text">「JEWELRY HOMME ONLINE SHOP」入会お申込の前に、以下の会員規約・利用規約を必ずお読み下さい。<br>ご同意いただける方は、「同意する」をクリックして入会お申込フォームへお進み下さい。</div>
         <p class="label_user2">会員規約</p>

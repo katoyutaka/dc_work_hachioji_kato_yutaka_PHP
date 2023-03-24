@@ -19,7 +19,7 @@
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if(isset($_POST["sign_up_button"])){
-            header('Location:sign_up.php');
+            header('Location:membership_terms.php');
             exit();
         }
 
@@ -99,10 +99,12 @@
 
 
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>会員登録完了</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
     
     <style>
                 html,
@@ -177,6 +179,7 @@
                 .main_wrapper{
                     width: 1000px;
                     margin:0 auto;
+                    height:650px;
                 }
 
                 .login-button{
@@ -211,7 +214,7 @@
 
                 .sub_wrapper{
                     width: 1000px;
-                    height: 500px;
+                    height: 600px;
                 }
 
                 .link_text{
@@ -223,7 +226,7 @@
                 .sub_container1{
                     /* border:1px solid blue; */
                     width: 460px;
-                    height: 600px;
+                    height: 550px;
                     float: left;
                     text-align: center;
                     margin-top: 30px;
@@ -232,7 +235,7 @@
                 .sub_container2{
                     /* border:1px solid blue; */
                     width: 460px;
-                    height: 600px;
+                    height: 500px;
                     float:right;
                     text-align: center;
                     margin-top: 30px;
@@ -303,6 +306,58 @@
                     color:red;
                 }
 
+                .cookie-consent {
+                    margin: 0 auto;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                    font-size: 14px;
+                    color: #fff;
+                    background: rgba(0,0,100,0.5);
+                    padding: 1.2em;
+                    margin:0 auto;
+                    height: 180px;
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    color:white;
+                    
+                }
+
+                .cookie-consent.is-show {
+                    visibility: visible;
+                }
+                .policy-link, :link, :visited{
+                    color:white;
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                }
+                .cookie-agree {
+                    color: #fff;
+                    background: dodgerblue;
+                    padding: .5em 1.5em;
+                    margin-left: 20px;
+                }
+                .cookie-agree:hover{
+                    cursor: pointer;
+                }
+
+                .cc-hide1 {
+                    display: none;
+                }
+
+                @keyframes hide {
+                    from {
+                        opacity: 1;
+                    }
+                    to {
+                        opacity: 0;
+                        visibility: hidden;
+                    }
+                }
+
 
 
 
@@ -350,11 +405,14 @@
                         </div>
                         
                     </div>
-                </div> 
-                
+
+                </div>
+
                 <form method="post" action="">
-                    <input type="submit" class="login_button"  name="login_button" value="ログインする">
+                        <input type="submit" class="login_button"  name="login_button" value="ログインする">
                 </form>
+                
+                
                 
                
                
@@ -372,10 +430,23 @@
                     </form>
                </div>
 
+
         </div>
      </div>
 
+     
+     <div class="cookie-consent">
+        <div class="cookie-text">
+            当サイトはクッキー(cookie)を使用します。クッキーはサイト内の一部の機能および、<br>
+            サイトの使用状況の分析からマーケティング活動に利用することを目的としています。<br>
+            <span class="policy-link">
+                <a href="privacy.php" target="_blank" >「プライバシーポリシーはこちらから」</a>
+            </span>
+        </div>
 
+        <div class="cookie-agree">同意する</div>
+
+     </div>
 
 </body>
 </html>

@@ -281,8 +281,9 @@
 
                 .image_wrapper{
                     width: 1000px;
-                    height:90px;
+                    height:60px;
                     margin:0 auto;
+                    margin-bottom: 20px;
                 }
 
 
@@ -298,7 +299,7 @@
     <h2>New Customer 新規会員登録</h2>
 
         <div class="image_wrapper">
-            <img src='img/status1.png' class="image">
+            <img src='img/status2.png' class="image">
         </div>
         
 
