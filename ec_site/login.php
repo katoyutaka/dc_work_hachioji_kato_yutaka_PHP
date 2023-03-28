@@ -204,6 +204,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"> -->
     <title>ログイン</title>
     
     <style>
@@ -469,6 +470,8 @@
                                 <div class="form_container">
                                     <p class="sub_label2">パスワード</p>
                                     <input type="<?php print $user_check2;?>" class="password_name_form" name="sign_up_password_1" value="<?php print $sign_up_password_1;?>" >
+                                    <!-- <label for="checkPassword" class="fa fa-eye"></label>
+                                    <label for="checkPassword" class="fa fa-eye-slash"></label> -->
                                     <br>
                                     <div class="checkbox">
                                         <input type="checkbox"  name="user_check" value="checked" <?php print $user_check; ?>>次回からユーザー名・パスワード省略する
