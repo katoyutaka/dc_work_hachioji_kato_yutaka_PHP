@@ -1,5 +1,5 @@
 <?php
-    //    session_start();
+       session_start();
 
        define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
        define("LOGIN_USER",'bcdhm_hoj_pf0001');
@@ -16,10 +16,7 @@
             exit();
         }
 
-       
-        $cookie_agree= "";
-        $login_user_name="";
-        $user_check="";
+
         $cookie_display = "visible";
 
 ?>
@@ -31,7 +28,7 @@
             header('Location:membership_terms.php');
             exit();
         }
-        print "1";
+        // print "1";
 
 
 
@@ -103,51 +100,90 @@
         //     }
         // }
 
-        }
-
-        if(isset($_POST["cookie_agree"])){
-            $cookie_display = "hidden";
-
-            setcookie("user_check",$user_check,$cookie_expiration);
-            setcookie("login_user_name",$login_user_name,$cookie_expiration);
-        } 
-
-
-
-        if(isset($_POST["login_button"])){
-            print "2";
-        }
-
-        if(isset($_POST["login_user_name"])){
-            $login_user_name = $_POST["login_user_name"];
-            print $login_user_name;
-        }
+                //どうやらhiddenで消えてしまうやつの中で変数格納の式を作成しても、消えると変数内がリセットされるようだ。setcookieやセッション変数は消えないようなので
+                //今回はセッション変数に格納する方法をとった。
+                //「同意する」ボタンが押された時の処理
+                $cookie_agree= "";
+                if(isset($_POST["cookie_agree"])){
+                    
+                    $_SESSION["cookie_display"]="hidden";
+                    // $cookie_display = "hidden";
+                }
+                //上記の波かっこ外で変数を格納
+                $cookie_display=$_SESSION["cookie_display"];
 
 
-        if(isset($_POST["user_check"])){
-            $user_check = $_POST["user_check"];
-            print $user_check;
-        }
-
+                $login_user_name="";
+                if(isset($_POST["login_user_name"])){
+                    $login_user_name = htmlspecialchars($_POST['login_user_name'], ENT_QUOTES, 'UTF-8');
                   
-        if($user_check==="checked"){
-            setcookie("user_check",$user_check,$cookie_expiration);
-            setcookie("login_user_name",$login_user_name,$cookie_expiration);
+                }
+
+                $sign_up_password_1="";
+                if(isset($_POST["sign_up_password_1"])){
+                    $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+                }
+
+                $user_check="";
+                if(isset($_POST["user_check"])){
+                    $user_check = htmlspecialchars($_POST['user_check'], ENT_QUOTES, 'UTF-8');
+                    
+                }
+
+                // $user_check2="password";
+                if(isset($_POST["user_check2"])){
+                    $user_check2 = "text";
+                    
+                }else{
+                    $user_check2 = "password";
+
+                }
+
+
+
+                //「ログイン」が押されたときの処理
+                if((isset($_POST["login_button"]))){
+                    //セッションの話
+                    $_SESSION["login_user_name"]= $login_user_name;
+                    $_SESSION["sign_up_password_1"] = $sign_up_password_1;
+
+                }
+
+                
+                //「チェック」が押されたときの処理
+                if($user_check==="checked"){
+                    //クッキーの話
+                    setcookie("user_check",$user_check,$cookie_expiration);
+                    setcookie("login_user_name",$login_user_name,$cookie_expiration);  
+                    setcookie("sign_up_password_1",$sign_up_password_1,$cookie_expiration);  
+                }
+
+
+
         }
 
-
-        if(isset($_COOKIE["login_user_name"])){
-            $login_user_name = $_COOKIE["login_user_name"];
-        } else {
-            $login_user_name = "";
-        }
+        
 
 
-        if(isset($_COOKIE["user_check"])){
-            $user_check = "checked";
-        } else {
-            $user_check = "";
-        }
+
+                
+        // if(isset($_COOKIE["login_user_name"])){
+        //     $login_user_name = $_COOKIE["login_user_name"];
+        //     print $login_user_name;
+        // } else {
+        //     $login_user_name = "";
+        // }
+
+
+        // if(isset($_COOKIE["user_check"])){
+        //     $user_check = "checked";
+        //     print $user_check;
+        // } else {
+        //     $user_check = "";
+        // }
+
+
+ 
 
 
 
@@ -246,20 +282,6 @@
                     height:650px;
                 }
 
-                .login-button{
-                    margin:0 auto;
-                    width:250px;
-                    height: 50px;
-                    border-radius: 1px;
-                    border: 1px solid #000099;
-                    font-size:14px;
-                    margin-right:10px;
-                    background-color: #000099;
-                    color:white;
-                    cursor: pointer;
-                    
-                }
-                
                 .sub_label1{
                     height:35px;
                     line-height: 35px;
@@ -279,12 +301,6 @@
                 .sub_wrapper{
                     width: 1000px;
                     height: 600px;
-                }
-
-                .link_text{
-                    float: left;
-                    margin-top:50px;
-
                 }
 
                 .sub_container1{
@@ -366,6 +382,12 @@
                     margin-top:10px;
                 }
 
+                .checkbox2{
+                    float:left;
+                    font-size:14px;
+                    margin-top:10px;
+                }
+
                 .msg{
                     color:red;
                 }
@@ -373,8 +395,6 @@
                 .cookie-consent {
                     margin: 0 auto;
                     display: flex;
-                    /* justify-content: center;
-                    align-items: center; */
                     position: fixed;
                     bottom: 0;
                     width: 100%;
@@ -403,6 +423,7 @@
                     font-family: system-ui;
                     letter-spacing: 2px;
                 }
+
                 .cookie_agree:hover{
                     cursor: pointer;
                 }
@@ -447,11 +468,17 @@
 
                                 <div class="form_container">
                                     <p class="sub_label2">パスワード</p>
-                                    <input type="password" class="password_name_form" name="sign_up_password_1" >
+                                    <input type="<?php print $user_check2;?>" class="password_name_form" name="sign_up_password_1" value="<?php print $sign_up_password_1;?>" >
                                     <br>
                                     <div class="checkbox">
-                                        <input type="checkbox"  class="user_check" name="user_check" value="checked" <?php print $user_check; ?>>ユーザ名を記憶する
+                                        <input type="checkbox"  name="user_check" value="checked" <?php print $user_check; ?>>次回からユーザー名・パスワード省略する
                                     </div>
+
+                                    <br>
+                                    <div class="checkbox2">
+                                        <input type="checkbox"  name="user_check2" value="checked2" <?php print $user_check; ?>>パスワードを表示させる
+                                    </div>
+
                                 </div>
                             </div>
                         
