@@ -16,185 +16,144 @@
             exit();
         }
 
-
+        $validation_error = array();
         $cookie_display = "visible";
+        $sign_up_password_1="";
+        $user_check="";
+        $cookie_agree= "";
+        $login_user_name="";
+        $user_check2 = "text";
+        $eye_check ="非表示にする";
+        $eye_path="img/eye2.png";
 
 ?>
 
+
+
+
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-        if(isset($_POST["sign_up_button"])){
-            header('Location:membership_terms.php');
-            exit();
-        }
-        // print "1";
-
-
-
-        // if(isset($_POST["login_button"])){
-            
-        //     $validation_error = array();
-
-        //     $login_user_name ='';
-        //     if(!empty($_POST['login_user_name'])){
-
-        //         $login_user_name = htmlspecialchars($_POST['login_user_name'], ENT_QUOTES, 'UTF-8');
-               
-        //         if(!preg_match("/^[a-zA-Z0-9]+$/",$login_user_name)){
-        //             $validation_error[] = "ユーザー名が半角英数字以外の形式になっています。"."<br>";
-        //         }
-
-        //     } else {
-        //         $validation_error[]="ユーザー名が未入力です"."<br>";
-        //     }
-        
-
-        //     $sign_up_password_1="";
-        //     if(!empty($_POST['sign_up_password_1'])){
-
-        //         $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
-
-        //         if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_password_1)){
-        //             $validation_error[] = "パスワードが半角英数字以外の形式になっています。"."<br>";
-        //         }
-
-        //     } else {
-        //         $validation_error[]="パスワードが未入力です"."<br>";
-        //     }
-
-        
-
-    //バリデーションチェックOKならばデータベースと照合
-            // if (empty($validation_error) ){
-
-            //     $select = "'SELECT * FROM ec_user_table WHERE user_name = '.$login_user_name.'";
-
-            //     if ($result = $db->query($select)) {
-            //         while($row = $result->fetch()){
-            //             print $row["password"];
-            //         }
-                        
-    
-            //         if($row["password"]===$sign_up_password_1){
-            //             header('Location:complete_sign_up.php');
-            //             exit();
-    
-            //         } else {
-            //             $str = "ユーザーIDまたはパスワードが一致しません";
-                           
-            //         }
-
-            //     }
-
-     
-            
-
-
-
-        //     }else{
-        //         foreach($validation_error as $err){
-        //             print "<span class='msg'>$err</span><br>";
-                    
-        //         }
-        //     }
-        // }
+            if(isset($_POST["sign_up_button"])){
+                header('Location:membership_terms.php');
+                exit();
+            }
 
                 //どうやらhiddenで消えてしまうやつの中で変数格納の式を作成しても、消えると変数内がリセットされるようだ。setcookieやセッション変数は消えないようなので
                 //今回はセッション変数に格納する方法をとった。
                 //「同意する」ボタンが押された時の処理
-                $cookie_agree= "";
-                if(isset($_POST["cookie_agree"])){
-                    
-                    $_SESSION["cookie_display"]="hidden";
-                    // $cookie_display = "hidden";
-                }
-                //上記の波かっこ外で変数を格納
-                $cookie_display=$_SESSION["cookie_display"];
-
-
-                $login_user_name="";
-                if(isset($_POST["login_user_name"])){
-                    $login_user_name = htmlspecialchars($_POST['login_user_name'], ENT_QUOTES, 'UTF-8');
-                  
-                }
-
-                $sign_up_password_1="";
-                if(isset($_POST["sign_up_password_1"])){
-                    $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
-                }
-
-                $user_check="";
-                if(isset($_POST["user_check"])){
-                    $user_check = htmlspecialchars($_POST['user_check'], ENT_QUOTES, 'UTF-8');
-                    
-                }
-
-                // $user_check2="password";
-                if(isset($_POST["user_check2"])){
-                    $user_check2 = "text";
-                    
-                }else{
-                    $user_check2 = "password";
-
-                }
-
-
-
-                //「ログイン」が押されたときの処理
-                if((isset($_POST["login_button"]))){
-                    //セッションの話
-                    $_SESSION["login_user_name"]= $login_user_name;
-                    $_SESSION["sign_up_password_1"] = $sign_up_password_1;
-
-                }
-
+                //のちに($_SESSION["cookie_display"] === "")も下に追加する。
+            if(isset($_POST["cookie_agree"])){
                 
-                //「チェック」が押されたときの処理
-                if($user_check==="checked"){
-                    //クッキーの話
-                    setcookie("user_check",$user_check,$cookie_expiration);
-                    setcookie("login_user_name",$login_user_name,$cookie_expiration);  
-                    setcookie("sign_up_password_1",$sign_up_password_1,$cookie_expiration);  
+                $_SESSION["cookie_display"]="hidden";
+                // $cookie_display = "hidden";
+
+                $eye_check="表示する";
+                $user_check2="password";
+            }
+            //上記の波かっこ外で変数を格納
+            $cookie_display=$_SESSION["cookie_display"];
+
+
+            
+            if(isset($_POST["login_user_name"])){
+
+                if(!empty($_POST['login_user_name'])){
+
+                    $login_user_name = htmlspecialchars($_POST['login_user_name'], ENT_QUOTES, 'UTF-8');
+                    
+                    if(!preg_match("/^[a-z0-9]{5,}+$/",$login_user_name)){
+                        $validation_error[] = "ユーザー名が半角英数字以外の形式もしくは５文字未満になっています。"."<br>";
+                    }
+
+                }else {
+                    $validation_error[]="ユーザー名が未入力です"."<br>";
                 }
+            }
+
+            
+            if(isset($_POST["sign_up_password_1"])){
+
+                if(!empty($_POST['sign_up_password_1'])){
+
+                    $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+                    
+                    if(!preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
+                        $validation_error[] = "パスワードが半角英数字以外の形式もしくは８文字未満になっています。"."<br>";
+                    }
+
+                }else {
+                    $validation_error[]="パスワードが未入力です"."<br>";
+                }    
+            }
 
 
+            
+            if(isset($_POST["user_check"])){
+                $user_check = htmlspecialchars($_POST['user_check'], ENT_QUOTES, 'UTF-8');
+                
+            }
+
+    
+            if(($_POST["eye_check"])==="非表示にする"){
+                $user_check2 = "password";
+                $eye_check ="表示する";
+                $eye_path= "img/eye2.png";
+                
+            }
+
+            if(($_POST["eye_check"])==="表示する"){
+                $user_check2 = "text";
+                $eye_check ="非表示にする";
+                $eye_path= "img/eye1.png";
+            }
+  
+           
+            //「チェック」が押されたときの処理
+            if($user_check==="checked"){
+                //クッキーの話
+                setcookie("user_check",$user_check,$cookie_expiration);
+                setcookie("login_user_name",$login_user_name,$cookie_expiration);  
+                setcookie("sign_up_password_1",$sign_up_password_1,$cookie_expiration);  
+            }
+
+
+            
+            //「ログイン」が押されたときの処理
+            if((isset($_POST["login_button"]))){
+
+                //バリデーションチェックでOKならばデータ接続
+                if (empty($validation_error) ){
+
+                    $select = 'SELECT * FROM ec_user_table WHERE user_name = "'.$login_user_name.'";';
+
+                    if ($result = $db->query($select)) {
+                        while($row = $result->fetch()){
+                            $final_password= $row["password"];
+                        }
+                
+
+                        if($final_password === $sign_up_password_1){
+
+                            //セッションの話
+                            $_SESSION["login_user_name"]= $login_user_name;
+                            $_SESSION["sign_up_password_1"] = $sign_up_password_1;
+
+                            //↓はショッピングサイト内へ行く
+                            // header('Location:XXXXXX.php');
+                            // exit();
+        
+                        } else {
+                            $str = "ユーザー名またはパスワードが一致しません";
+                            
+                        }
+
+                    }
+                }
+            }
 
         }
-
         
-
-
-
-                
-        // if(isset($_COOKIE["login_user_name"])){
-        //     $login_user_name = $_COOKIE["login_user_name"];
-        //     print $login_user_name;
-        // } else {
-        //     $login_user_name = "";
-        // }
-
-
-        // if(isset($_COOKIE["user_check"])){
-        //     $user_check = "checked";
-        //     print $user_check;
-        // } else {
-        //     $user_check = "";
-        // }
-
-
- 
-
-
-
-
-
-
-        
-        
-    // }
-
-
 ?>
 
 
@@ -286,7 +245,7 @@
                 .sub_label1{
                     height:35px;
                     line-height: 35px;
-                    width: 200px;
+                    width: 400px;
                     text-align: left;
                 }
 
@@ -294,7 +253,7 @@
                 .sub_label2{
                     height:35px;
                     line-height: 35px;
-                    width: 200px;
+                    width: 400px;
                     text-align: left;
                     /* margin-left:20px; */
                 }
@@ -429,6 +388,40 @@
                     cursor: pointer;
                 }
 
+                .limit{
+                    font-size: 13px;
+                }
+
+                .err{
+                    height: 70px;
+                }
+
+                .eye_check{
+                    padding:10px;
+                    opacity: 0;
+                    cursor: pointer;
+                    z-index: 2;
+                    position: absolute;
+                    top:40px;
+                    left:380px;
+                    width: 50px;
+                    height:30px;
+                }
+
+                .image{
+                    width: 30px;
+                    height:20px;
+                   margin-top: 10px;
+                }
+
+                .form_container{
+                    position: relative;
+                }
+
+                .password_container{
+                    display: flex;
+                }
+
 
 
 
@@ -443,15 +436,15 @@
             <?php
                 if(!empty($validation_error)){
                     foreach($validation_error as $err){
-                        print "<p class='msg'>$err</p><br>";
-                        
+                        print "<p class='msg'>$err</p>";
+                    }
                 }
-            }
-            
-            ?>
 
+                print "<span class='msg'>$str</span>";
+
+            ?>
         </div>
-        <?php print "<span class='msg'>$str</span><br>";?>
+
 
         <div class="sub_wrapper">
             <p class="label_user1">Login</p>
@@ -463,25 +456,22 @@
                     <form method="post" action="">
                         <div class="third_wrapper">
                                 <div class="form_container">
-                                    <p class="sub_label1">ユーザー名</p>
+                                    <p class="sub_label1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>
                                         <input type="text" class="user_name_form" name="login_user_name" value="<?php print $login_user_name ;?>">
                                 </div>
 
                                 <div class="form_container">
-                                    <p class="sub_label2">パスワード</p>
-                                    <input type="<?php print $user_check2;?>" class="password_name_form" name="sign_up_password_1" value="<?php print $sign_up_password_1;?>" >
-                                    <!-- <label for="checkPassword" class="fa fa-eye"></label>
-                                    <label for="checkPassword" class="fa fa-eye-slash"></label> -->
+                                    <p class="sub_label2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
+                                    <div class="password_container">
+                                        <input type="<?php print $user_check2;?>" class="password_name_form" name="sign_up_password_1" value="<?php print $sign_up_password_1;?>" >
+                                        <img src= <?php print $eye_path;?> class="image">
+                                    </div>
+
+                                    <input type="submit" name="eye_check" class="eye_check" value="<?php print $eye_check;?>">
                                     <br>
                                     <div class="checkbox">
-                                        <input type="checkbox"  name="user_check" value="checked" <?php print $user_check; ?>>次回からユーザー名・パスワード省略する
+                                        <input type="checkbox" name="user_check" value="checked" <?php print $user_check; ?>>次回からユーザー名・パスワード省略する
                                     </div>
-
-                                    <br>
-                                    <div class="checkbox2">
-                                        <input type="checkbox"  name="user_check2" value="checked2" <?php print $user_check; ?>>パスワードを表示させる
-                                    </div>
-
                                 </div>
                             </div>
                         
