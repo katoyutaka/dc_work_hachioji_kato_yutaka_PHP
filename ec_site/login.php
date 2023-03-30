@@ -163,8 +163,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
     <title>ログイン</title>
+
+    <!-- <script type="text/javascript"> -->
+    <script>
+        $('.slider').slick({
+        autoplay: true,//自動的に動き出すか。初期値はfalse。
+        infinite: true,//スライドをループさせるかどうか。初期値はtrue。
+        slidesToShow: 3,//スライドを画面に3枚見せる
+        slidesToScroll: 3,//1回のスクロールで3枚の写真を移動して見せる
+        prevArrow: '<div class="slick-prev"></div>',//矢印部分PreviewのHTMLを変更
+        nextArrow: '<div class="slick-next"></div>',//矢印部分NextのHTMLを変更
+        dots: true,//下部ドットナビゲーションの表示
+        });
+    </script>
+
     
     <style>
                 html,
@@ -422,6 +436,108 @@
                     display: flex;
                 }
 
+                .scroll_header{
+                    height: 100px;
+                    background-color: red;
+                }
+
+
+              /* ここからスクロールバーの話 */
+                .slider {/*横幅94%で左右に余白を持たせて中央寄せ*/
+                width:94%;
+                    margin:0 auto;
+                }
+
+                .slider img {
+                   /* width: 50px;
+                    height:50px; */
+                    max-width: 150px;
+                    width: 100%;
+                }
+
+                /*slickのJSで書かれるタグ内、スライド左右の余白調整*/
+
+                .slider .slick-slide {
+                    margin:0 10px;
+                }
+
+                /*矢印の設定*/
+
+                /*戻る、次へ矢印の位置*/
+                .slick-prev, 
+                .slick-next {
+                    position: absolute;/*絶対配置にする*/
+                    top: 42%;
+                    cursor: pointer;/*マウスカーソルを指マークに*/
+                    outline: none;/*クリックをしたら出てくる枠線を消す*/
+                    border-top: 2px solid #666;/*矢印の色*/
+                    border-right: 2px solid #666;/*矢印の色*/
+                    height: 15px;
+                    width: 15px;
+                }
+
+                .slick-prev {/*戻る矢印の位置と形状*/
+                    left: -1.5%;
+                    transform: rotate(-135deg);
+                }
+
+                .slick-next {/*次へ矢印の位置と形状*/
+                    right: -1.5%;
+                    transform: rotate(45deg);
+                }
+
+                /*ドットナビゲーションの設定*/
+
+                .slick-dots {
+                    text-align:center;
+                    margin:20px 0 0 0;
+                }
+
+                .slick-dots li {
+                    display:inline-block;
+                    margin:0 5px;
+                }
+
+                .slick-dots button {
+                    color: transparent;
+                    outline: none;
+                    width:8px;/*ドットボタンのサイズ*/
+                    height:8px;/*ドットボタンのサイズ*/
+                    display:block;
+                    border-radius:50%;
+                    background:#ccc;/*ドットボタンの色*/
+                }
+
+                .slick-dots .slick-active button{
+                    background:#333;/*ドットボタンの現在地表示の色*/
+                }
+
+
+                /*========= レイアウトのためのCSS ===============*/
+
+                /* body{
+                background:#eee;
+                } */
+
+                /* h2,p {
+                    text-align:center;
+                    padding:20px;
+                } */
+
+                ul{
+                    margin:0;
+                    padding: 0;
+                    list-style: none;
+                }
+
+                a{
+                    color: #333;
+                }
+
+                a:hover,
+                a:active{
+                    text-decoration: none;
+                }
 
 
 
@@ -431,6 +547,22 @@
 <body>
      <p class="label_user">JEWELRY HOMME 銀座本店オープン</p>
      <div class="main_wrapper">
+     <div class="scroll_header">
+        <ul class="slider">
+            <li><img src="img/jewery4.jpg" alt=""></li>
+            <li><img src="img/jewery5.jpg" alt=""></li>
+            <li><img src="img/jewery3.jpg" alt=""></li>
+            <!-- <li><img src="img/jewery2.jpg" alt=""></li> -->
+            <li><img src="img/jewery1.jpg" alt=""></li>
+            <li><img src="img/jewery6.jpg" alt=""></li>
+        </ul>
+            
+            
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+            <!-- <script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/6-1-6/js/6-1-6.js"></script> -->
+        
+     </div>
         
         <div class="err">
             <?php
