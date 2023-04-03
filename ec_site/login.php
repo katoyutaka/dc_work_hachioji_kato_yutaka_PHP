@@ -163,37 +163,9 @@
     <meta charset="UTF-8">
     <title>ログイン</title>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- slick使うときは➀slick.min.css➁slick-theme.css➂slick.min.jsをr追加する -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    
-    
-    <script type="text/javascript">
-        $(document).ready(function(){
-    $('.slider').slick({
-        autoplay: false, // 自動再生するかどうか
-        autoplaySpeed: 3000, // 自動再生する場合のスピード（ms単位）
-        arrows: true, // 左右の矢印を表示するかどうか
-        dots: false, // ページネーションを表示するかどうか
-        infinite: true, // 無限ループするかどうか
-        slidesToShow: 5, // 一度に表示するスライドの数
-        slidesToScroll: 2 // スライドを1つスクロールするときの数
-    });
-
-    $('.fade').slick({
-        autoplay: true, // 自動再生
-        fade: true, // スライドをフェードイン・フェードアウト
-        cssEase: 'linear',// アニメーション
-        speed: 600, // フェードアニメーションの速度設定
-        arrows:false,
-        // dots: true, // インジケーター
-        infinite: true, // 無限ループするかどうか
-        // transform: rotate(90),
-      });
-
-    });
-
-    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css">
 
 
     
@@ -270,7 +242,8 @@
                 .main_wrapper{
                     width: 1000px;
                     margin:0 auto;
-                    height:650px;
+                    height:2500px;
+                    /* background-color: red; */
                 }
 
                 .sub_label1{
@@ -425,6 +398,7 @@
 
                 .err{
                     height: 70px;
+                    margin-bottom: 50px;
                 }
 
                 .eye_check{
@@ -470,27 +444,32 @@
                 }
 
                 .fade{
-                    height: 500px;
+                   
                     text-align:center;
                     /* background-color: gray; */
-                    width: 750px;
+                    /* width: 750px; */
                     margin: 0 auto;
+                    /* background-image: url(img/jewery1.jpg);
+                    background-image: url(img/jewery6.jpg);
+                    background-image: url(img/jewery10.jpg); */
+                    background-size: cover;
+                    width: 100%;
+                    height: 500px;
                 }
 
                 .fade img{
-                    max-width:750px;
+                    /* max-width:750px; */
                     width: 100%;
                     height: 500px;
-
-                    
-
+                    /* height: 100%; */
+                
                 }
                 .arrival{
                     font-size: 20px;
                     text-align: center;
                     font-weight: bold;
                      letter-spacing: 3px;
-                     margin-top: 20px;
+                     margin-top: 100px;
                      margin-bottom: 30px;
                     
                 }
@@ -517,7 +496,93 @@
                         /* transform: rotate(45deg); */
                     }
 
+                    .right_left1{
+                        max-width:500px;
+                        width: 100%;
+                        height: 300px;
+                        float:left;
+                        transform: translate(-200px,0); 
+                        opacity: 0; 
+                        visibility: hidden; 
+                        transition: transform 4s, opacity 4s, visibility 4s;
+
+                    
+                    }
+
+                    .right_left2{
+                        max-width:500px;
+                        width: 100%;
+                        height: 300px;
+                        float:right;
+                        transform: translate(200px,0); 
+                        opacity: 0; 
+                        visibility: hidden; 
+                        transition: transform 4s, opacity 4s, visibility 4s;
+                    
+                    }
+
+                    .right_left3{
+                        max-width:500px;
+                        width: 100%;
+                        height: 300px;
+                        float:left;
+                        transform: translate(-200px,0); 
+                        opacity: 0; 
+                        visibility: hidden; 
+                        transition: transform 4s, opacity 4s, visibility 4s;
+
+                    
+                    }
+
+                    .right_left4{
+                        max-width:500px;
+                        width: 100%;
+                        height: 300px;
+                        float:right;
+                        transform: translate(200px,0); 
+                        opacity: 0; 
+                        visibility: hidden; 
+                        transition: transform 4s, opacity 4s, visibility 4s;
+
+                    
+                    }
+
+                    .right_left_fade_in_container1{
+                        width: 1000px;
+                        height: 300px;
+                        margin-top: 100px;
+                    }
+
+
+                    .right_left_fade_in_container2{
+                        width: 1000px;
+                        height: 300px;
+                        margin-top: 100px;
+                        
+                    }
+
+
+                    .right_left_fade_in_container3{
+                        width: 1000px;
+                        height: 300px;
+                        margin-top: 100px;
+                    }
+
+
+                    .right_left_fade_in_container4{
+                        width: 1000px;
+                        height: 300px;
+                        margin-top: 100px;
+                        
+                    }
           
+                    .is-fadein {
+                        transform: translate(0,0); 
+                        opacity: 1; 
+                        visibility: visible; 
+
+                    }
+
 
 
     </style>
@@ -526,8 +591,8 @@
 <body>
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
      <div class="fade">
-        <img src="img/jewery1.jpg" alt="">
-        <img src="img/jewery6.jpg" alt="">
+        <img src="img/jewery15.jpg" alt="">
+        <img src="img/jewery18.jpg" alt="">
         <img src="img/jewery10.jpg" alt="">
      </div>
 
@@ -546,7 +611,24 @@
             
         
      
-        
+        <div class="right_left_fade_in">
+            <div class="right_left_fade_in_container1">
+                <img class="right_left1" src="img/jewery7.jpg" alt="">
+            </div>
+
+            <div class="right_left_fade_in_container2">
+                <img class="right_left2" src="img/jewery15.jpg" alt="">
+            </div>
+
+            <div class="right_left_fade_in_container3">
+                <img class="right_left3" src="img/jewery16.jpg" alt="">
+            </div>
+
+            <div class="right_left_fade_in_container4">
+                <img class="right_left4" src="img/jewery8.jpg" alt="">
+            </div>
+        </div>
+
         <div class="err">
             <?php
                 if(!empty($validation_error)){
@@ -625,5 +707,10 @@
         </form>
      </div>
 
+<!-- jsファイルは</body>直前の方が処理速度アップのためここに記載 -->
+ <!-- jsファイルを読み込む順番は➀jquery➁slick➂自作のやつ -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="login_script.js"></script>
 </body>
 </html>
