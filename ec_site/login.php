@@ -452,9 +452,10 @@
                     /* background-image: url(img/jewery1.jpg);
                     background-image: url(img/jewery6.jpg);
                     background-image: url(img/jewery10.jpg); */
-                    background-size: cover;
                     width: 100%;
                     height: 500px;
+                    
+
                 }
 
                 .fade img{
@@ -462,6 +463,7 @@
                     width: 100%;
                     height: 500px;
                     /* height: 100%; */
+                    object-fit: cover;
                 
                 }
                 .arrival{
@@ -479,11 +481,25 @@
                     position: absolute;/*絶対配置にする*/
                     top: 42%;
                     cursor: pointer;/*マウスカーソルを指マークに*/
-                    outline: none;/*クリックをしたら出てくる枠線を消す*/
-                    border-top: 2px solid #666;/*矢印の色*/
-                    border-right: 2px solid #666;/*矢印の色*/
+                    /* outline: none;クリックをしたら出てくる枠線を消す */
+                    
                     height: 15px;
                     width: 15px;
+           
+                    
+                    
+
+                   
+                   }
+
+                   .slick-prev:before{
+                    opacity: 1;
+                    background-color: blue;
+                   }
+
+                   .slick-next:before{
+                    opacity: 1;
+                    background-color: blue;
                    }
 
                    .slick-prev {/*戻る矢印の位置と形状*/
@@ -592,7 +608,7 @@
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
      <div class="fade">
         <img src="img/jewery15.jpg" alt="">
-        <img src="img/jewery18.jpg" alt="">
+        <img src="img/jewery8.jpg" alt="">
         <img src="img/jewery10.jpg" alt="">
      </div>
 

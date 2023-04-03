@@ -17,13 +17,13 @@ $(document).ready(function(){
 
     // 横にスライドできる画像
     $('.slider').slick({
-        autoplay: false, // 自動再生するかどうか
+        autoplay: true, // 自動再生するかどうか
         autoplaySpeed: 3000, // 自動再生する場合のスピード（ms単位）
-        arrows: true, // 左右の矢印を表示するかどうか
+        arrows: false, // 左右の矢印を表示するかどうか
         dots: false, // ページネーションを表示するかどうか
         infinite: true, // 無限ループするかどうか
-        slidesToShow: 5, // 一度に表示するスライドの数
-        slidesToScroll: 2 // スライドを1つスクロールするときの数
+        slidesToShow: 4, // 一度に表示するスライドの数
+        slidesToScroll: 1 // スライドを1つスクロールするときの数
     });
 
 });
