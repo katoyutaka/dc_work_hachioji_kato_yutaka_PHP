@@ -164,8 +164,11 @@
     <title>ログイン</title>
 
     <!-- slick使うときは➀slick.min.css➁slick-theme.css➂slick.min.jsをr追加する -->
+    <!-- <link rel="stylesheet" href="css/plugin/slick.css"> -->
+    <!-- <link rel="stylesheet" href="css/plugin/slick-theme.css"> -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css">
+
 
 
     
@@ -612,6 +615,7 @@
         <img src="img/jewery10.jpg" alt="">
      </div>
 
+     <!-- //<li>より<div>で囲った方がよいので後で修正すること。 -->
      <div class="main_wrapper">
         <p class="arrival">NEW ARRIVAL</p>
         <ul class="slider">
@@ -725,6 +729,9 @@
 
 <!-- jsファイルは</body>直前の方が処理速度アップのためここに記載 -->
  <!-- jsファイルを読み込む順番は➀jquery➁slick➂自作のやつ -->
+<!-- <script src="js/plugin/jquery-3.6.4.min.js"></script> -->
+<!-- <script src="js/plugin/slick.min.js"></script> --> -->
+<!-- <script src="js/login_script.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script src="login_script.js"></script>
