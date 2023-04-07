@@ -163,15 +163,88 @@
     <meta charset="UTF-8">
     <title>ログイン</title>
 
-    <!-- slick使うときは➀slick.min.css➁slick-theme.css➂slick.min.jsをr追加する -->
-    <!-- <link rel="stylesheet" href="css/plugin/slick.css"> -->
-    <!-- <link rel="stylesheet" href="css/plugin/slick-theme.css"> -->
+
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        
+        $(document).ready(function(){
+
+        // トップの自動でフェードする画像
+        $('.fade').slick({
+            autoplay: true, // 自動再生
+            fade: true, // スライドをフェードイン・フェードアウト
+            cssEase: 'linear',// アニメーション
+            speed: 600, // フェードアニメーションの速度設定
+            arrows:false,
+            dots: true, // インジケーター
+            infinite: true, // 無限ループするかどうか
+            // transform: rotate(90),
+        });
+
+        // 横にスライドできる画像
+        $('.slider').slick({
+            autoplay: true, // 自動再生するかどうか
+            autoplaySpeed: 3000, // 自動再生する場合のスピード（ms単位）
+            arrows: true, // 左右の矢印を表示するかどうか
+            dots: false, // ページネーションを表示するかどうか
+            infinite: true, // 無限ループするかどうか
+            slidesToShow: 5, // 一度に表示するスライドの数
+            slidesToScroll: 1 // スライドを1つスクロールするときの数
+
+            //もともとついているslick-prev slick-nextの名前を変更し、変更後のやつに自身でcssでコーディングする。
+            // prevArrow:'<button type ="button" class="prev">Previous</button>',
+        
+        });
+
+        });
+
+        // 左右からフェードインする画像
+        $(function () { $(window).scroll(function () {
+            const windowHeight = $(window).height(); 
+            const scroll = $(window).scrollTop(); 
+            $('.right_left1').each(function () { 
+                const targetPosition = $(this).offset().top; 
+                if (scroll > targetPosition - windowHeight + 100) { 
+                    $(this).addClass("is-fadein"); } }); 
+            });
+        });
+
+        $(function () { $(window).scroll(function () {
+            const windowHeight = $(window).height(); 
+            const scroll = $(window).scrollTop(); 
+            $('.right_left2').each(function () { 
+                const targetPosition = $(this).offset().top; 
+                if (scroll > targetPosition - windowHeight + 100) { 
+                    $(this).addClass("is-fadein"); } }); 
+            });
+        });
+
+        $(function () { $(window).scroll(function () {
+            const windowHeight = $(window).height(); 
+            const scroll = $(window).scrollTop(); 
+            $('.right_left3').each(function () { 
+                const targetPosition = $(this).offset().top; 
+                if (scroll > targetPosition - windowHeight + 100) { 
+                    $(this).addClass("is-fadein"); } }); 
+            });
+        });
+
+        $(function () { $(window).scroll(function () {
+            const windowHeight = $(window).height(); 
+            const scroll = $(window).scrollTop(); 
+            $('.right_left4').each(function () { 
+                const targetPosition = $(this).offset().top; 
+                if (scroll > targetPosition - windowHeight + 100) { 
+                    $(this).addClass("is-fadein"); } }); 
+            });
+        });
+    </script>
 
 
-    
     <style>
                 html,
                 body,
@@ -494,10 +567,15 @@
 
                    
                    }
-
+                    /* 矢印変更はここ！！！ */
                    .slick-prev:before{
                     opacity: 1;
                     background-color: blue;
+                    content: url(img/eye1.png);
+                    max-width:20px;
+                    height: 20px;
+                    z-index: 100;
+                    display: block;
                    }
 
                    .slick-next:before{
@@ -727,13 +805,5 @@
         </form>
      </div>
 
-<!-- jsファイルは</body>直前の方が処理速度アップのためここに記載 -->
- <!-- jsファイルを読み込む順番は➀jquery➁slick➂自作のやつ -->
-<!-- <script src="js/plugin/jquery-3.6.4.min.js"></script> -->
-<!-- <script src="js/plugin/slick.min.js"></script> --> -->
-<!-- <script src="js/login_script.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<script src="login_script.js"></script>
 </body>
 </html>
