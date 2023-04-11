@@ -116,8 +116,8 @@
                 .main_wrapper{
                     width: 1400px;
                     margin:0 auto;
-                    height:2500px;
-                    background-color: green;
+                    height:1600px;
+                    /* background-color: green; */
                 }
 
                 .sub_label1{
@@ -340,15 +340,7 @@
                     object-fit: cover;
                 
                 }
-                .arrival{
-                    font-size: 26px;
-                    text-align: center;
-                    font-weight: bold;
-                     letter-spacing: 3px;
-                     margin-top: 100px;
-                     margin-bottom: 30px;
-                    
-                }
+       
 
                 .slick-prev, 
                 .slick-next {
@@ -478,20 +470,20 @@
 
                     }
 
-                    .ring_wrapper{
+                    .ring_wrapper,.necklace_wrapper{
                         width: 1200px;
-                        height:300px;
-                        background-color: red;
+                        height:380px;
+                        /* background-color: red; */
                         margin: 0 auto;
                         display: flex;
                     }
 
-                    .ring_img img{
+                    .ring_img img ,.necklace_img img{
                         width: 200px;
                         height:200px;
                     }
 
-                    .ring_img{
+                    .ring_img,.earring_img,.necklace_img{
                         margin-right: 15px;
                         margin-left: 15px;
                     }
@@ -502,11 +494,79 @@
                         
                     }
 
-                    .ring_name{
+                    .ring_name,.necklace_name{
                         font-family: system-ui;
                         letter-spacing: 2px;
+                        margin-top: 13px;
+                        font-size: 14px;
 
                     }
+                    .ring_price,.necklace_price{
+                        /* font-family: system-ui;
+                        letter-spacing: 2px; */
+                        margin-top: 13px;
+                        font-size: 16px;
+
+                    }
+                    
+
+                    .publish_tag{
+                        max-width: 60px;
+                        max-height:20px;
+
+
+                    }
+                    
+                    .exclusive_tag{
+                        max-width: 35px;
+                        max-height:20px;
+
+                    }
+
+                    
+                    .ring_container,.necklace_container{
+                        width: 1400px;
+                        height: 480px;
+                    }
+
+                    .ring_title{
+                    font-size: 26px;
+                    text-align: center;
+                    font-weight: bold;
+                     letter-spacing: 3px;
+                     margin-top: 70px;
+                     margin-bottom: 30px;
+                    
+                    }
+
+                    
+                    .necklace_title{
+                        font-size: 26px;
+                        text-align: center;
+                        font-weight: bold;
+                        letter-spacing: 3px;
+                        margin-top: 30px;
+                        margin-bottom: 30px;
+                        
+                    }
+
+                    .buy_button{
+                        color: white;
+                        background-color: #1c1c1c;
+                        padding:10px 30px;
+                        margin-left: 20px;
+                        font-family: system-ui;
+                        letter-spacing: 2px;
+                        margin-top: 30px;
+
+                    }
+
+      
+
+                    .buy_button:hover{
+                        cursor: pointer;
+                    }
+
 
 
 
@@ -514,101 +574,146 @@
               
 </head>
 <body>
-     <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
+     <p class="label_user">2023 Spring Collection発売</p>
 
      <div class="main_wrapper">
-        <p class="arrival">Ring</p>
-        <div class="ring_wrapper">
-            <div class="ring_img">
-            <img src="img/jewery4.jpg">
-            <br>
-            <img class="online_tag" src="img/online_tag.png">
-            <p class="ring_name">シルバーリング</p>
-            </div>
-
-            <div class="ring_img">
-            <img src="img/jewery4.jpg">
-            </div>
-
-            <div class="ring_img">
-            <img src="img/jewery4.jpg">
-            </div>
-
-            <div class="ring_img">
-            <img src="img/jewery4.jpg">
-            </div>
-
-            <div class="ring_img">
-            <img src="img/jewery4.jpg">
-            </div>
-
-        </div>
-            
-    
-
-        <div class="err">
-            <?php
-                if(!empty($validation_error)){
-                    foreach($validation_error as $err){
-                        print "<p class='msg'>$err</p>";
-                    }
-                }
-
-                print "<span class='msg'>$str</span>";
-
-            ?>
-        </div>
 
 
-        <div class="sub_wrapper">
-            <p class="label_user1">Login</p>
-               <div class="sub_container1">
-                    <p class="label_user2">Membership  <span>会員</span></p>
-                    <p class="text">【 重要なお知らせ 】<br>リニューアル以前に会員登録をされたお客様は、<br>はじめてログインする際、パスワードの再設定が必要です。 </p>
-                    <p class="text">【 LINE会員様へ 】<br>オンラインショップ会員と連動しておりません。<br>オンラインショップをご利用の際には新規会員登録をお願い致します。</p>
-                
-                    <form method="post" action="">
-                        <div class="third_wrapper">
-                                <div class="form_container">
-                                    <p class="sub_label1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>
-                                        <input type="text" class="user_name_form" name="login_user_name" value="<?php print $login_user_name ;?>">
-                                </div>
+        <div class="ring_container">
+            <p class="ring_title">Ring</p>
+            <div class="ring_wrapper">
+                <div class="ring_img">
+                <img src="img/ring/ring1.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="ring_name">プラチナピンキーリング</p>
+                <p class="ring_price">¥198,000(tax in)</p>
 
-                                <div class="form_container">
-                                    <p class="sub_label2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
-                                    <div class="password_container">
-                                        <input type="<?php print $user_check2;?>" class="password_name_form" name="sign_up_password_1" value="<?php print $sign_up_password_1;?>" >
-                                        <img src= <?php print $eye_path;?> class="image">
-                                    </div>
-
-                                    <input type="submit" name="eye_check" class="eye_check" value="<?php print $eye_check;?>">
-                                    <br>
-                                    <div class="checkbox">
-                                        <input type="checkbox" name="user_check" value="checked" <?php print $user_check; ?>>次回からユーザー名・パスワード省略する
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <input type="submit" class="login_button"  name="login_button" value="ログインする">
-                    </form>
-
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
                 </div>
 
-               <div class="sub_container2">
-                 <p class="label_user3">New Customer  <span>新規会員登録</span></p>
+                <div class="ring_img">
+                <img src="img/ring/ring2.jpg">
+                <br>
+                <img class="publish_tag" src="img/publish_tag.png">
+                <p class="ring_name">シルバーリング</p>
+                <p class="ring_price">¥8,800(tax in)</p>
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
 
-                    <div class="sign_up_text">
-                        <p class="text">会員登録は無料です。<br>一度ご登録していただきますと、ご注文の際にユーザー名などの<br>入力が不要になり安全かつ簡単にご利用いただけます。</p>
-                    </div>
-                    <form method="post" action="">
-                        <input type="submit" class="sign_up_button"  name="sign_up_button" value="会員登録する">
-                    </form>
-               </div>
+                <div class="ring_img">
+                <img src="img/ring/ring3.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="ring_name">シルバーリング</p>
+                <p class="ring_price">¥8,800(tax in)</p>
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
 
+                <div class="ring_img">
+                <img src="img/ring/ring4.jpg">
+                <br>
+                <img class="exclusive_tag" src="img/exclusive_tag.png">
+                <p class="ring_name">シルバーリング</p>
+                <p class="ring_price">¥8,800(tax in)</p>
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
+
+                <div class="ring_img">
+                <img src="img/ring/ring5.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="ring_name">シルバーリング</p>
+                <p class="ring_price">¥8,800(tax in)</p>
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
+
+            </div>
+            
 
         </div>
-     </div>
+ 
+
+        <div class="necklace_container">
+            <p class="necklace_title">Necklace</p>
+            <div class="necklace_wrapper">
+                <div class="necklace_img">
+                <img src="img/necklace/necklace1.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="necklace_name">K18イエローゴールドネックレス</p>
+                <p class="necklace_price">¥1,982,500(tax in)</p>
+
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
+
+                <div class="necklace_img">
+                <img src="img/necklace/necklace2.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="necklace_name">【Ville de paris ～パリの街角～】<br>プラチナネックレス</p>
+                <p class="necklace_price">¥285,000(tax in)</p>
+
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
+
+                <div class="necklace_img">
+                <img src="img/necklace/necklace3.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="necklace_name">エターナルシルバーリング</p>
+                <p class="necklace_price">¥29,800(tax in)</p>
+
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
+
+                <div class="necklace_img">
+                <img src="img/necklace/necklace4.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="necklace_name">【Bleu Ciel ～空色～】<br>プラチナ/K18イエローゴールド<br>ネックレス</p>
+                <p class="necklace_price">Pt:¥468,800(tax in)<br>K18:¥398,800(tax in)</p>
+
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
+
+                <div class="necklace_img">
+                <img src="img/necklace/necklace5.jpg">
+                <br>
+                <img class="online_tag" src="img/online_tag.png">
+                <p class="necklace_name">シルバーリング</p>
+                <p class="necklace_price">¥8,800(tax in)</p>
 
 
+                <form method="post" action="">
+                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                </form>
+                </div>
+
+            </div>
+            
+
+        </div>
+
+    </div>
+ 
 </body>
 </html>
