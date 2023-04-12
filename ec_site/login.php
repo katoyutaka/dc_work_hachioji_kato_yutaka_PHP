@@ -140,8 +140,8 @@
                             $_SESSION["sign_up_password_1"] = $sign_up_password_1;
 
                             //↓はショッピングサイト内へ行く
-                            // header('Location:XXXXXX.php');
-                            // exit();
+                            header('Location:catalog_page.php');
+                            exit();
         
                         } else {
                             $str = "ユーザー名またはパスワードが一致しません";
