@@ -4,8 +4,6 @@
         $password = 'Au3#DZ~G';   
         $database = 'bcdhm_hoj_pf0001';
 
-        // $error_msg = array();
-        // $error_msg=[];
         
 
         $db = new mysqli($host, $login_user, $password, $database);
@@ -59,12 +57,9 @@
                     $file=pathinfo($image_path);
                     $filetype=$file["extension"];
                         
-                    if(!($filetype === "jpeg")){
-                            if(!($filetype === "png")){
-                                $validation_error[] = "拡張子がJPEGまたはPNG以外の形式になっています"."<br>";
-                            } 
+                    if (!($filetype === "jpeg" || $filetype === "jpg" || $filetype === "png")) {
+                        $validation_error[] = "拡張子がJPEG,PNG,JPG以外の形式になっています"."<br>";
                     }
-                
 
             // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
                     

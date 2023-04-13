@@ -154,6 +154,12 @@
 
         }
         
+        //ログイン中であれば、catalog_page.phpに遷移させ、login.phpには行かないようにする。
+        if (isset($_SESSION['login_user_name'])) {
+            header('Location:catalog_page.php');
+            exit(); 
+        }
+            
 ?>
 
 
@@ -689,7 +695,7 @@
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
      <div class="fade">
         <img src="img/jewery15.jpg" alt="">
-        <img src="img/jewery8.jpg" alt="">
+        <img src="img/jewery22.jpg" alt="">
         <img src="img/jewery10.jpg" alt="">
      </div>
 
@@ -723,7 +729,7 @@
             </div>
 
             <div class="right_left_fade_in_container4">
-                <img class="right_left4" src="img/jewery8.jpg" alt="">
+                <img class="right_left4" src="img/jewery24.jpg" alt="">
             </div>
         </div>
 

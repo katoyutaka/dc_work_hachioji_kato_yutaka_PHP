@@ -24,8 +24,53 @@
 <?php
     $login_user_name = $_SESSION["login_user_name"];
     $sign_up_password_1 = $_SESSION["sign_up_password_1"];
-    // print $login_user_name;
-    // print $sign_up_password_1;
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        if(isset($_POST["logout_tag"])){
+            //ログアウトが押されたら、セッションとクッキーを空にする。
+            print "a";
+            $_SESSION=[];
+            session_destroy();
+
+            setcookie("user_check","",time()-100);
+            setcookie("login_user_name","",time()-100);  
+            setcookie("sign_up_password_1","",time()-100);  
+
+            header('Location:login.php');
+            exit();
+        }
+
+
+
+        if(isset($_POST["cart_tag"])){
+            // header('Location:login.php');
+            // exit();
+
+         }
+
+         if(isset($_POST["favorite_tag"])){
+            // header('Location:login.php');
+            // exit();
+
+         }
+
+         if(isset($_POST["mypage_tag"])){
+            // header('Location:login.php');
+            // exit();
+
+         }
+
+
+    }
+
+
+    //ログアウトであれば、catalog_page.phpに来ても、login.phpに遷移するようにする。
+    if (empty($_SESSION['login_user_name'])) {
+        header('Location:login.php');
+        exit(); 
+    }
+                
 ?>
 
 
@@ -76,18 +121,14 @@
                 .header{
                     text-align: center;
                     font-weight:bold;
-                    /* background-color: #02235F; */
-                    height: 65px;
-                    /* line-height: 30px; */
-                    /* width: 1000px; */
-                    /* padding-left:50px; */
-                    /* margin-top:50px; */
+                    height: 85px;
                     color: #02235F;
-                    /* border-bottom: 1px solid #b7b7b7; */
                     z-index: 2;
                     position: fixed;
                     width: 100%;
                     background-color: #fff;
+                    top: 0px;
+                    left: 0px;
                 }
 
                 .label_user{
@@ -98,89 +139,11 @@
                     height: 30px;
                     line-height: 30px;
                     font-size: 16px;
-                    /* width: 1000px; */
                     padding-left:50px;
-                    /* margin-top:50px; */
                     color:white;
-                    /* z-index: 3;
-                    position: fixed;
-                     */
-                }
-
-                .label_user1{
-                    text-align:center;
-                    font-size:18px;
-                    font-weight:bold;
-                    background-color: #eff6fc;
-                    height: 40px;
-                    line-height: 40px;
-                    font-size: 24px;
-                    width: 1000px;
-                    /* margin-top:20px; */
-                    color:#02235F;
-                    
-                }
-
-                .label_user2{
-                    border-bottom: 1px solid #b7b7b7;
-                    font-size:18px;
-   
-                }
-
-                .label_user3{
-                    border-bottom: 1px solid #b7b7b7;
-                    font-size:18px;
-   
-                }
-
-
-
-                .main_wrapper{
-                    /* width: 1400px; */
-                    margin:0 auto;
-                    height:1600px;
-                    /* background-color: green; */
-                }
-
-                .sub_label1{
-                    height:35px;
-                    line-height: 35px;
-                    width: 400px;
-                    text-align: left;
-                }
-
-                                
-                .sub_label2{
-                    height:35px;
-                    line-height: 35px;
-                    width: 400px;
-                    text-align: left;
-                    /* margin-left:20px; */
-                }
-
-                .sub_wrapper{
-                    width: 1000px;
-                    height: 600px;
-                }
-
-                .sub_container1{
-                    /* border:1px solid blue; */
-                    width: 460px;
-                    height: 550px;
-                    float: left;
-                    text-align: center;
-                    margin-top: 30px;
 
                 }
-                .sub_container2{
-                    /* border:1px solid blue; */
-                    width: 460px;
-                    height: 500px;
-                    float:right;
-                    text-align: center;
-                    margin-top: 30px;
 
-                }
 
                 span{
                     font-size: 14px;
@@ -196,449 +159,189 @@
                     margin-top: 20px;
                 }
 
-                .user_name_form,.password_name_form{
-                    background-color: #f8f8f8;
-                    height: 35px;
-                    width: 380px;
-                    border:1px solid #66FFCC;
-                    border-radius: 1px;
-                    display: block;
-                    text-align: left;
+                .ring_wrapper,.necklace_wrapper{
+                    width: 1300px;
+                    height:380px;
+                    margin: 0 auto;
+                    display: flex;
+                    margin-top: 20px;
                 }
 
-                .third_wrapper{
-                   margin-top:20px;
-                   margin-left:40px;
-                   height:220px;
+                .ring_img img ,.necklace_img img{
+                    width: 200px;
+                    height:200px;
+                }
+
+                .ring_img,.earring_img,.necklace_img{
+                    margin-right: 30px;
+                    margin-left: 30px;
+                }
+
+                .online_tag{
+                    max-width: 90px;
+                    max-height:20px;
+                    
+                }
+
+                .ring_name,.necklace_name{
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    margin-top: 13px;
+                    margin-bottom: 10px;
+                    font-size: 14px;
+                }
+
+                        
+                .ring_price,.necklace_price{
+                    font-size: 16px;
+
+                }
+                
+
+                .publish_tag{
+                    max-width: 60px;
+                    max-height:20px;
+
+
+                }
+                
+                .exclusive_tag{
+                    max-width: 35px;
+                    max-height:20px;
+
                 }
 
                 
-                .login_button{
-                    background-color: #000099;
-                    color:white;
-                    cursor: pointer;
-                    height: 50px;
-                    width: 380px;
-                    /* float:left; */
-                    margin-top: 20px;
-                    font-family: system-ui;
-                    letter-spacing: 2px;
-                }
-
-                .sign_up_button{
-                    background-color: #000099;
-                    color:white;
-                    cursor: pointer;
-                    height: 50px;
-                    width: 380px;
-                    margin-top: 50px;
-                    font-family: system-ui;
-                    letter-spacing: 2px;
-                }
-
-                .checkbox{
-                    float:left;
-                    font-size:14px;
-                    margin-top:10px;
-                }
-
-                .checkbox2{
-                    float:left;
-                    font-size:14px;
-                    margin-top:10px;
-                }
-
-                .msg{
-                    color:red;
-                }
-
-                .cookie-consent {
-                    margin: 0 auto;
-                    display: flex;
-                    position: fixed;
-                    bottom: 0;
+                .ring_container,.necklace_container{
                     width: 100%;
-                    font-size: 14px;
-                    color: #fff;
-                    background: rgba(0,0,100,0.5);
-                    padding-top:40px;
-                    padding-bottom:40px;
-                    padding-left:400px;
-                    height: 160px;
-                    font-family: system-ui;
-                    letter-spacing: 2px;
-                    color:white;
+                    height: 530px;
+                    z-index: 1;
+                    position: relative;
+                    background-color: #fff;
                 }
 
-                .policy-link, :link, :visited{
-                    color:white;
-                    font-family: system-ui;
-                    letter-spacing: 2px;
+                .ring_container,.necklace_container{
+                    width: 100%;
+                    height: 530px;
+                    z-index: 1;
+                    position: relative;
+                    background-color: #fff;
                 }
-                .cookie_agree {
+
+                .ring_title{
+                font-size: 26px;
+                text-align: center;
+                font-weight: bold;
+                    letter-spacing: 3px;
+                    margin-top: 90px;
+                    margin-bottom: 30px;
+                
+                }
+
+                    
+                .necklace_title{
+                    font-size: 26px;
+                    text-align: center;
+                    font-weight: bold;
+                    letter-spacing: 3px;
+                    margin-top: 13px;
+                    margin-bottom: 30px;
+                    padding-top: 20px;
+                    
+                }
+
+                .buy_button{
                     color: white;
-                    background-color: #000099;
+                    background-color: #1c1c1c;
                     padding:10px 30px;
                     margin-left: 20px;
                     font-family: system-ui;
                     letter-spacing: 2px;
+
                 }
 
-                .cookie_agree:hover{
+                .buy_button:hover{
                     cursor: pointer;
                 }
 
-                .limit{
-                    font-size: 13px;
+                .img_container{
+                    width: 200px;
+                    height: 330px;
                 }
 
-                .err{
-                    height: 70px;
-                    margin-bottom: 50px;
+                .buy_form{
+                    margin-top: 20px;
                 }
 
-                .eye_check{
-                    padding:10px;
-                    opacity: 0;
-                    cursor: pointer;
-                    z-index: 2;
-                    position: absolute;
-                    top:40px;
-                    left:380px;
-                    width: 50px;
-                    height:30px;
-                }
-
-                .image{
-                    width: 30px;
-                    height:20px;
-                   margin-top: 10px;
-                }
-
-                .form_container{
-                    position: relative;
-                }
-
-                .password_container{
-                    display: flex;
-                }
-
-                /* .scroll_header{
-                    height: 100px;
-                    background-color: red;
-                } */
-
-                .slider img{
-                    max-width:180px;
-                    width: 100%;
-                    height: 120px;
-                    
-                }
-
-                .slider{
-                    width:1000px;
-                }
-
-                .fade{
-                   
-                    text-align:center;
-                    /* background-color: gray; */
-                    /* width: 750px; */
-                    margin: 0 auto;
-                    /* background-image: url(img/jewery1.jpg);
-                    background-image: url(img/jewery6.jpg);
-                    background-image: url(img/jewery10.jpg); */
-                    width: 100%;
-                    height: 500px;
-                    
+                .login_name{
+                    font-size :17px;
+                    color: #02235F;
+                    float: right;
+                    margin-right: 30px;
+                    height: 10px;
 
                 }
 
-                .fade img{
-                    /* max-width:750px; */
-                    width: 100%;
-                    height: 500px;
-                    /* height: 100%; */
-                    object-fit: cover;
-                
-                }
-       
-
-                .slick-prev, 
-                .slick-next {
-                    position: absolute;/*絶対配置にする*/
-                    top: 42%;
-                    cursor: pointer;/*マウスカーソルを指マークに*/
-                    /* outline: none;クリックをしたら出てくる枠線を消す */
-                    
-                    height: 15px;
-                    width: 15px;
-           
-                    
+                .under_area{ 
+                    height: 400px;
                     
 
-                   
-                   }
-                    /* 矢印変更はここ！！！ */
-                   .slick-prev:before{
-                    opacity: 1;
-                    background-color: blue;
-                    content: url(img/eye1.png);
-                    max-width:20px;
-                    height: 20px;
-                    z-index: 100;
-                    display: block;
-                   }
-
-                   .slick-next:before{
-                    opacity: 1;
-                    background-color: blue;
-                   }
-
-                   .slick-prev {/*戻る矢印の位置と形状*/
-                        left: -3%;
-                        /* transform: rotate(-135deg); */
-                    }
-
-                    .slick-next {/*次へ矢印の位置と形状*/
-                        right: -3%;
-                        /* transform: rotate(45deg); */
-                    }
-
-                    .right_left1{
-                        max-width:500px;
-                        width: 100%;
-                        height: 300px;
-                        float:left;
-                        transform: translate(-200px,0); 
-                        opacity: 0; 
-                        visibility: hidden; 
-                        transition: transform 4s, opacity 4s, visibility 4s;
-
-                    
-                    }
-
-                    .right_left2{
-                        max-width:500px;
-                        width: 100%;
-                        height: 300px;
-                        float:right;
-                        transform: translate(200px,0); 
-                        opacity: 0; 
-                        visibility: hidden; 
-                        transition: transform 4s, opacity 4s, visibility 4s;
-                    
-                    }
-
-                    .right_left3{
-                        max-width:500px;
-                        width: 100%;
-                        height: 300px;
-                        float:left;
-                        transform: translate(-200px,0); 
-                        opacity: 0; 
-                        visibility: hidden; 
-                        transition: transform 4s, opacity 4s, visibility 4s;
-
-                    
-                    }
-
-                    .right_left4{
-                        max-width:500px;
-                        width: 100%;
-                        height: 300px;
-                        float:right;
-                        transform: translate(200px,0); 
-                        opacity: 0; 
-                        visibility: hidden; 
-                        transition: transform 4s, opacity 4s, visibility 4s;
-
-                    
-                    }
-
-                    .right_left_fade_in_container1{
-                        width: 1000px;
-                        height: 300px;
-                        margin-top: 100px;
-                    }
-
-
-                    .right_left_fade_in_container2{
-                        width: 1000px;
-                        height: 300px;
-                        margin-top: 100px;
-                        
-                    }
-
-
-                    .right_left_fade_in_container3{
-                        width: 1000px;
-                        height: 300px;
-                        margin-top: 100px;
-                    }
-
-
-                    .right_left_fade_in_container4{
-                        width: 1000px;
-                        height: 300px;
-                        margin-top: 100px;
-                        
-                    }
-          
-                    .is-fadein {
-                        transform: translate(0,0); 
-                        opacity: 1; 
-                        visibility: visible; 
-
-                    }
-
-                    .ring_wrapper,.necklace_wrapper{
-                        width: 1300px;
-                        height:380px;
-                        /* background-color: red; */
-                        margin: 0 auto;
-                        display: flex;
-                    }
-
-                    .ring_img img ,.necklace_img img{
-                        width: 200px;
-                        height:200px;
-                    }
-
-                    .ring_img,.earring_img,.necklace_img{
-                        margin-right: 30px;
-                        margin-left: 30px;
-                    }
-
-                    .online_tag{
-                        max-width: 90px;
-                        max-height:20px;
-                        
-                    }
-
-                    .ring_name,.necklace_name{
-                        font-family: system-ui;
-                        letter-spacing: 2px;
-                        margin-top: 13px;
-                        margin-bottom: 10px;
-                        font-size: 14px;
-                        /* width: 200px;
-                        height: 60px; */
-                    }
-
-                            
-                    .ring_price,.necklace_price{
-                        /* font-family: system-ui;
-                        letter-spacing: 2px; */
-                        font-size: 16px;
-
-                    }
-                    
-
-                    .publish_tag{
-                        max-width: 60px;
-                        max-height:20px;
-
-
-                    }
-                    
-                    .exclusive_tag{
-                        max-width: 35px;
-                        max-height:20px;
-
-                    }
-
-                    
-                    .ring_container,.necklace_container{
-                        width: 100%;
-                        height: 500px;
-                        z-index: 1;
-                        position: relative;
-                        background-color: #fff;
-                    }
-
-                    .ring_title{
-                    font-size: 26px;
+                    color: white; 
                     text-align: center;
-                    font-weight: bold;
-                     letter-spacing: 3px;
-                     margin-top: 70px;
-                     margin-bottom: 30px;
+                    font-size: 25px;
+                    padding-top: 50px; 
+                }
+
+                .under_area::before{ 
+                    content: ""; 
+                    position: fixed;
+                    top: 220px; left: 0; 
+                    width: 100%;
+                    height: 400px; ; 
+                    z-index: -1; 
+                    background-image: url("img/under_area2.jpg");
+                    background-size: cover; 
                     
-                    }
+                }
+                
+                .cart_tag,.favorite_tag,.mypage_tag,.logout_tag{
+                    max-width: 20px;
+                    width: 20px;
+                    margin-top: 8px;
+                    margin-right: 13px;
+                    margin-left: 13px;
+                    border:none;
+                }
 
-                    
-                    .necklace_title{
-                        font-size: 26px;
-                        text-align: center;
-                        font-weight: bold;
-                        letter-spacing: 3px;
-                        margin-top: 13px;
-                        margin-bottom: 30px;
-                        
-                    }
+                .tag_wrapper{
+                    float: right;
+                    margin-right: 20px;
+                    display: flex;
 
-                    .buy_button{
-                        color: white;
-                        background-color: #1c1c1c;
-                        padding:10px 30px;
-                        margin-left: 20px;
-                        font-family: system-ui;
-                        letter-spacing: 2px;
-                        /* margin-top: 30px; */
-
-                    }
-
-      
-
-                    .buy_button:hover{
-                        cursor: pointer;
-                    }
-
-                    .img_container{
-                        width: 200px;
-                        height: 330px;
-                        /* background-color:blue; */
-                    }
-
-                    .buy_form{
-                        margin-top: 20px;
-                    }
-
-                    .login_name{
-                        /* text-align: center; */
-                        font-size :17px;
-                        color: #02235F;
-                        float: right;
-                        margin-right: 20px;
-                        height: 10px;
-
-                    }
-
-                    .under_area{ 
-                        height: 470px;
-                       
-
-                        color: white; 
-                        text-align: center;
-                        font-size: 25px;
-                        padding-top: 50px; 
-                    }
-
-                    .under_area::before{ 
-                        content: ""; 
-                        position: fixed;
-                        top: 130px; left: 0; 
-                        width: 100%;
-                        height: 470px; ; 
-                        z-index: -1; 
-                        background-image: url("img/under_area.jpg");
-                        background-size: cover; 
-                        
-                    } 
+                }
 
 
+                .cart_tag{
+                    background-image: url("img/cart.jpg");
+                    background-size: cover; 
+                }                
+                
+                
+                .favorite_tag{
+                    background-image: url("img/favorite.jpg");
+                    background-size: cover; 
+                }                
+                
+                
+                .mypage_tag{
+                    background-image: url("img/mypage.jpg");
+                    background-size: cover; 
+                }
 
+                .logout_tag{
+                    background-image: url("img/logout.jpg");
+                    background-size: cover; 
+                }
 
 
 
@@ -646,9 +349,28 @@
               
 </head>
 <body>
-     <p class="label_user">2023 Spring Collection発売</p>
+   
      <div class="header">
-        <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div>
+     <p class="label_user">2023 Spring Collection発売</p>
+        <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div><br>
+        <div class="tag_wrapper">
+            <form method="post" action="">
+                    <input type="submit" class="mypage_tag" name="mypage_tag"  >
+            </form>
+
+            <form method="post" action="">
+                    <input type="submit" class="favorite_tag" name="favorite_tag"  >
+            </form>
+
+            <form method="post" action="">
+                    <input type="submit" class="cart_tag" name="cart_tag"  >
+            </form>
+
+            <form method="post" action="">
+                    <input type="submit" class="logout_tag" name="logout_tag"  >
+            </form>
+        </div>
+
      </div>
 
      <div class="main_wrapper">
@@ -727,8 +449,9 @@
             
 
         </div>
-        
-        <div class="under_area">2023 Spring Collection 72 Sec homme jewerly</div>
+
+        <div class="under_area">2023 Spring Collection 72Sec jewerly homme＋<br><br>華やかでいて肌馴染みも良い<br>オリジナルカラーの「72Secアクアゴールド」
+          <br><br>72Secだけの特別な輝きを纏った<br>大人の洗練されたジュエリーコレクションです</p> </div>
  
 
         <div class="necklace_container">
