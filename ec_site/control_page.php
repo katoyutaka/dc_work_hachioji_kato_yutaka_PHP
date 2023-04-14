@@ -181,10 +181,32 @@
     <title>商品管理ページ</title>
 
     <style>
+                html,
+                body,
+                ul,
+                ol,
+                li,
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6,
+                p,
+                div {
+                    margin: 0;
+                    padding: 0;
+                }
+
+
+
                 * {
                     box-sizing:border-box;
                     vertical-align: middle;
+                    font-family: system-ui;
+                    letter-spacing: 2px;
                 }
+                
               
                 h1 {
                     font-size:20px; 
@@ -297,14 +319,28 @@
                     width:100px;
                     height:100px;
                 }
+
+                .label_user1{
+                    text-align:center;
+                    font-size:18px;
+                    font-weight:bold;
+                    background-color: #eff6fc;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 24px;
+                    width: 1000px;
+                    /* margin-top:20px; */
+                    color:#02235F;
+                    
+                }
                 
 
         </style>
 
 </head>
 <body>
-    
-<h1>商品管理</h1>
+<p class="label_user1">Login</p>
+<h1>商品登録フォーム</h1>
 
 <form method="post" action="" enctype="multipart/form-data">
     <p>商品名：<input type="text" name="product_name"></p>
