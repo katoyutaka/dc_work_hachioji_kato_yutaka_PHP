@@ -23,64 +23,133 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(isset($_POST["submit"])){
-            
-                    $input_data ='';
-                        
-                    if(!empty($_POST['input_data'])){
-                        $input_data = htmlspecialchars($_POST['input_data'], ENT_QUOTES, 'UTF-8');
+            //商品名,価格,個数,画像,公開/非公開のバリデーションチェック
+
+            //商品名product_name
+            //  価格price
+            //  個数product_count
+            //  画像product_image
+            //  公開/非公開public_flg
+
+
+                    $product_name =''; 
+                    if(!empty($_POST['product_name'])){
+                        $product_name = htmlspecialchars($_POST['product_name'], ENT_QUOTES, 'UTF-8');
                     } else {
-                        $validation_error[]="画像名に問題があるか、未入力です"."<br>";
+                        $validation_error[]="商品名が未入力です"."<br>";
                     }
 
-                    $upload_image_name ='';
+
+
+                    $price ='';
+                    if(!empty($_POST['price'])){
+                        $price = htmlspecialchars($_POST['price'], ENT_QUOTES, 'UTF-8');
+
+                        if(!preg_match("/^[0-9]+$/", $price)){
+                            $validation_error[] = "「価格」が数字以外の形式になっています"."<br>";
+                        }
+
+                    } else {
+                        $validation_error[]="価格が未入力です"."<br>";
+                    }
+
+
+                    $product_count ='';
+                    if(!empty($_POST['product_count'])){
+                        $product_count = htmlspecialchars($_POST['product_count'], ENT_QUOTES, 'UTF-8');
+
+                        if(!preg_match("/^[0-9]+$/", $product_count)){
+                            $validation_error[] = "「個数」が数字以外の形式になっています"."<br>";
+                        }
+
+                    } else {
+                        $validation_error[]="個数が未入力です"."<br>";
+                    }
+
+                    
+                    $product_image ='';
                     $image_path ='';
+                    if(!empty($_FILES['product_image']['name'])){
+                        $product_image = htmlspecialchars($_FILES['product_image']['name'], ENT_QUOTES, 'UTF-8');
+                        $image_path =  'img/'.htmlspecialchars($_FILES['product_image']['name'], ENT_QUOTES, 'UTF-8');
 
-                    if(isset($_FILES['upload_image']['name'])){
-                        $upload_image_name = htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
-                        $image_path =  './img/'.htmlspecialchars($_FILES['upload_image']['name'], ENT_QUOTES, 'UTF-8');
+
                     } else {
-                        $validation_error[] = "アップロードファイル名に問題があるか、未選択です"."<br>";
+                        $validation_error[]="画像が未選択です"."<br>";
                     }
 
-                    $upload_image_tmp_name ='';
 
-                    if(isset($_FILES['upload_image']['tmp_name'])){
-                        $upload_image_tmp_name = htmlspecialchars($_FILES['upload_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
+                    $product_image_tmp_name ='';
+                    if(isset($_FILES['product_image']['tmp_name'])){
+                        $product_image_tmp_name = htmlspecialchars($_FILES['product_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
                     }
-
-                    if(!preg_match("/^[a-zA-Z0-9]+$/",$input_data)){
-                        $validation_error[] = "「画像名」が半角英数字以外の形式になってるか、未入力です。"."<br>";
-                    }
+                    
 
                     $file=pathinfo($image_path);
                     $filetype=$file["extension"];
                         
-                    if (!($filetype === "jpeg" || $filetype === "png")) {
-                        $validation_error[] = "拡張子がJPEG,PNG以外の形式になっています"."<br>";
+                    if (!($filetype === "jpeg" || $filetype === "png" || $filetype === "jpg")) {
+                        $validation_error[] = "拡張子がJPEG,PNG,JPG以外の形式になっています"."<br>";
                     }
+
+
+
+                    
+                    $public_flg ='';
+                    $cg_public_flg= '';
+                    if(!empty($_POST['public_flg'])){
+                        $public_flg = htmlspecialchars($_POST['public_flg'], ENT_QUOTES, 'UTF-8');
+
+                        if(!($public_flg === "公開" || $public_flg === "非公開")){
+                            $validation_error[] = "ステータスが「公開」または「非公開」以外の形式になっています"."<br>";
+                        }else{
+
+                            if($public_flg === "公開"){
+                                $cg_public_flg = 1;
+                            }
+
+                            if($public_flg === "非公開"){
+                                $cg_public_flg = 0;
+                            }
+                        }
+
+                            
+
+                    } else {
+                        $validation_error[]="ステータスが未入力です"."<br>";
+                    
+        }
+
+
+                    
+
+                    
+
+
+                    
+
+
+
+
                 
 
             // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
                     
                     if (empty($validation_error) ){
 
-                            $db = new mysqli($host, $login_user, $password, $database);
-                            $db->set_charset("utf8");
-
                             $create_date = date('Ymd');
                             $update_date = date('Ymd');
-                            $insert = "INSERT INTO gallery (image_name, public_flg, create_date, update_date,image_path) VALUES ('$input_data','0',".$create_date.",".$update_date.",'$image_path');";
+                            $insert = "INSERT INTO ec_product_table (product_name, price,public_flg, create_date, update_date,image_path) VALUES ('$product_name', '$price','$cg_public_flg', ".$create_date.",".$update_date.",'$image_path');";
 
                             if($result=$db->query($insert)){
-                                $save = 'img/'.basename($upload_image_name);
-                                move_uploaded_file($upload_image_tmp_name,$save);
-                                $str = "更新成功しました";
+                                $save = 'ec_site/img/'.basename($product_image);
+                                move_uploaded_file($product_image_tmp_name,$save);
+                                $str = "商品登録が完了しました";
                                 print "<span class='msg'>$str</span><br>";
-                                $db->close();
+                              
                             } else {
-                                $str = "データベースに既に同じファイル名が存在している為か、その他の理由により更新失敗しました。"."<br>";
+                                $str = "データベースに既に同じファイル名が存在している為か、その他の理由により登録失敗しました。"."<br>";
                                 print "<span class='msg'>$str</span><br>";
-                                $db->close();
                             
                             }
 
@@ -95,46 +164,9 @@
         }
 
 
-        // ➂表示・非表示ボタンが押されたらデータベースに登録
-        if(isset($_POST["btn"])){
-
-            $number = htmlspecialchars($_POST["id_value"], ENT_QUOTES, 'UTF-8');
-
-            if($_POST["btn"] == "表示する"){
-
-                $db = new mysqli($host, $login_user, $password, $database);
-                $db->set_charset("utf8");
-                $update = "UPDATE gallery SET public_flg = '0' WHERE image_id = ".$number.";";
-                $db->query($update);
-                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
-                $db->query($update);
-                $db->close();
-
-            } 
-
-            if($_POST["btn"] == "非表示にする"){
-                $db = new mysqli($host, $login_user, $password, $database);
-                $db->set_charset("utf8");
-                $update = "UPDATE gallery SET public_flg = '1' WHERE image_id = ".$number.";";
-                $db->query($update);
-                $update = "UPDATE gallery SET update_date = '".date('Ymd')."' WHERE image_id = ".$number.";";
-                $db->query($update);
-                $db->close();
-
-            }
+    }
 
 
-        }
-
-      }
-
-// SQL文（select文）送る（➁登録後の画面表示）
-
-        $db = new mysqli($host, $login_user, $password, $database);
-        $db->set_charset("utf8");
-        $select = "SELECT * FROM gallery";
-        $result = $db->query($select);
-        
 ?>
 
 
@@ -260,31 +292,59 @@
                 td {
                     border:solid #333 1px;
                 }
+                
+                .product_image_container{
+                    width:100px;
+                    height:100px;
+                }
+                
 
         </style>
 
 </head>
 <body>
-
+    
 <h1>商品管理</h1>
-        <form method="post" action="" enctype="multipart/form-data">
-            <p>商品名：<input type="text" name="input_data"></p>
-            <p>価格：<input type="text" name="input_data"></p>
-            <p>個数：<input type="text" name="input_data"></p>
-            <p>画像 : <input type="file" name="upload_image"></p>
-            <p>公開/非公開：<input type="text" name="input_data"></p>
-            <p><input type="submit" name="submit" value="商品を登録する"></p>
-        </form>
+
+<form method="post" action="" enctype="multipart/form-data">
+    <p>商品名：<input type="text" name="product_name"></p>
+    <p>価格：<input type="text" name="price"></p>
+    <p>個数：<input type="text" name="product_count"></p>
+    <p>画像 : <input type="file" name="product_image"></p>
+    <p>公開/非公開：<input type="text" name="public_flg"></p>
+    <p><input type="submit" name="submit" value="商品を登録する"></p>
+</form>
+
+
+<?php
+
+
+$sql = "SELECT * FROM  ec_product_table";
+
+if($result = $db->query($sql)){
+    while($row =$result->fetch()){ 
+    $get_img_url = $row["image_path"];
+    
+    ?>
 
         <table>
         <tr>
-            <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開/非公開</th><th>削除</th>
+            <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開/非公開</th><th>作成日</th><th>更新日</th><th>削除</th><br>
         </tr>
+        
+            <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
+            <td><?php print $row["product_name"];?></td>
+            <td><?php print $row["price"];?></td>
+            <td><?php print $row["product_count"];?></td>
+            <td><?php print $row["public_flg"];?></td>
+            <td><?php print $row["create_date"];?></td>
+            <td><?php print $row["update_date"];?></td>
+            <td>削除</td>
+
        </table>
+    <?php }
 
-
-        <div class=main>
-            <div class="contents-container"> 
+} ?>
 
 
 
@@ -293,43 +353,28 @@
                 // ポイントはデータベースから持ってきたflag情報をfetch_assocのループの中で場合分けして、各変数も全てここにいれる！
 
                
-                while($row = $result->fetch_assoc()){
+                // while($row = $result->fetch_assoc()){
 
 
-                    $get_img_url = $row["image_path"];
+                //     $get_img_url = $row["image_path"];
 
-                    if($row["public_flg"] === "1"){
-                        $display = "表示する";
-                        $color = "gray";
-                        $img_display = "hidden";
+                //     if($row["public_flg"] === "1"){
+                //         $display = "表示する";
+                //         $color = "gray";
+                //         $img_display = "hidden";
 
-                    } else {
-                        $display = "非表示にする";
-                        $color = "white";
-                        $img_display = "visible";
+                //     } else {
+                //         $display = "非表示にする";
+                //         $color = "white";
+                //         $img_display = "visible";
 
-                    } 
+                //     } 
 
             ?>
       
-                        <div style="background:<?php print $color; ?>;" class="box">
-                        <div class ="img-wrapper">
-                        <div style="visibility:<?php print $img_display;?>;" class= img-container>
-                            <p class="title"><?php print $row['image_name'];?></p>
-                            <img class="introduce-image" src= "<?php print $get_img_url; ?>" alt="">
-                        </div>
-                        </div>
-    
-                        <form  class = "button-container" method="post" action="">
-                            <input type ="hidden" name="id_value" value ="<?php print $row["image_id"]?>">
-                            <input type="submit" name="btn" value="<?php print $display ?>">
-                        </form>
-                        </div>
+
                     
-            <?php
-                    }
-                    $db->close();
-            ?>
+
                                  
             </div>
 
