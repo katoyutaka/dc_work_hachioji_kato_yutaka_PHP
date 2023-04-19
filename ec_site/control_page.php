@@ -209,7 +209,12 @@
                 
               
                 h1 {
-                    font-size:20px; 
+                    font-size:24px;
+                    width: 300px;
+                    height: 370px;
+                    line-height: 370px;
+                    text-align: center;
+                    margin-right: 100px;
                 }
 
                 p {
@@ -323,64 +328,138 @@
                 .label_user1{
                     text-align:center;
                     font-size:18px;
-                    font-weight:bold;
-                    background-color: #eff6fc;
+                    /* font-weight:bold; */
+                    background-color:#444444;
                     height: 40px;
                     line-height: 40px;
                     font-size: 24px;
-                    width: 1000px;
+                    width: 100%;
                     /* margin-top:20px; */
-                    color:#02235F;
+                    color:#fff;
                     
                 }
+                
+                .main_form{
+                    width: 500px;
+                    height: 370px;
+                    background-color: #b7b7b7;
+                    margin:0 auto;
+                    width: 100%;
+                    display: flex;
+                
+                }
+
+                .label1,.label2,.label3,.label4,.label5,.label6{
+                    margin-top: 20px;
+                    margin-left: 50px;
+                    font-size: 20px;
+                    
+                }
+
+                .product_name{
+                    padding:5px 50px;
+                }
+
+
+                .price,.product_count,.public_flg{
+                    padding:5px 15px;
+                    margin-left:15px;
+                }
+
+                .product_image{
+                    padding:5px 15px;
+                }
+
+                .submit{
+                    color: white;
+                    background-color: #1c1c1c;
+                    padding:10px 150px;
+                    /* margin-left: 20px; */
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    margin-top: 20px;
+
+                }
+
+                .over_area{
+                    width: 100%;
+                    height: 440px;
+                    z-index: 2;
+                    position: fixed;
+                    top: 0px;
+                    left: 0px;
+
+                }
+
+                .under_area{
+                    width: 100%;
+                    height: 1000px;
+                }
+
                 
 
         </style>
 
 </head>
 <body>
-<p class="label_user1">Login</p>
-<h1>商品登録フォーム</h1>
+<div class="over_area">
+    <p class="label_user1">商品管理</p>
+    <div class="main_form">
+        <h1>商品登録フォーム</h1>
 
-<form method="post" action="" enctype="multipart/form-data">
-    <p>商品名：<input type="text" name="product_name"></p>
-    <p>価格：<input type="text" name="price"></p>
-    <p>個数：<input type="text" name="product_count"></p>
-    <p>画像 : <input type="file" name="product_image"></p>
-    <p>公開/非公開：<input type="text" name="public_flg"></p>
-    <p><input type="submit" name="submit" value="商品を登録する"></p>
-</form>
+        <form method="post" action="" enctype="multipart/form-data">
+            <p class="label1">商品名：   <input type="text" class="product_name" name="product_name"></p>
+            <p class="label2">価格   ： <input type="text" class="price" name="price"></p>
+            <p class="label3">個数   ：   <input type="text" class="product_count" name="product_count"></p>
+            <p class="label4">画像   ：   <input type="file" class="product_image" name="product_image"></p>
+            <p class="label5">公開/非公開：<input type="text" class="public_flg" name="public_flg"></p>
+            <p class="label6"><input type="submit" name="submit" class="submit" value="商品を登録する"></p>
+        </form> 
+    </div>
+
+</div>
 
 
-<?php
+<div class="under_area">
+    <div class="empty_area">
+
+    </div>
+    <?php
 
 
-$sql = "SELECT * FROM  ec_product_table";
+    $sql = "SELECT * FROM  ec_product_table";
 
-if($result = $db->query($sql)){
-    while($row =$result->fetch()){ 
-    $get_img_url = $row["image_path"];
-    
-    ?>
-
-        <table>
-        <tr>
-            <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開/非公開</th><th>作成日</th><th>更新日</th><th>削除</th><br>
-        </tr>
+    if($result = $db->query($sql)){
+        while($row =$result->fetch()){ 
+        $get_img_url = $row["image_path"];
         
-            <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
-            <td><?php print $row["product_name"];?></td>
-            <td><?php print $row["price"];?></td>
-            <td><?php print $row["product_count"];?></td>
-            <td><?php print $row["public_flg"];?></td>
-            <td><?php print $row["create_date"];?></td>
-            <td><?php print $row["update_date"];?></td>
-            <td>削除</td>
+        ?>
 
-       </table>
-    <?php }
+            <table>
+            <tr>
+                <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開/非公開</th><th>作成日</th><th>更新日</th><th>削除</th><br>
+            </tr>
+            
+                <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
+                <td><?php print $row["product_name"];?></td>
+                <td><?php print $row["price"];?></td>
+                <td><?php print $row["product_count"];?></td>
+                <td><?php print $row["public_flg"];?></td>
+                <td><?php print $row["create_date"];?></td>
+                <td><?php print $row["update_date"];?></td>
+                <td>削除</td>
 
-} ?>
+        </table>
+        <?php }
+
+    } ?>
+
+</div>
+
+
+
+
+
 
 
 
