@@ -210,7 +210,7 @@
               
                 h1 {
                     font-size:24px;
-                    width: 300px;
+                    width: 400px;
                     height: 370px;
                     line-height: 370px;
                     text-align: center;
@@ -318,6 +318,11 @@
                 th,
                 td {
                     border:solid #333 1px;
+                    text-align: center;
+                }
+
+                table{
+                    margin:0 auto;
                 }
                 
                 .product_image_container{
@@ -341,7 +346,7 @@
                 
                 .main_form{
                     width: 500px;
-                    height: 370px;
+                    height: 390px;
                     background-color: #b7b7b7;
                     margin:0 auto;
                     width: 100%;
@@ -349,7 +354,7 @@
                 
                 }
 
-                .label1,.label2,.label3,.label4,.label5,.label6{
+                .label1,.label2,.label3,.label4,.label5,.label6,.label7{
                     margin-top: 20px;
                     margin-left: 50px;
                     font-size: 20px;
@@ -357,17 +362,39 @@
                 }
 
                 .product_name{
-                    padding:5px 50px;
+                    height: 25px;
+                    width: 280px;
+                    margin-left:14px;
                 }
 
 
-                .price,.product_count,.public_flg{
-                    padding:5px 15px;
-                    margin-left:15px;
+                .price{
+                    height: 25px;
+                    width: 120px;
+                    margin-left:42px;
+                }
+
+                .product_count{
+                    height: 25px;
+                    width: 120px;
+                    margin-left:43px;
+                }
+
+                .public_flg{
+                    height: 25px;
+                    width: 80px;
+                    margin-left:13px;
+                }
+
+                
+                .category{
+                    height: 25px;
+                    width: 120px;
+                    margin-left:14px;
                 }
 
                 .product_image{
-                    padding:5px 15px;
+                    margin-left:43px;
                 }
 
                 .submit{
@@ -377,17 +404,17 @@
                     /* margin-left: 20px; */
                     font-family: system-ui;
                     letter-spacing: 2px;
-                    margin-top: 20px;
+                    margin-top: 10px;
 
                 }
 
                 .over_area{
                     width: 100%;
-                    height: 440px;
-                    z-index: 2;
+                    height: 430px;
+                    /* z-index: 2;
                     position: fixed;
                     top: 0px;
-                    left: 0px;
+                    left: 0px; */
 
                 }
 
@@ -396,7 +423,83 @@
                     height: 1000px;
                 }
 
+                .td_product_name{
+                    width: 300px;
+                }
+
+                .td_price{
+                    width: 100px;
+
+                }
+
+                .td_product_count{
+                    width: 180px;
+
+                }
+
+                .td_public_flg{
+                    width: 150px;
+
+                }
+
+                .td_create_date,.td_update_date{
+                    width: 150px;
+                }
+
+                .td_delete{
+                    width: 100px;
+
+                }
+                .count_text{
+                    width: 50px;
+                }
+
+                .count_button,.delete_button{
+                    color: white;
+                    background-color: #1c1c1c;
+                    width: 70px;
+                    height: 25px;
+                    /* margin-left: 20px; */
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    /* margin-top: 10px; */
+                    font-size: 12px;
+                }
+
+                .public_flg_button{
+                    color: white;
+                    background-color: #1c1c1c;
+                    width: 120px;
+                    height: 25px;
+                    /* margin-left: 20px; */
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    /* margin-top: 10px; */
+                    font-size: 12px;
+                }
+
+                .err_area{
+                    /* background-color: blue; */
+                    width: 460px;
                 
+                }
+
+                .input_area{
+                    /* background-color: green; */
+                    width: 560px;
+                
+
+                }
+                .confirm_area,.update_area{
+                    width: 450px;
+                    height: 100px;
+                    background-color: #fff;
+                }
+
+                .err_area p{
+                    margin-top: 30px;
+                }
+
 
         </style>
 
@@ -407,23 +510,37 @@
     <div class="main_form">
         <h1>商品登録フォーム</h1>
 
-        <form method="post" action="" enctype="multipart/form-data">
-            <p class="label1">商品名：   <input type="text" class="product_name" name="product_name"></p>
-            <p class="label2">価格   ： <input type="text" class="price" name="price"></p>
-            <p class="label3">個数   ：   <input type="text" class="product_count" name="product_count"></p>
-            <p class="label4">画像   ：   <input type="file" class="product_image" name="product_image"></p>
+        <form method="post" action="" enctype="multipart/form-data" class="input_area">
+            <p class="label1">商品名 ：<input type="text" class="product_name" name="product_name"></p>
+            <p class="label7">カテゴリ   ：<input type="text" class="category" name="category"></p>
+
+            <p class="label2">価格：<input type="text" class="price" name="price"></p>
+            <p class="label3">個数：<input type="text" class="product_count" name="product_count"></p>
+            <p class="label4">画像：<input type="file" class="product_image" name="product_image"></p>
             <p class="label5">公開/非公開：<input type="text" class="public_flg" name="public_flg"></p>
             <p class="label6"><input type="submit" name="submit" class="submit" value="商品を登録する"></p>
-        </form> 
+        </form>
+        
+        <div class="err_area">
+            <p>商品の登録結果を以下に表示します。</p>
+            <div class="confirm_area">
+
+            </div>
+
+            <p>商品情報の更新結果を以下に表示します。</p>
+            <div class="update_area">
+
+            </div>
+
+
+
+        </div>
     </div>
 
 </div>
 
 
 <div class="under_area">
-    <div class="empty_area">
-
-    </div>
     <?php
 
 
@@ -437,17 +554,37 @@
 
             <table>
             <tr>
-                <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開/非公開</th><th>作成日</th><th>更新日</th><th>削除</th><br>
+                <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開<br>非公開</th><th>作成日</th><th>更新日</th><th>削除</th><br>
             </tr>
             
                 <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
-                <td><?php print $row["product_name"];?></td>
-                <td><?php print $row["price"];?></td>
-                <td><?php print $row["product_count"];?></td>
-                <td><?php print $row["public_flg"];?></td>
-                <td><?php print $row["create_date"];?></td>
-                <td><?php print $row["update_date"];?></td>
-                <td>削除</td>
+                <td class="td_product_name"><?php print $row["product_name"];?></td>
+                <td class="td_price"><?php print $row["price"];?></td>
+
+                <td class="td_product_count">
+                    <form method="post" action="" class="product_count_form">
+                        <input type="text" class="count_text" name="count_text" value="<?php print $row["product_count"];?>"  >
+                        <input type="submit" class="count_button" name="count_button" value="登録"  >
+                    </form>
+                    
+                </td>
+
+                <td class="td_public_flg">
+                    <form method="post" action="">
+                        <input type="submit" class="public_flg_button" name="public_flg_button" value="非公開にする"  >
+                    </form>
+                    
+                </td>
+
+
+                <td class="td_create_date"><?php print $row["create_date"];?></td>
+                <td class="td_update_date"><?php print $row["update_date"];?></td>
+
+                <td class="td_delete">
+                    <form method="post" action="">
+                        <input type="submit" class="delete_button" name="delete_button" value="削除"  >
+                    </form>
+                </td>
 
         </table>
         <?php }
