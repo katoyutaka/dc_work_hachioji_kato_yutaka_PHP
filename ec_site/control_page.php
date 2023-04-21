@@ -41,12 +41,26 @@
 
 
 
+                    $category ='';
+                    if(!empty($_POST['category'])){
+                        $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'UTF-8');
+
+                        if (!($category === "ring" || $$category === "necklace" )) {
+                            $validation_error[] = "カテゴリが「ring」または「necklace」以外になっています"."<br>";
+                        }
+
+                    } else {
+                        $validation_error[]="カテゴリが未入力です"."<br>";
+                    }
+
+
+
                     $price ='';
                     if(!empty($_POST['price'])){
                         $price = htmlspecialchars($_POST['price'], ENT_QUOTES, 'UTF-8');
 
-                        if(!preg_match("/^[0-9]+$/", $price)){
-                            $validation_error[] = "「価格」が数字以外の形式になっています"."<br>";
+                        if(!preg_match("/^([1-9][0-9]*|0)$/", $price)){
+                            $validation_error[] = "「価格」が0以上の整数以外の形式になっています"."<br>";
                         }
 
                     } else {
@@ -58,8 +72,8 @@
                     if(!empty($_POST['product_count'])){
                         $product_count = htmlspecialchars($_POST['product_count'], ENT_QUOTES, 'UTF-8');
 
-                        if(!preg_match("/^[0-9]+$/", $product_count)){
-                            $validation_error[] = "「個数」が数字以外の形式になっています"."<br>";
+                        if(!preg_match("/^([1-9][0-9]*|0)$/", $product_count)){
+                            $validation_error[] = "「個数」が0以上の整数以外の形式になっています"."<br>";
                         }
 
                     } else {
@@ -118,7 +132,7 @@
                     } else {
                         $validation_error[]="ステータスが未入力です"."<br>";
                     
-        }
+                    }
 
 
                     
@@ -139,29 +153,113 @@
 
                             $create_date = date('Ymd');
                             $update_date = date('Ymd');
-                            $insert = "INSERT INTO ec_product_table (product_name, price,public_flg, create_date, update_date,image_path) VALUES ('$product_name', '$price','$cg_public_flg', ".$create_date.",".$update_date.",'$image_path');";
+                            $insert = "INSERT INTO ec_product_table (product_name,category, price,product_count,public_flg, create_date, update_date,image_path) VALUES ('$product_name', '$category','$price','$product_count','$cg_public_flg', ".$create_date.",".$update_date.",'$image_path');";
 
                             if($result=$db->query($insert)){
                                 $save = 'ec_site/img/'.basename($product_image);
                                 move_uploaded_file($product_image_tmp_name,$save);
                                 $str = "商品登録が完了しました";
-                                print "<span class='msg'>$str</span><br>";
+                                // print "<span class='msg'>$str</span><br>";
+                               
                               
                             } else {
                                 $str = "データベースに既に同じファイル名が存在している為か、その他の理由により登録失敗しました。"."<br>";
-                                print "<span class='msg'>$str</span><br>";
                             
                             }
 
-                    } else {
-                            foreach($validation_error as $err){
-                                print "<span class='msg'>$err</span><br>";
-                                
-                            }
-                        
-                    }
+                     }
+
+
+
+
+
+
+  
 
         }
+
+
+
+        if(isset($_POST["public_flg_button"])){
+            $number = htmlspecialchars($_POST["id_value"], ENT_QUOTES, 'UTF-8');
+
+            if($_POST["public_flg_button"] === "公開にする"){
+
+                $update = "UPDATE ec_product_table SET public_flg = '1' WHERE product_id = ".$number.";";
+                $result = $db->query($update);
+                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$number.";";
+                $result = $db->query($update);
+
+                $update_message[]="公開に変更しました"."<br>";
+
+            } 
+
+            if($_POST["public_flg_button"] === "非公開にする"){
+                
+                $update = "UPDATE ec_product_table SET public_flg = '0' WHERE product_id = ".$number.";";
+                $result = $db->query($update);
+                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$number.";";
+                $result = $db->query($update);
+
+                $update_message[]="非公開に変更しました"."<br>";
+
+
+            }
+
+         }
+
+
+
+
+         if(isset($_POST["delete_button"])){
+
+            $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
+
+            $delete = "DELETE FROM ec_product_table WHERE ec_product_table.product_id = ".$delete_number.";";
+            $result = $db->query($delete);
+            
+            $update_message[]="削除しました"."<br>";
+
+         }
+
+
+        
+
+         if(isset($_POST["count_button"])){
+            
+                if(!empty($_POST["count_text"])){
+                    $count_button_number = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
+                    $count_text = htmlspecialchars($_POST["count_text"], ENT_QUOTES, 'UTF-8');
+
+                    if(!preg_match("/^([1-9][0-9]*|0)$/", $count_text)){
+
+                        $update_message[] = "「在庫数」が0以上の整数以外の形式になっています"."<br>";
+
+                    }else{
+
+                        $update = "UPDATE ec_product_table SET product_count = ".$count_text." WHERE product_id = ".$count_button_number.";";
+                        $result = $db->query($update);
+                        $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$count_button_number.";";
+                        $result = $db->query($update);
+
+                        $update_message[]="在庫数を変更しました"."<br>";
+
+                    }
+
+                    
+                }
+
+                if(empty($_POST["count_text"])){
+                    
+                    $update_message[]="在庫数が未入力です"."<br>";
+
+                }
+
+         }
+
+        
+
+
 
 
     }
@@ -210,11 +308,11 @@
               
                 h1 {
                     font-size:24px;
-                    width: 400px;
+                    width: 280px;
                     height: 370px;
                     line-height: 370px;
                     text-align: center;
-                    margin-right: 100px;
+                    /* margin-right: 100px; */
                 }
 
                 p {
@@ -296,6 +394,14 @@
                 }
                 .msg{
                     color:red;
+                    font-size: 13px;
+                    font-weight: bold;
+                }
+
+                .msg2{
+                    color:blue;
+                    font-size: 13px;
+                    font-weight: bold;
                 }
 
                 .on_off_button  {
@@ -481,25 +587,43 @@
                 .err_area{
                     /* background-color: blue; */
                     width: 460px;
+                    display: flex;
                 
                 }
 
                 .input_area{
                     /* background-color: green; */
-                    width: 560px;
+                    width: 500px;
+                    padding-left: 20px;
                 
 
                 }
                 .confirm_area,.update_area{
-                    width: 450px;
-                    height: 100px;
+                    width: 350px;
+                    height: 200px;
                     background-color: #fff;
+                    
+                    /* margin-left: 50px; */
+                    
                 }
+
+                .confirm_area{
+                    margin-right: 20px;
+                    padding-left: 20px;
+
+                }
+
+
 
                 .err_area p{
-                    margin-top: 30px;
+                    margin-top: 10px;
+                    font-size: 15px;
                 }
 
+                .err_area1{
+                    margin-left: 10px;
+                }
+        
 
         </style>
 
@@ -513,7 +637,6 @@
         <form method="post" action="" enctype="multipart/form-data" class="input_area">
             <p class="label1">商品名 ：<input type="text" class="product_name" name="product_name"></p>
             <p class="label7">カテゴリ   ：<input type="text" class="category" name="category"></p>
-
             <p class="label2">価格：<input type="text" class="price" name="price"></p>
             <p class="label3">個数：<input type="text" class="product_count" name="product_count"></p>
             <p class="label4">画像：<input type="file" class="product_image" name="product_image"></p>
@@ -522,19 +645,37 @@
         </form>
         
         <div class="err_area">
-            <p>商品の登録結果を以下に表示します。</p>
-            <div class="confirm_area">
+            <div class="err_area1">
+                <p>商品の登録結果</p>
+                <div class="confirm_area">
+                    <?php
+                            if (!empty($validation_error) ){
+                                foreach($validation_error as $err){
+                                    print "<span class='msg'>$err</span>";
+                                }
+                            }
 
+                            print "<span class='msg'>$str</span><br>";
+                    ?>
+                </div>
             </div>
 
-            <p>商品情報の更新結果を以下に表示します。</p>
-            <div class="update_area">
+            <div class="err_area2">
+                <p>商品情報の更新結果</p>
+                <div class="update_area">
+                    <?php
+                            if (!empty($update_message) ){
+                                foreach($update_message as $err2){
+                                    print "<span class='msg2'>$err2</span>";
+                                    
+                                }
+                            }
+                        ?>
 
+                </div>
             </div>
-
-
-
         </div>
+
     </div>
 
 </div>
@@ -549,10 +690,20 @@
     if($result = $db->query($sql)){
         while($row =$result->fetch()){ 
         $get_img_url = $row["image_path"];
+
+        if($row["public_flg"] === "0"){
+            $display = "公開にする";
+            $color = "gray";
+
+        } else {
+            $display = "非公開にする";
+            $color = "white";
+
+        } 
         
         ?>
 
-            <table>
+            <table style="background:<?php print $color; ?>;">
             <tr>
                 <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開<br>非公開</th><th>作成日</th><th>更新日</th><th>削除</th><br>
             </tr>
@@ -563,6 +714,7 @@
 
                 <td class="td_product_count">
                     <form method="post" action="" class="product_count_form">
+                        <input type ="hidden" name="count_id_value" value ="<?php print $row["product_id"]?>">
                         <input type="text" class="count_text" name="count_text" value="<?php print $row["product_count"];?>"  >
                         <input type="submit" class="count_button" name="count_button" value="登録"  >
                     </form>
@@ -571,7 +723,8 @@
 
                 <td class="td_public_flg">
                     <form method="post" action="">
-                        <input type="submit" class="public_flg_button" name="public_flg_button" value="非公開にする"  >
+                        <input type ="hidden" name="id_value" value ="<?php print $row["product_id"]?>">
+                        <input type="submit" class="public_flg_button" name="public_flg_button" value="<?php print $display; ?>">
                     </form>
                     
                 </td>
@@ -582,6 +735,7 @@
 
                 <td class="td_delete">
                     <form method="post" action="">
+                        <input type ="hidden" name="delete_id_value" value ="<?php print $row["product_id"]?>">
                         <input type="submit" class="delete_button" name="delete_button" value="削除"  >
                     </form>
                 </td>
@@ -592,45 +746,10 @@
     } ?>
 
 </div>
+                       
+</div>
 
-
-
-
-
-
-
-
-            <?php
-                // ポイントはデータベースからidをもってきて、それをボタンにつける。ボタンに名前をつけてやる。それで、ボタンのid = データベースidで表示・非表示分ける。
-                // ポイントはデータベースから持ってきたflag情報をfetch_assocのループの中で場合分けして、各変数も全てここにいれる！
-
-               
-                // while($row = $result->fetch_assoc()){
-
-
-                //     $get_img_url = $row["image_path"];
-
-                //     if($row["public_flg"] === "1"){
-                //         $display = "表示する";
-                //         $color = "gray";
-                //         $img_display = "hidden";
-
-                //     } else {
-                //         $display = "非表示にする";
-                //         $color = "white";
-                //         $img_display = "visible";
-
-                //     } 
-
-            ?>
-      
-
-                    
-
-                                 
-            </div>
-
-        </div>
+ </div>
     
 </body>
 </html>
