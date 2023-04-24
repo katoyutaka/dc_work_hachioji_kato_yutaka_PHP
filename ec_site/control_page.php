@@ -45,7 +45,7 @@
                     if(!empty($_POST['category'])){
                         $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'UTF-8');
 
-                        if (!($category === "ring" || $$category === "necklace" )) {
+                        if (!($category === "ring" || $category === "necklace" )) {
                             $validation_error[] = "カテゴリが「ring」または「necklace」以外になっています"."<br>";
                         }
 
@@ -147,7 +147,7 @@
 
                 
 
-            // バリデーションチェックOKならSQL文(insert文)送る(➀各データの登録時)
+            // バリデーションチェックOKならSQL文(insert文)送る
                     
                     if (empty($validation_error) ){
 
@@ -158,8 +158,7 @@
                             if($result=$db->query($insert)){
                                 $save = 'ec_site/img/'.basename($product_image);
                                 move_uploaded_file($product_image_tmp_name,$save);
-                                $str = "商品登録が完了しました";
-                                // print "<span class='msg'>$str</span><br>";
+                                $str ="『".$product_name."』の商品登録が完了しました";
                                
                               
                             } else {
@@ -190,7 +189,14 @@
                 $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$number.";";
                 $result = $db->query($update);
 
-                $update_message[]="公開に変更しました"."<br>";
+
+                //何の商品を公開にしたのか知るために以下の商品名を取ってくるコードも記載。
+                $select = "SELECT * FROM  ec_product_table WHERE product_id = ".$number.";";
+                if($result2 = $db->query($select)){
+                    $row2 =$result2->fetch();
+                }
+
+                $update_message[]= "『".$row2["product_name"]."』を公開に変更しました"."<br>";
 
             } 
 
@@ -201,7 +207,14 @@
                 $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$number.";";
                 $result = $db->query($update);
 
-                $update_message[]="非公開に変更しました"."<br>";
+
+                //何の商品を非公開にしたのか知るために以下の商品名を取ってくるコードも記載。
+                $select = "SELECT * FROM  ec_product_table WHERE product_id = ".$number.";";
+                if($result2 = $db->query($select)){
+                    $row2 =$result2->fetch();
+                }
+
+                $update_message[]= "『".$row2["product_name"]."』を非公開に変更しました"."<br>";
 
 
             }
@@ -210,39 +223,68 @@
 
 
 
-
          if(isset($_POST["delete_button"])){
 
             $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
 
+            //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
+            $select = "SELECT product_name FROM  ec_product_table WHERE product_id = ".$delete_number.";";
+            if($result2 = $db->query($select)){
+                $row2 =$result2->fetch();
+            }
+
             $delete = "DELETE FROM ec_product_table WHERE ec_product_table.product_id = ".$delete_number.";";
             $result = $db->query($delete);
             
-            $update_message[]="削除しました"."<br>";
+            $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
+
+
 
          }
 
 
-        
-
+    
          if(isset($_POST["count_button"])){
+
+
             
                 if(!empty($_POST["count_text"])){
                     $count_button_number = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
                     $count_text = htmlspecialchars($_POST["count_text"], ENT_QUOTES, 'UTF-8');
 
+                    
+                    //何の商品の在庫数を変更したのか知るために以下の商品名を取ってくるコードも記載。
+                    $select = "SELECT * FROM  ec_product_table WHERE product_id = ".$count_button_number.";";
+                    if($result2 = $db->query($select)){
+                        $row2 =$result2->fetch();
+                    }
+
+
+
                     if(!preg_match("/^([1-9][0-9]*|0)$/", $count_text)){
 
-                        $update_message[] = "「在庫数」が0以上の整数以外の形式になっています"."<br>";
+                        $update_message[] = "『".$row2["product_name"]."』の「在庫数」が0以上の整数以外の形式になっています"."<br>";
 
                     }else{
 
-                        $update = "UPDATE ec_product_table SET product_count = ".$count_text." WHERE product_id = ".$count_button_number.";";
-                        $result = $db->query($update);
-                        $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$count_button_number.";";
-                        $result = $db->query($update);
+                        //変更する在庫数とデータベースに登録されている在庫数が同じであるときは、変更できないとメッセージを表示する。
 
-                        $update_message[]="在庫数を変更しました"."<br>";
+                        if($count_text === $row2["product_count"]){
+
+                            $update_message[]= "『".$row2["product_name"]."』の在庫数に変更がないため更新できません"."<br>";
+
+
+                        }else{
+                            $update = "UPDATE ec_product_table SET product_count = ".$count_text." WHERE product_id = ".$count_button_number.";";
+                            $result = $db->query($update);
+                            $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$count_button_number.";";
+                            $result = $db->query($update);
+    
+                            $update_message[]= "『".$row2["product_name"]."』の在庫数を変更しました"."<br>";
+
+                        }
+
+
 
                     }
 
@@ -251,17 +293,39 @@
 
                 if(empty($_POST["count_text"])){
                     
-                    $update_message[]="在庫数が未入力です"."<br>";
+                    $update_message[]= "『".$row2["product_name"]."』の「在庫数」が未入力です"."<br>";
 
                 }
 
          }
+
+
+         if(isset($_POST["logout_button"])){
+            //ログアウトが押されたら、セッションとクッキーを空にして、login.phpに遷移する。
+            $_SESSION=[];
+            session_destroy();
+
+            setcookie("user_check","",time()-100);
+            setcookie("login_user_name","",time()-100);  
+            setcookie("sign_up_password_1","",time()-100);  
+
+            header('Location:login.php');
+            exit();
+         }
+
+       
 
         
 
 
 
 
+    }
+
+    //ログアウトであれば、control_page.phpに来ても、login.phpに遷移するようにする。
+    if (empty($_SESSION['login_user_name'])) {
+        header('Location:login.php');
+        exit(); 
     }
 
 
@@ -526,7 +590,7 @@
 
                 .under_area{
                     width: 100%;
-                    height: 1000px;
+                    height: 1900px;
                 }
 
                 .td_product_name{
@@ -623,6 +687,21 @@
                 .err_area1{
                     margin-left: 10px;
                 }
+
+                
+                .logout_button{
+                    color: white;
+                    background-color: #1c1c1c;
+                    padding:10px 5px;
+                    /* margin-left: 20px; */
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    float:right;
+                    font-size: 12px;
+                    margin-top: 100px;
+                    width: 150px;
+
+                }
         
 
         </style>
@@ -673,10 +752,17 @@
                         ?>
 
                 </div>
+                <form method="post" action="">
+                   <input type="submit" class="logout_button" name="logout_button" value="LOGOUT">
+                </form>
             </div>
+
         </div>
 
+
+
     </div>
+
 
 </div>
 
@@ -747,9 +833,9 @@
 
 </div>
                        
-</div>
+<!-- </div>
 
- </div>
+ </div> -->
     
 </body>
 </html>

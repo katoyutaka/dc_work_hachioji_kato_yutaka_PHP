@@ -27,9 +27,8 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-        if(isset($_POST["logout_tag"])){
-            //ログアウトが押されたら、セッションとクッキーを空にする。
-            print "a";
+        if(isset($_POST["logout_tag"])){  
+             //ログアウトが押されたら、セッションとクッキーを空にして、login.phpに遷移する。
             $_SESSION=[];
             session_destroy();
 
@@ -348,6 +347,13 @@
     </style>
               
 </head>
+
+
+
+
+
+
+
 <body>
    
      <div class="header">
@@ -380,70 +386,42 @@
             <p class="ring_title">Ring</p>
             <div class="ring_wrapper">
 
-                <div class="ring_img">
-                <div class="img_container">
-                <img src="img/ring/ring1.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="ring_name">プラチナピンキーリング</p>
-                <p class="ring_price">¥198,000(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+            <?php
+            
+                $sql = "SELECT * FROM  ec_product_table WHERE category = 'ring';";
 
-                <div class="ring_img">
-                <div class="img_container">
-                <img src="img/ring/ring2.jpg">
-                <br>
-                <img class="publish_tag" src="img/publish_tag.png">
-                <p class="ring_name">メタモーフォシスリング</p>
-                <p class="ring_price">右：¥1,682,900(tax in)<br>左：¥2,332,000(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+                if($result = $db->query($sql)){
+                    while($row =$result->fetch()){ 
+                        $get_img_url = $row["image_path"];
+                
+                        if($row["public_flg"] === "0"){
+                            $img_display = "none";
+                
+                        } else {
+                            $img_display = "block";
+                
+                        }
+                    ?>
 
-                <div class="ring_img">
-                <div class="img_container">
-                <img src="img/ring/ring3.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="ring_name">パンテール ドゥ 72Sec<br>ホワイトゴールド・エメラルド<br>オニキス・ダイヤモンド</p>
-                <p class="ring_price">¥27,984,000(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+                        <div style="display:<?php print $img_display;?>;" class= "ring_img">
+                        <div class="img_container">
+                        <img src="<?php print $get_img_url; ?>">
+                        <br>
+                        <img class="online_tag" src="img/online_tag.png">
+                        <p class="ring_name"><?php print $row["product_name"]; ?></p>
+                        <p class="ring_price">¥<?php print $row["price"]; ?>(tax in)</p>
+                        </div>
+                        <form method="post" action="" class="buy_form">
+                            <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                        </form>
+                        </div>
 
-                <div class="ring_img">
-                <div class="img_container">
-                <img src="img/ring/ring4.jpg">
-                <br>
-                <img class="exclusive_tag" src="img/exclusive_tag.png">
-                <p class="ring_name">クラシックトリニティ リング</p>
-                <p class="ring_price">¥206,000(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+                        <?php
 
-                <div class="ring_img">
-                <div class="img_container">
-                <img src="img/ring/ring5.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="ring_name">マリー・ミー ウェディング リング</p>
-                <p class="ring_price">¥422,400(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+                   }
+                }
+            
+            ?>
 
             </div>
             
@@ -457,71 +435,43 @@
         <div class="necklace_container">
             <p class="necklace_title">Necklace</p>
             <div class="necklace_wrapper">
-                <div class="necklace_img">
-                <div class="img_container">
-                <img src="img/necklace/necklace1.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="necklace_name">K18イエローゴールドネックレス</p>
-                <p class="necklace_price">¥1,982,500(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
 
-                <div class="necklace_img">
-                <div class="img_container">
-                <img src="img/necklace/necklace2.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="necklace_name">【Ville ～パリの街角～】<br>プラチナネックレス</p>
-                <p class="necklace_price">¥285,000(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+            <?php
 
-                <div class="necklace_img">
-                <div class="img_container">
-                <img src="img/necklace/necklace3.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="necklace_name">エターナルシルバーリング</p>
-                <p class="necklace_price">¥29,800(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
 
-                <div class="necklace_img">
-                <div class="img_container">
-                <img src="img/necklace/necklace4.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="necklace_name">【Bleu Ciel ～空色～】<br>プラチナ/K18YGネックレス</p>
-                <p class="necklace_price">Pt:¥468,800(tax in)<br>K18:¥398,800(tax in)</p>
-                </div>
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+                $sql = "SELECT * FROM  ec_product_table WHERE category = 'necklace';";
 
-                <div class="necklace_img">
-                <div class="img_container">
-                <img src="img/necklace/necklace5.jpg">
-                <br>
-                <img class="online_tag" src="img/online_tag.png">
-                <p class="necklace_name">トリビュート トゥー 72Sec <br>ネックレス</p>
-                <p class="necklace_price">¥7,758,690(tax in)</p>
-                </div>
+                if($result = $db->query($sql)){
+                    while($row =$result->fetch()){ 
+                        $get_img_url = $row["image_path"];
 
-                <form method="post" action="" class="buy_form">
-                    <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
-                </form>
-                </div>
+                        if($row["public_flg"] === "0"){
+                            $img_display = "none";
+
+                        } else {
+                            $img_display = "block";
+
+                        }
+    ?>
+
+                        <div style="display:<?php print $img_display;?>;" class= "necklace_img">
+                        <div class="img_container">
+                        <img src="<?php print $get_img_url;?>">
+                        <br>
+                        <img class="online_tag" src="img/online_tag.png">
+                        <p class="necklace_name"><?php print $row["product_name"]; ?></p>
+                        <p class="necklace_price">¥<?php print $row["price"]; ?>(tax in)</p>
+                        </div>
+                        <form method="post" action="" class="buy_form">
+                            <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                        </form>
+                        </div>
+
+            <?php
+
+                    }
+                }
+            ?>
 
             </div>
             
