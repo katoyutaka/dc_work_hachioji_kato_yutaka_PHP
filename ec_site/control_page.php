@@ -247,8 +247,7 @@
          if(isset($_POST["count_button"])){
 
 
-            
-                if(!empty($_POST["count_text"])){
+                if(isset($_POST["count_text"])){
                     $count_button_number = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
                     $count_text = htmlspecialchars($_POST["count_text"], ENT_QUOTES, 'UTF-8');
 
@@ -260,41 +259,33 @@
                     }
 
 
-
-                    if(!preg_match("/^([1-9][0-9]*|0)$/", $count_text)){
-
+                    if(($_POST["count_text"])===""){
+                    
+                        $update_message[]= "『".$row2["product_name"]."』の「在庫数」が未入力です"."<br>";
+    
+                    }else if(!preg_match("/^([1-9][0-9]*|0)$/", $count_text)){
+                        
                         $update_message[] = "『".$row2["product_name"]."』の「在庫数」が0以上の整数以外の形式になっています"."<br>";
 
-                    }else{
+                    }else if($count_text === $row2["product_count"]){
 
                         //変更する在庫数とデータベースに登録されている在庫数が同じであるときは、変更できないとメッセージを表示する。
 
-                        if($count_text === $row2["product_count"]){
-
-                            $update_message[]= "『".$row2["product_name"]."』の在庫数に変更がないため更新できません"."<br>";
+                        $update_message[]= "『".$row2["product_name"]."』の在庫数に変更がないため更新できません"."<br>";
 
 
-                        }else{
-                            $update = "UPDATE ec_product_table SET product_count = ".$count_text." WHERE product_id = ".$count_button_number.";";
-                            $result = $db->query($update);
-                            $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$count_button_number.";";
-                            $result = $db->query($update);
-    
-                            $update_message[]= "『".$row2["product_name"]."』の在庫数を変更しました"."<br>";
 
-                        }
+                    }else{
+                        $update = "UPDATE ec_product_table SET product_count = ".$count_text." WHERE product_id = ".$count_button_number.";";
+                        $result = $db->query($update);
+                        $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$count_button_number.";";
+                        $result = $db->query($update);
 
+                        $update_message[]= "『".$row2["product_name"]."』の在庫数を変更しました"."<br>";
 
 
                     }
-
                     
-                }
-
-                if(empty($_POST["count_text"])){
-                    
-                    $update_message[]= "『".$row2["product_name"]."』の「在庫数」が未入力です"."<br>";
-
                 }
 
          }

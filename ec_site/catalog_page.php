@@ -61,7 +61,30 @@
          }
 
 
+         if(isset($_POST["buy_button"])){
+            $product_id = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
+            $product_count = htmlspecialchars($_POST["product_count_value"], ENT_QUOTES, 'UTF-8');
+
+            $login_user_name = $_SESSION["login_user_name"];
+
+            $create_date = date('Ymd');
+            $update_date = date('Ymd');
+
+            //新規にデータベースにカートに入れた情報を挿入
+            $insert = "INSERT INTO ec_cart_table (user_id,product_id,product_count,create_date, update_date) VALUES ('','$product_id','$product_count',".$create_date.",".$update_date.");";
+
+            $result=$db->query($insert);
+
+            
+
+          
+         }
+
+        
+
+
     }
+
 
 
     //ログアウトであれば、catalog_page.phpに来ても、login.phpに遷移するようにする。
@@ -171,9 +194,10 @@
                     height:200px;
                 }
 
-                .ring_img,.earring_img,.necklace_img{
+                .ring_img,.necklace_img{
                     margin-right: 30px;
                     margin-left: 30px;
+                    position: relative;
                 }
 
                 .online_tag{
@@ -343,6 +367,26 @@
                 }
 
 
+                .soldout{
+                    max-width: 250px;
+                    height: 80px;
+                    position: absolute;
+                    top:0px;
+                    left:-10px;
+                    z-index: 2;
+                            
+                }
+
+                .blind_img_container{
+                    width:200px;
+                    height: 330px;
+                    background-color: #fff;
+                    opacity: 0.6;
+                    position: absolute;
+
+                }
+
+
 
     </style>
               
@@ -359,6 +403,11 @@
      <div class="header">
      <p class="label_user">2023 Spring Collection発売</p>
         <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div><br>
+
+<?php
+        print $product_id;
+            print $product_count;
+?>
         <div class="tag_wrapper">
             <form method="post" action="">
                     <input type="submit" class="mypage_tag" name="mypage_tag"  >
@@ -401,10 +450,29 @@
                             $img_display = "block";
                 
                         }
+
+
+                        if($row["product_count"] === "0"){
+                            $sold_out_display1="hidden";
+                            $sold_out_display2="visible";
+                
+                        } else {
+                            $sold_out_display1="visible";
+                            $sold_out_display2="hidden";
+                
+                        }
+
+
+
+
+
                     ?>
 
-                        <div style="display:<?php print $img_display;?>;" class= "ring_img">
+                        <div style="display:<?php print $img_display;?>" class= "ring_img">
                         <div class="img_container">
+                        <div class="blind_img_container" style="visibility:<?php print $sold_out_display2;?>" >
+                        </div>
+
                         <img src="<?php print $get_img_url; ?>">
                         <br>
                         <img class="online_tag" src="img/online_tag.png">
@@ -412,16 +480,24 @@
                         <p class="ring_price">¥<?php print $row["price"]; ?>(tax in)</p>
                         </div>
                         <form method="post" action="" class="buy_form">
-                            <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                            <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>"  value="カートに入れる">
+                            <img src="img/soldout.png" style="visibility:<?php print $sold_out_display2;?>" class="soldout">
                         </form>
+                               
                         </div>
 
                         <?php
 
                    }
                 }
+
+                
             
             ?>
+
+                
+
+                  
 
             </div>
             
@@ -445,6 +521,7 @@
                     while($row =$result->fetch()){ 
                         $get_img_url = $row["image_path"];
 
+                     
                         if($row["public_flg"] === "0"){
                             $img_display = "none";
 
@@ -452,10 +529,23 @@
                             $img_display = "block";
 
                         }
+
+
+                        if($row["product_count"] === "0"){
+                            $sold_out_display1="hidden";
+                            $sold_out_display2="visible";
+                
+                        } else {
+                            $sold_out_display1="visible";
+                            $sold_out_display2="hidden";
+                
+                        }
     ?>
 
                         <div style="display:<?php print $img_display;?>;" class= "necklace_img">
                         <div class="img_container">
+                        <div class="blind_img_container" style="visibility:<?php print $sold_out_display2;?>" >
+                        </div>
                         <img src="<?php print $get_img_url;?>">
                         <br>
                         <img class="online_tag" src="img/online_tag.png">
@@ -463,7 +553,12 @@
                         <p class="necklace_price">¥<?php print $row["price"]; ?>(tax in)</p>
                         </div>
                         <form method="post" action="" class="buy_form">
-                            <input type="submit" class="buy_button" name="buy_button" value="カートに入れる">
+                            <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>" value="カートに入れる">
+
+                            <input type ="hidden" name="count_id_value" value ="<?php print $row["product_id"]?>">
+                            <input type ="hidden" name="product_count_value" value ="<?php print $row["product_count"]?>">
+
+                            <img src="img/soldout.png" style="visibility:<?php print $sold_out_display2;?>" class="soldout">
                         </form>
                         </div>
 
