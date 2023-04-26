@@ -27,12 +27,12 @@
 
             //商品名product_name
             //  価格price
-            //  個数product_count
+            //  個数stock_count
             //  画像product_image
             //  公開/非公開public_flg
 
 
-                    $product_name =''; 
+                    
                     if(!empty($_POST['product_name'])){
                         $product_name = htmlspecialchars($_POST['product_name'], ENT_QUOTES, 'UTF-8');
                     } else {
@@ -41,7 +41,7 @@
 
 
 
-                    $category ='';
+                   
                     if(!empty($_POST['category'])){
                         $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'UTF-8');
 
@@ -55,7 +55,7 @@
 
 
 
-                    $price ='';
+                    
                     if(!empty($_POST['price'])){
                         $price = htmlspecialchars($_POST['price'], ENT_QUOTES, 'UTF-8');
 
@@ -68,11 +68,11 @@
                     }
 
 
-                    $product_count ='';
-                    if(!empty($_POST['product_count'])){
-                        $product_count = htmlspecialchars($_POST['product_count'], ENT_QUOTES, 'UTF-8');
+                  
+                    if(!empty($_POST['stock_count'])){
+                        $stock_count = htmlspecialchars($_POST['stock_count'], ENT_QUOTES, 'UTF-8');
 
-                        if(!preg_match("/^([1-9][0-9]*|0)$/", $product_count)){
+                        if(!preg_match("/^([1-9][0-9]*|0)$/", $stock_count)){
                             $validation_error[] = "「個数」が0以上の整数以外の形式になっています"."<br>";
                         }
 
@@ -81,8 +81,7 @@
                     }
 
                     
-                    $product_image ='';
-                    $image_path ='';
+                   
                     if(!empty($_FILES['product_image']['name'])){
                         $product_image = htmlspecialchars($_FILES['product_image']['name'], ENT_QUOTES, 'UTF-8');
                         $image_path =  'img/'.htmlspecialchars($_FILES['product_image']['name'], ENT_QUOTES, 'UTF-8');
@@ -93,7 +92,7 @@
                     }
 
 
-                    $product_image_tmp_name ='';
+                   
                     if(isset($_FILES['product_image']['tmp_name'])){
                         $product_image_tmp_name = htmlspecialchars($_FILES['product_image']['tmp_name'], ENT_QUOTES, 'UTF-8');
                     }
@@ -109,8 +108,7 @@
 
 
                     
-                    $public_flg ='';
-                    $cg_public_flg= '';
+                   
                     if(!empty($_POST['public_flg'])){
                         $public_flg = htmlspecialchars($_POST['public_flg'], ENT_QUOTES, 'UTF-8');
 
@@ -153,11 +151,25 @@
 
                             $create_date = date('Ymd');
                             $update_date = date('Ymd');
-                            $insert = "INSERT INTO ec_product_table (product_name,category, price,product_count,public_flg, create_date, update_date,image_path) VALUES ('$product_name', '$category','$price','$product_count','$cg_public_flg', ".$create_date.",".$update_date.",'$image_path');";
+
+
+
+                            //➀個数（在庫数）以外の情報は別のテーブル（ec_product_table）に挿入。
+                            $insert = "INSERT INTO ec_product_table (product_name,category, price,public_flg, create_date, update_date,image_path) VALUES ('$product_name', '$category','$price','$cg_public_flg', '$create_date','$update_date','$image_path');";
 
                             if($result=$db->query($insert)){
                                 $save = 'ec_site/img/'.basename($product_image);
                                 move_uploaded_file($product_image_tmp_name,$save);
+
+                                //lastInsertId()関数は直前のやつのIDを持ってくる関数！！
+                                $product_id = $db->lastInsertId();
+
+                                //「ec_stock_table」と「ec_product_table」のテーブル結合をしたいが、結合部分の「product_id」が➀で作成されるので、作成されてから持ってこないといけない。
+                                //個数（在庫数）と「ec_product_table」から持ってきた「product_id」を「ec_stock_table」に挿入。
+                                $insert= "INSERT INTO ec_stock_table (product_id,stock_count,create_date, update_date) VALUES ('$product_id','$stock_count','$create_date','$update_date');";
+                                $result=$db->query($insert);
+
+
                                 $str ="『".$product_name."』の商品登録が完了しました";
                                
                               
@@ -169,12 +181,6 @@
                      }
 
 
-
-
-
-
-  
-
         }
 
 
@@ -184,14 +190,14 @@
 
             if($_POST["public_flg_button"] === "公開にする"){
 
-                $update = "UPDATE ec_product_table SET public_flg = '1' WHERE product_id = ".$number.";";
+                $update = "UPDATE ec_product_table SET public_flg = '1' WHERE product_id = '$number';";
                 $result = $db->query($update);
-                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$number.";";
+                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = '$number';";
                 $result = $db->query($update);
 
 
                 //何の商品を公開にしたのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT * FROM  ec_product_table WHERE product_id = ".$number.";";
+                $select = "SELECT * FROM  ec_product_table WHERE product_id = '$number';";
                 if($result2 = $db->query($select)){
                     $row2 =$result2->fetch();
                 }
@@ -202,14 +208,14 @@
 
             if($_POST["public_flg_button"] === "非公開にする"){
                 
-                $update = "UPDATE ec_product_table SET public_flg = '0' WHERE product_id = ".$number.";";
+                $update = "UPDATE ec_product_table SET public_flg = '0' WHERE product_id = '$number';";
                 $result = $db->query($update);
-                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$number.";";
+                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = '$number';";
                 $result = $db->query($update);
 
 
                 //何の商品を非公開にしたのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT * FROM  ec_product_table WHERE product_id = ".$number.";";
+                $select = "SELECT * FROM  ec_product_table WHERE product_id = '$number';";
                 if($result2 = $db->query($select)){
                     $row2 =$result2->fetch();
                 }
@@ -228,12 +234,12 @@
             $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
 
             //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-            $select = "SELECT product_name FROM  ec_product_table WHERE product_id = ".$delete_number.";";
+            $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$delete_number';";
             if($result2 = $db->query($select)){
                 $row2 =$result2->fetch();
             }
 
-            $delete = "DELETE FROM ec_product_table WHERE ec_product_table.product_id = ".$delete_number.";";
+            $delete = "DELETE FROM ec_product_table WHERE ec_product_table.product_id = '$delete_number';";
             $result = $db->query($delete);
             
             $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
@@ -251,10 +257,12 @@
                     $count_button_number = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
                     $count_text = htmlspecialchars($_POST["count_text"], ENT_QUOTES, 'UTF-8');
 
+                 
+
                     
                     //何の商品の在庫数を変更したのか知るために以下の商品名を取ってくるコードも記載。
-                    $select = "SELECT * FROM  ec_product_table WHERE product_id = ".$count_button_number.";";
-                    if($result2 = $db->query($select)){
+                    $sql= " SELECT *FROM ec_product_table JOIN ec_stock_table ON ec_product_table.product_id = ec_stock_table.product_id WHERE stock_id = '$count_button_number';";
+                    if($result2 = $db->query($sql)){
                         $row2 =$result2->fetch();
                     }
 
@@ -267,7 +275,7 @@
                         
                         $update_message[] = "『".$row2["product_name"]."』の「在庫数」が0以上の整数以外の形式になっています"."<br>";
 
-                    }else if($count_text === $row2["product_count"]){
+                    }else if($count_text === $row2["stock_count"]){
 
                         //変更する在庫数とデータベースに登録されている在庫数が同じであるときは、変更できないとメッセージを表示する。
 
@@ -276,9 +284,9 @@
 
 
                     }else{
-                        $update = "UPDATE ec_product_table SET product_count = ".$count_text." WHERE product_id = ".$count_button_number.";";
+                        $update = "UPDATE ec_stock_table SET stock_count = ".$count_text." WHERE stock_id = '$count_button_number';";
                         $result = $db->query($update);
-                        $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = ".$count_button_number.";";
+                        $update = "UPDATE ec_stock_table SET update_date = '".date('Ymd')."' WHERE stock_id = '$count_button_number';";
                         $result = $db->query($update);
 
                         $update_message[]= "『".$row2["product_name"]."』の在庫数を変更しました"."<br>";
@@ -322,7 +330,10 @@
 
 ?>
 
-
+<!-- SELECT *
+FROM ec_product_table
+JOIN ec_stock_table
+ON ec_product_table.product_id = ec_stock_table.product_id; -->
 
 
 <!DOCTYPE html>
@@ -332,6 +343,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品管理ページ</title>
+
 
     <style>
                 html,
@@ -535,7 +547,7 @@
                     margin-left:42px;
                 }
 
-                .product_count{
+                .stock_count{
                     height: 25px;
                     width: 120px;
                     margin-left:43px;
@@ -593,7 +605,7 @@
 
                 }
 
-                .td_product_count{
+                .td_stock_count{
                     width: 180px;
 
                 }
@@ -701,14 +713,16 @@
 <body>
 <div class="over_area">
     <p class="label_user1">商品管理</p>
+   <?php print $product_id;?>
     <div class="main_form">
         <h1>商品登録フォーム</h1>
+     
 
         <form method="post" action="" enctype="multipart/form-data" class="input_area">
             <p class="label1">商品名 ：<input type="text" class="product_name" name="product_name"></p>
             <p class="label7">カテゴリ   ：<input type="text" class="category" name="category"></p>
             <p class="label2">価格：<input type="text" class="price" name="price"></p>
-            <p class="label3">個数：<input type="text" class="product_count" name="product_count"></p>
+            <p class="label3">個数：<input type="text" class="stock_count" name="stock_count"></p>
             <p class="label4">画像：<input type="file" class="product_image" name="product_image"></p>
             <p class="label5">公開/非公開：<input type="text" class="public_flg" name="public_flg"></p>
             <p class="label6"><input type="submit" name="submit" class="submit" value="商品を登録する"></p>
@@ -762,7 +776,7 @@
     <?php
 
 
-    $sql = "SELECT * FROM  ec_product_table";
+    $sql =  " SELECT * FROM ec_product_table JOIN ec_stock_table ON ec_product_table.product_id = ec_stock_table.product_id";
 
     if($result = $db->query($sql)){
         while($row =$result->fetch()){ 
@@ -779,7 +793,7 @@
         } 
         
         ?>
-
+       
             <table style="background:<?php print $color; ?>;">
             <tr>
                 <th>画像</th><th>商品名</th><th>価格</th><th>在庫数</th><th>公開<br>非公開</th><th>作成日</th><th>更新日</th><th>削除</th><br>
@@ -789,10 +803,10 @@
                 <td class="td_product_name"><?php print $row["product_name"];?></td>
                 <td class="td_price"><?php print $row["price"];?></td>
 
-                <td class="td_product_count">
-                    <form method="post" action="" class="product_count_form">
-                        <input type ="hidden" name="count_id_value" value ="<?php print $row["product_id"]?>">
-                        <input type="text" class="count_text" name="count_text" value="<?php print $row["product_count"];?>"  >
+                <td class="td_stock_count">
+                    <form method="post" action="" class="stock_count_form">
+                        <input type ="hidden" name="count_id_value" value ="<?php print $row["stock_id"]?>">
+                        <input type="text" class="count_text" name="count_text" value="<?php print $row["stock_count"];?>"  >
                         <input type="submit" class="count_button" name="count_button" value="登録"  >
                     </form>
                     

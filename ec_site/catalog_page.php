@@ -63,17 +63,34 @@
 
          if(isset($_POST["buy_button"])){
             $product_id = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
-            $product_count = htmlspecialchars($_POST["product_count_value"], ENT_QUOTES, 'UTF-8');
+            $stock_count = htmlspecialchars($_POST["stock_count_value"], ENT_QUOTES, 'UTF-8');
 
             $login_user_name = $_SESSION["login_user_name"];
 
             $create_date = date('Ymd');
             $update_date = date('Ymd');
 
-            //新規にデータベースにカートに入れた情報を挿入
-            $insert = "INSERT INTO ec_cart_table (user_id,product_id,product_count,create_date, update_date) VALUES ('','$product_id','$product_count',".$create_date.",".$update_date.");";
+            $sql =  " SELECT * FROM ec_user_table WHERE user_name = '$login_user_name'";
+            if($result = $db->query($sql)){
+                $row =$result->fetch();
+                $user_id = $row["user_id"];
+                
+            }
 
-            $result=$db->query($insert);
+            //新規にデータベースにカートに入れた情報を挿入
+            $insert = "INSERT INTO ec_cart_table (user_id,product_id,stock_count,create_date, update_date) VALUES ('$user_id','$product_id','$stock_count','$create_date','$update_date');";
+
+            if($result=$db->query($insert)){
+
+                $sql =  " SELECT * FROM ec_product_table WHERE product_id = '$product_id'";
+                if($result = $db->query($sql)){
+                    $row3 =$result->fetch();
+
+                    $message[]=  "『". $row3["product_name"]."』の商品は正常にカートに追加されました";
+
+                }
+                
+            }
 
             
 
@@ -387,6 +404,12 @@
                 }
 
 
+                .msg2{
+                    color:blue;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+
 
     </style>
               
@@ -402,12 +425,20 @@
    
      <div class="header">
      <p class="label_user">2023 Spring Collection発売</p>
+
+     <?php
+        if (!empty($message) ){
+            foreach($message as $err2){
+                print "<span class='msg2'>$err2</span>";
+                
+            }
+        }
+
+     ?>
+
         <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div><br>
 
-<?php
-        print $product_id;
-            print $product_count;
-?>
+
         <div class="tag_wrapper">
             <form method="post" action="">
                     <input type="submit" class="mypage_tag" name="mypage_tag"  >
@@ -437,7 +468,7 @@
 
             <?php
             
-                $sql = "SELECT * FROM  ec_product_table WHERE category = 'ring';";
+            $sql =  " SELECT *FROM ec_product_table JOIN ec_stock_table ON ec_product_table.product_id = ec_stock_table.product_id WHERE category = 'ring';";
 
                 if($result = $db->query($sql)){
                     while($row =$result->fetch()){ 
@@ -452,7 +483,7 @@
                         }
 
 
-                        if($row["product_count"] === "0"){
+                        if($row["stock_count"] === "0"){
                             $sold_out_display1="hidden";
                             $sold_out_display2="visible";
                 
@@ -467,7 +498,7 @@
 
 
                     ?>
-
+                       
                         <div style="display:<?php print $img_display;?>" class= "ring_img">
                         <div class="img_container">
                         <div class="blind_img_container" style="visibility:<?php print $sold_out_display2;?>" >
@@ -481,6 +512,10 @@
                         </div>
                         <form method="post" action="" class="buy_form">
                             <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>"  value="カートに入れる">
+                            
+                            <input type ="hidden" name="count_id_value" value ="<?php print $row["product_id"]?>">
+                            <input type ="hidden" name="stock_count_value" value ="<?php print $row["stock_count"]?>">
+
                             <img src="img/soldout.png" style="visibility:<?php print $sold_out_display2;?>" class="soldout">
                         </form>
                                
@@ -515,7 +550,7 @@
             <?php
 
 
-                $sql = "SELECT * FROM  ec_product_table WHERE category = 'necklace';";
+                $sql =  " SELECT *FROM ec_product_table JOIN ec_stock_table ON ec_product_table.product_id = ec_stock_table.product_id WHERE category = 'necklace';";
 
                 if($result = $db->query($sql)){
                     while($row =$result->fetch()){ 
@@ -530,8 +565,8 @@
 
                         }
 
-
-                        if($row["product_count"] === "0"){
+                         
+                        if($row["stock_count"] === "0"){
                             $sold_out_display1="hidden";
                             $sold_out_display2="visible";
                 
@@ -541,7 +576,7 @@
                 
                         }
     ?>
-
+                         
                         <div style="display:<?php print $img_display;?>;" class= "necklace_img">
                         <div class="img_container">
                         <div class="blind_img_container" style="visibility:<?php print $sold_out_display2;?>" >
@@ -556,7 +591,7 @@
                             <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>" value="カートに入れる">
 
                             <input type ="hidden" name="count_id_value" value ="<?php print $row["product_id"]?>">
-                            <input type ="hidden" name="product_count_value" value ="<?php print $row["product_count"]?>">
+                            <input type ="hidden" name="stock_count_value" value ="<?php print $row["stock_count"]?>">
 
                             <img src="img/soldout.png" style="visibility:<?php print $sold_out_display2;?>" class="soldout">
                         </form>
