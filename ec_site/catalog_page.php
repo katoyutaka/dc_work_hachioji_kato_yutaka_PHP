@@ -43,8 +43,8 @@
 
 
         if(isset($_POST["cart_tag"])){
-            // header('Location:login.php');
-            // exit();
+            header('Location:cart_page.php');
+            exit();
 
          }
 
@@ -63,34 +63,65 @@
 
          if(isset($_POST["buy_button"])){
             $product_id = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
-            $stock_count = htmlspecialchars($_POST["stock_count_value"], ENT_QUOTES, 'UTF-8');
+            $product_count = htmlspecialchars($_POST["product_count_value"], ENT_QUOTES, 'UTF-8');
 
             $login_user_name = $_SESSION["login_user_name"];
 
             $create_date = date('Ymd');
             $update_date = date('Ymd');
 
-            $sql =  " SELECT * FROM ec_user_table WHERE user_name = '$login_user_name'";
+            
+
+            $sql =  " SELECT * FROM ec_cart_table WHERE product_id = '$product_id'";
             if($result = $db->query($sql)){
-                $row =$result->fetch();
-                $user_id = $row["user_id"];
-                
-            }
+                $row4 =$result->fetch();
 
-            //新規にデータベースにカートに入れた情報を挿入
-            $insert = "INSERT INTO ec_cart_table (user_id,product_id,stock_count,create_date, update_date) VALUES ('$user_id','$product_id','$stock_count','$create_date','$update_date');";
+                //指定商品がすでにDBのショッピングカート情報を保存するテーブルに保存されている時、DBの数量をDBの数量＋１に更新する。
+                if($row4["product_id"]==""){
+                    
+                        $sql =  " SELECT * FROM ec_user_table WHERE user_name = '$login_user_name'";
+                        if($result = $db->query($sql)){
+                            $row =$result->fetch();
+                            $user_id = $row["user_id"];
+                            
+                        }
 
-            if($result=$db->query($insert)){
+                        //新規にデータベースにカートに入れた情報を挿入
+                        $insert = "INSERT INTO ec_cart_table (user_id,product_id,product_count,create_date, update_date) VALUES ('$user_id','$product_id','$product_count','$create_date','$update_date');";
 
-                $sql =  " SELECT * FROM ec_product_table WHERE product_id = '$product_id'";
-                if($result = $db->query($sql)){
-                    $row3 =$result->fetch();
+                        if($result=$db->query($insert)){
 
-                    $message[]=  "『". $row3["product_name"]."』の商品は正常にカートに追加されました";
+                            $sql =  " SELECT * FROM ec_product_table WHERE product_id = '$product_id'";
+                            if($result = $db->query($sql)){
+                                $row3 =$result->fetch();
 
+                                $message[]=  "『". $row3["product_name"]."』の商品は正常にカートに追加されました";
+
+                            }
+                            
+                        }
+
+                }else{  
+                        $product_count =$row4["product_count"]+1;
+ 
+                        $update = "UPDATE ec_cart_table SET product_count = '$product_count' WHERE product_id = '$product_id';";
+                        $result = $db->query($update);
+
+                        $sql =  " SELECT * FROM ec_product_table WHERE product_id = '$product_id'";
+                            if($result = $db->query($sql)){
+                                $row3 =$result->fetch();
+                    
+                                $message[]=  "『". $row3['product_name']."』の商品は正常にカートに追加されました";
+                               
+                            }
                 }
                 
+                
             }
+
+
+            
+
 
             
 
@@ -408,6 +439,7 @@
                     color:blue;
                     font-size: 18px;
                     font-weight: bold;
+                    margin-left: 350px;
                 }
 
 
@@ -430,6 +462,13 @@
         if (!empty($message) ){
             foreach($message as $err2){
                 print "<span class='msg2'>$err2</span>";
+                
+            }
+        }
+
+        if (!empty($test) ){
+            foreach($test as $err1000){
+                print "<span class='msg2'>$err1000</span>";
                 
             }
         }
@@ -514,7 +553,7 @@
                             <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>"  value="カートに入れる">
                             
                             <input type ="hidden" name="count_id_value" value ="<?php print $row["product_id"]?>">
-                            <input type ="hidden" name="stock_count_value" value ="<?php print $row["stock_count"]?>">
+                            <input type ="hidden" name="product_count_value" value ="<?php print 1;?>">
 
                             <img src="img/soldout.png" style="visibility:<?php print $sold_out_display2;?>" class="soldout">
                         </form>
@@ -591,7 +630,7 @@
                             <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>" value="カートに入れる">
 
                             <input type ="hidden" name="count_id_value" value ="<?php print $row["product_id"]?>">
-                            <input type ="hidden" name="stock_count_value" value ="<?php print $row["stock_count"]?>">
+                            <input type ="hidden" name="product_count_value" value ="<?php print 1;?>">
 
                             <img src="img/soldout.png" style="visibility:<?php print $sold_out_display2;?>" class="soldout">
                         </form>
