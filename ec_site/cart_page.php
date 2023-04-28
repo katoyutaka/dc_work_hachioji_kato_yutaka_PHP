@@ -19,6 +19,34 @@
 
 ?>
 
+<?php
+
+        if(isset($_POST["delete_button"])){
+
+            $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
+            $delete_cart_id_number = htmlspecialchars($_POST["delete_cart_id_value"], ENT_QUOTES, 'UTF-8');
+
+            //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
+            $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$delete_number';";
+            if($result2 = $db->query($select)){
+                $row2 =$result2->fetch();
+            }
+
+            $delete = "DELETE FROM ec_cart_table WHERE cart_id = '$delete_cart_id_number';";
+            $result = $db->query($delete);
+            
+            $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
+
+
+
+        }
+
+
+
+
+
+?>
+
 
 
 
@@ -53,7 +81,7 @@
 
                 * {
                     box-sizing:border-box;
-                    vertical-align: bottom;
+                    vertical-align: middle;
                     font-family: system-ui;
                     letter-spacing: 2px;
                     /* font-family:"Yu Mincho"; */
@@ -61,33 +89,17 @@
                 }
 
                 .label_user{
-                    text-align: left;
+                    /* text-align: left; */
                     font-size:20px;
                     font-weight:bold;
                     background-color: #eff6fc;
-                    height: 100px;
+                    height: 90px;
                     line-height: 40px;
                     width: 1000px;
                     padding-left:50px;
 
                     
                 }
-
-                .label_user2{
-                    text-align: left;
-                    font-size:18px;
-                    font-weight:bold;
-                    background-color: #eff6fc;
-                    height: 40px;
-                    line-height: 40px;
-                    font-size: 16px;
-                    width: 1000px;
-                    padding-left:50px;
-                    margin-top:20px;
-                    
-                }
-
-
 
                 .main_wrapper{
                     width: 1000px;
@@ -100,6 +112,7 @@
 
                 span{
                     font-size: 14px;
+                    padding-top: 10px;
 
                 }
 
@@ -108,9 +121,173 @@
                     color:red;
                 }
 
+                .header{
+                    text-align: center;
+                    font-weight:bold;
+                    height: 85px;
+                    color: #02235F;
+                    /* z-index: 2;
+                    position: fixed; */
+                    width: 100%;
+                    background-color: #fff;
+                    /* top: 0px;
+                    left: 0px; */
+                }
 
-    
+                .header_label{
+                    text-align: center;
+                    font-size:18px;
+                    font-weight:bold;
+                    background-color: #02235F;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 16px;
+                    padding-left:50px;
+                    color:white;
+                    font-family:"Yu Mincho";
+                    letter-spacing: 0px;
 
+                }
+
+                .top_tag p{
+                    font-size: 28px;
+                    font-family:"Yu Mincho";
+                    font-weight: bolder;
+                    display: block;
+                    float: left;
+                    margin-top: 25px;
+                 
+                }
+
+                .top_tag{
+                    /* display: flex; */
+                    height: 100px;
+                    width: 100%;
+                }
+
+                .image_wrapper{
+                        /* width: 1000px; */
+                        height:80px;
+                        margin:0 auto;
+                    }
+
+                .image{
+                    width:300px;
+                    float:right;
+                }
+
+                .catalog_wrapper{
+                    width: 1000px;
+                    margin-top: 20px;
+                }
+
+                .img-wrapper{
+                    height:170px;
+                }
+
+                table,
+                th,
+                td {
+                    text-align: center;
+                    border-bottom: 1px solid #CECECE;
+                    font-weight: bold;
+                    font-size: 14px;
+
+                }
+
+
+                .td_product_name{
+                    width: 500px;
+                    margin: auto;
+                    margin-top: 20px;
+                }
+
+                .td_price{
+                    width: 240px;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+
+                }
+
+                .td_stock_count{
+                    width: 80px;
+
+                }
+
+                .td_delete{
+                    width: 100px;
+
+                }
+
+                .product_image_container{
+                    width:60px;
+                    height:60px;
+                }
+
+                
+                .delete_button{
+                    color: white;
+                    background-color: #1c1c1c;
+                    width: 70px;
+                    height: 25px;
+                    /* margin-left: 20px; */
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    /* margin-top: 10px; */
+                    font-size: 12px;
+                }
+                .sub_wrapper{
+                    margin: 0 auto;
+                    width: 1000px;
+                    border-top: 1px solid black;
+                    margin-top: 50px;
+                    height: 200px;
+                    /* display: column; */
+                }
+
+                .total4,.total5{
+                    float: right;
+                   
+                }
+                
+                .total1, .total2,.total3{
+                    margin-top: 10px;
+                    width: 250px;
+                    height: 30px;
+                }
+
+                .total_label1{
+                    float: left;
+                }
+
+                .total_label2{
+                    float: right;
+                }
+
+                .total4{
+                    margin-top: 20px;
+                    width: 1000px;
+                    height: 30px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    background-color: #CECECE;
+                }
+                .update_area{
+                    width: 1000px;
+                    height: 200px;
+                    background-color: #fff;
+                    /* padding-bottom: 50px; */
+                    
+                    /* margin-left: 50px; */
+                    
+                }
+
+                .msg2{
+                    color:blue;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
 
 
 
@@ -119,18 +296,108 @@
 </head>
 <body>
 
-
-<div class="main_wrapper">
-        <div class="label_user">ご注文商品 <span>発送予定日  :<?php print date('Ymd')+ 2;?></span>
-
-            <p class="label_user3">※お届け日ではありません。またコンビニ前払いの場合は発送日が異なります。ご注意ください。</p>
-    
-    
-        </div>
-       
-        <div class="text">「JEWELRY HOMME ONLINE SHOP」入会お申込の前に、以下の会員規約・利用規約を必ずお読み下さい。<br>ご同意いただける方は、「同意する」をクリックして入会お申込フォームへお進み下さい。</div>
-        <p class="label_user2">会員規約</p>
+<div class="header">
+     <p class="header_label">2023 Spring Collection発売</p>
 </div>
+<div class="main_wrapper">
+    <div class="top_tag">
+        <p>Shopping Bag</p>
+
+        <div class="image_wrapper">
+            <img src='img/shopping1.png' class="image">
+        </div>
+
+        <div class="update_area">
+                        <?php
+                            if (!empty($update_message) ){
+                                foreach($update_message as $err2){
+                                    print "<span class='msg2'>$err2</span>";
+                                    
+                                }
+                            }
+                        ?>
+        </div>
+    </div>
+
+
+    <div class="label_user">ご注文商品 <span>発送予定日  :<?php print date('Ymd')+ 2;?></span>
+        <p class="label_user3">※お届け日ではありません。またコンビニ前払いの場合は発送日が異なります。ご注意ください。</p>
+    </div>
+
+    <?php
+        $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
+        if($result = $db->query($sql)){
+
+            $total_sum = 0;
+            while($row =$result->fetch()){
+                $get_img_url = $row["image_path"];
+
+                $total = $row["price"]*$row["product_count"];
+
+                $total_sum = $total_sum + $total;
+                $grand_total = $total_sum + $delivery_charge;
+
+                // ３万円以上で送料無料で、未満で送料８００円
+                if($total_sum >= 30000){
+                    $delivery_charge=0;
+                }else{
+                    $delivery_charge=800;
+                }
+
+    ?>
+                <div class="catalog_wrapper">
+                    <table>
+                                <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
+                                <td class="td_product_name"><?php print $row["product_name"];?></td>
+
+                                <!-- number_format関数で数値にカンマを付けられる。 -->
+                                <td class="td_price"><?php print number_format($row["price"])."(税込)";?></td>
+
+                                <td class="td_stock_count"><?php print $row["product_count"];?></td>
+
+
+                                <td class="td_delete">
+                                    <form method="post" action="">
+                                        <input type ="hidden" name="delete_id_value" value ="<?php print $row["product_id"]?>">
+                                        <input type ="hidden" name="delete_cart_id_value" value ="<?php print $row["cart_id"]?>">
+                                        <input type="submit" class="delete_button" name="delete_button" value="削除"  >
+                                    </form>
+                                </td>
+
+                    </table>
+              
+    <?php
+            }
+        }
+    ?>
+                </div>
+        </div>
+
+        <div class="sub_wrapper">
+            <div class="total5">
+                <div class="total1">                        
+                    <p class="total_label1">小計</p>
+                    <p class="total_label2">￥<?php print number_format($total_sum);?>円(税込)</p>
+                </div>
+
+                <div class="total2">                        
+                    <p class="total_label1">配送料金</p>
+                    <p class="total_label2">￥<?php print number_format($delivery_charge);?>円(税込)</p>
+                </div>
+
+                <div class="total3">                        
+                    <p class="total_label1">合計</p>
+                    <p class="total_label2">￥<?php print number_format($grand_total);?>円(税込)</p>
+                </div>
+
+            </div>
+
+            <div class="total4">                        
+                    <p class="total_label1">総合計</p>
+                    <p class="total_label2">￥<?php print number_format($grand_total);?>円(税込)</p>
+            </div>
+        </div>
     
 </body>
 </html>
+

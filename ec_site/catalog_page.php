@@ -547,7 +547,7 @@
                         <br>
                         <img class="online_tag" src="img/online_tag.png">
                         <p class="ring_name"><?php print $row["product_name"]; ?></p>
-                        <p class="ring_price">¥<?php print $row["price"]; ?>(tax in)</p>
+                        <p class="ring_price">¥<?php print number_format($row["price"]); ?>(tax in)</p>
                         </div>
                         <form method="post" action="" class="buy_form">
                             <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>"  value="カートに入れる">
@@ -624,7 +624,7 @@
                         <br>
                         <img class="online_tag" src="img/online_tag.png">
                         <p class="necklace_name"><?php print $row["product_name"]; ?></p>
-                        <p class="necklace_price">¥<?php print $row["price"]; ?>(tax in)</p>
+                        <p class="necklace_price">¥<?php print number_format($row["price"]); ?>(tax in)</p>
                         </div>
                         <form method="post" action="" class="buy_form">
                             <input type="submit" class="buy_button" name="buy_button" style="visibility:<?php print $sold_out_display1;?>" value="カートに入れる">
