@@ -8,7 +8,8 @@
        define("EXPIRATION_PERIOD", 1);
 
        $cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
-        
+       $login_user_name = $_SESSION["login_user_name"];
+
        try{
             $db=new PDO(DSN,LOGIN_USER,PASSWORD);
    
@@ -21,26 +22,87 @@
 
 <?php
 
-        if(isset($_POST["delete_button"])){
+   if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-            $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
-            $delete_cart_id_number = htmlspecialchars($_POST["delete_cart_id_value"], ENT_QUOTES, 'UTF-8');
+            if(isset($_POST["delete_button"])){
 
-            //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-            $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$delete_number';";
-            if($result2 = $db->query($select)){
-                $row2 =$result2->fetch();
+                $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
+                $delete_cart_id_number = htmlspecialchars($_POST["delete_cart_id_value"], ENT_QUOTES, 'UTF-8');
+
+                //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
+                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$delete_number';";
+                if($result2 = $db->query($select)){
+                    $row2 =$result2->fetch();
+                }
+
+                $delete = "DELETE FROM ec_cart_table WHERE cart_id = '$delete_cart_id_number';";
+                $result = $db->query($delete);
+                
+                $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
+
             }
 
-            $delete = "DELETE FROM ec_cart_table WHERE cart_id = '$delete_cart_id_number';";
-            $result = $db->query($delete);
+            if(isset($_POST["reverse-button"])){
+                header('Location:catalog_page.php');
+                exit();
+            }
+
+            if(isset($_POST["next-button"])){
+                header('Location:XXXpage.php');
+                exit();
+            }
+
+
             
-            $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
+            if(isset($_POST["logout_tag"])){  
+                //ログアウトが押されたら、セッションとクッキーを空にして、login.phpに遷移する。
+                $_SESSION=[];
+                session_destroy();
+
+                setcookie("user_check","",time()-100);
+                setcookie("login_user_name","",time()-100);  
+                setcookie("sign_up_password_1","",time()-100);  
+
+                header('Location:login.php');
+                exit();
+            }
 
 
 
-        }
+            if(isset($_POST["cart_tag"])){
+                header('Location:cart_page.php');
+                exit();
 
+            
+            }
+
+
+            if(isset($_POST["favorite_tag"])){
+                // header('Location:login.php');
+                // exit();
+    
+             }
+    
+             if(isset($_POST["mypage_tag"])){
+                // header('Location:login.php');
+                // exit();
+    
+             }
+
+             if(isset($_POST["product_count_button"])){
+                // header('Location:login.php');
+                // exit();
+    
+             }
+
+             
+    }
+
+    //ログアウトであれば、catalog_page.phpに来ても、login.phpに遷移するようにする。
+    if (empty($_SESSION['login_user_name'])) {
+        header('Location:login.php');
+        exit(); 
+    }
 
 
 
@@ -84,8 +146,7 @@
                     vertical-align: middle;
                     font-family: system-ui;
                     letter-spacing: 2px;
-                    /* font-family:"Yu Mincho"; */
-                    /* letter-spacing: 2px; */
+
                 }
 
                 .label_user{
@@ -126,12 +187,12 @@
                     font-weight:bold;
                     height: 85px;
                     color: #02235F;
-                    /* z-index: 2;
-                    position: fixed; */
+                    z-index: 2;
+                    position: fixed;
                     width: 100%;
                     background-color: #fff;
-                    /* top: 0px;
-                    left: 0px; */
+                    top: 0px;
+                    left: 0px;
                 }
 
                 .header_label{
@@ -163,6 +224,7 @@
                     /* display: flex; */
                     height: 100px;
                     width: 100%;
+                    margin-top: 100px;
                 }
 
                 .image_wrapper{
@@ -210,7 +272,7 @@
 
                 }
 
-                .td_stock_count{
+                .td_product_count{
                     width: 80px;
 
                 }
@@ -226,7 +288,7 @@
                 }
 
                 
-                .delete_button{
+                .delete_button,.product_count_button{
                     color: white;
                     background-color: #1c1c1c;
                     width: 70px;
@@ -289,6 +351,98 @@
                     font-weight: bold;
                 }
 
+                .next-button{
+                        background-color: #000099;
+                        color:white;
+                        margin-left:10px;
+                        transition: all 0.6s;
+                        cursor: pointer;
+                        float: right;
+                }
+
+                .reverse-button{
+                    color:#000099;
+                    transition: all 0.6s;
+                    cursor: pointer;
+                    float: left;
+                }
+
+                
+                .button_container{
+                        width:100%;
+                        margin:0 auto;
+                        margin-top:80px;
+                        width:600px;
+                        height: 60px;
+
+                }
+
+                .next-button,.reverse-button{
+                        margin:0 auto;
+                        width:250px;
+                        height: 50px;
+                        border-radius: 1px;
+                        border: 1px solid #000099;
+                        font-size:14px;
+                        margin-right:10px;
+                        
+                }
+
+                /* .btn_wrapper{
+                    height: 200px;
+                } */
+                .cart_tag{
+                    background-image: url("img/cart.jpg");
+                    background-size: cover; 
+                }                
+                
+                
+                .favorite_tag{
+                    background-image: url("img/favorite.jpg");
+                    background-size: cover; 
+                }                
+                
+                
+                .mypage_tag{
+                    background-image: url("img/mypage.jpg");
+                    background-size: cover; 
+                }
+
+                .logout_tag{
+                    background-image: url("img/logout.jpg");
+                    background-size: cover; 
+                }
+
+                .cart_tag,.favorite_tag,.mypage_tag,.logout_tag{
+                    max-width: 20px;
+                    width: 20px;
+                    margin-top: 8px;
+                    margin-right: 13px;
+                    margin-left: 13px;
+                    border:none;
+                }
+
+                .tag_wrapper{
+                    float: right;
+                    margin-right: 20px;
+                    display: flex;
+                    /* height: 30px; */
+                    /* background-color: green; */
+                    /* width:100% ; */
+                    /* float: right; */
+
+                }
+
+                .login_name{
+                    font-size :17px;
+                    color: #02235F;
+                    float: right;
+                    margin-right: 30px;
+                    height: 10px;
+                    font-family:"Yu Mincho";
+                    letter-spacing: 0px;
+
+                }
 
 
     </style>
@@ -297,7 +451,26 @@
 <body>
 
 <div class="header">
-     <p class="header_label">2023 Spring Collection発売</p>
+     <p class="header_label">3万円以上のご購入で送料無料キャンペーン実施中！</p>
+     
+     <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div><br>
+        <div class="tag_wrapper">
+            <form method="post" action="">
+                    <input type="submit" class="mypage_tag" name="mypage_tag"  >
+            </form>
+
+            <form method="post" action="">
+                    <input type="submit" class="favorite_tag" name="favorite_tag"  >
+            </form>
+
+            <form method="post" action="">
+                    <input type="submit" class="cart_tag" name="cart_tag"  >
+            </form>
+
+            <form method="post" action="">
+                    <input type="submit" class="logout_tag" name="logout_tag"  >
+            </form>
+        </div>
 </div>
 <div class="main_wrapper">
     <div class="top_tag">
@@ -335,7 +508,7 @@
                 $total = $row["price"]*$row["product_count"];
 
                 $total_sum = $total_sum + $total;
-                $grand_total = $total_sum + $delivery_charge;
+               
 
                 // ３万円以上で送料無料で、未満で送料８００円
                 if($total_sum >= 30000){
@@ -343,6 +516,8 @@
                 }else{
                     $delivery_charge=800;
                 }
+
+                $grand_total = $total_sum + $delivery_charge;
 
     ?>
                 <div class="catalog_wrapper">
@@ -353,7 +528,14 @@
                                 <!-- number_format関数で数値にカンマを付けられる。 -->
                                 <td class="td_price"><?php print number_format($row["price"])."(税込)";?></td>
 
-                                <td class="td_stock_count"><?php print $row["product_count"];?></td>
+                                <td class="td_product_count">
+                                <form method="post" action="">
+                                        <input type ="text" name="td_product_count" value ="<?php print $row["product_count"];?>">
+                                        <input type="submit" class="product_count_button" name="product_count_button" value="変更する"  >
+
+                                        
+                                </form>
+                                </td>
 
 
                                 <td class="td_delete">
@@ -397,6 +579,14 @@
                     <p class="total_label2">￥<?php print number_format($grand_total);?>円(税込)</p>
             </div>
         </div>
+
+        <div class="button_container">
+                <form method="post" action="">
+                    <input type="submit" class="reverse-button" name="reverse-button" value="ショッピングバッグへ戻る">
+                    <input type="submit" class="next-button"  name="next-button" value="次へ">
+                </form>
+        </div>
+
     
 </body>
 </html>
