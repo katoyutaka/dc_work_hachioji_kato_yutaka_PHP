@@ -48,7 +48,7 @@
             }
 
             if(isset($_POST["next-button"])){
-                header('Location:address_page.php');
+                header('Location:YYY.php');
                 exit();
             }
 
@@ -144,7 +144,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ショッピングカート</title>
+    <title>お届け先住所</title>
     <style>
                 html,
                 body,
@@ -174,13 +174,14 @@
 
                 .label_user{
                     /* text-align: left; */
-                    font-size:20px;
+                    font-size:18px;
                     font-weight:bold;
                     background-color: #eff6fc;
-                    height: 90px;
-                    line-height: 40px;
+                    height: 50px;
+                    line-height: 50px;
                     width: 1000px;
-                    padding-left:50px;
+                    padding-left:30px;
+                    margin-top: 30px;
 
                     
                 }
@@ -195,8 +196,8 @@
                 }
 
                 span{
-                    font-size: 14px;
-                    padding-top: 10px;
+                    font-size: 18px;
+                    font-weight: bolder;
 
                 }
 
@@ -257,11 +258,11 @@
                     }
 
                 .image{
-                    width:300px;
+                    width:330px;
                     float:right;
                 }
 
-                .catalog_wrapper{
+                .input_wrapper{
                     width: 1000px;
                     margin-top: 20px;
                 }
@@ -475,6 +476,21 @@
                    
                 }
 
+                
+                .input_name_form{
+                    background-color: #f8f8f8;
+                    height: 35px;
+                    width: 380px;
+                    border:1px solid #66FFCC;
+                    border-radius: 1px;
+                    display: block;
+                    text-align: left;
+                }
+
+                .name_label{
+                    font-weight: bolder;
+                }
+
 
     </style>
               
@@ -505,10 +521,10 @@
 </div>
 <div class="main_wrapper">
     <div class="top_tag">
-        <p>Shopping Bag</p>
+        <p>Delivery Address</p>
 
         <div class="image_wrapper">
-            <img src='img/shopping1.png' class="image">
+            <img src='img/shopping2.png' class="image">
         </div>
         
         <div class="update_area">
@@ -523,101 +539,29 @@
         </div>
     </div>
 
+    <div class="label_user5"><span>お届け先情報入力</span><br><br>以下の項目をご入力いただき、「次へ」ボタンをクリックして下さい。</div>
+    <div class="label_user">注文者情報</div>
 
-    <div class="label_user">ご注文商品 <span>発送予定日  :<?php print date('Ymd')+ 2;?></span>
-        <p class="label_user3">※お届け日ではありません。またコンビニ前払いの場合は発送日が異なります。ご注意ください。</p>
-    </div>
+        <div class="input_wrapper">
+            <div class="name_form">
+                <p class="name_label">お名前</p>
+                <input type="text" class="input_name_form" name="user_name">
+            </div>
 
-    <?php
-        $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
-        if($result = $db->query($sql)){
+            <div class="name_form">
+                <p class="name_label">ひらがな</p>
+                <input type="text" class="input_hiragana_form" name="input_hiragana_form">
+            </div>
 
-            $total_sum = 0;
-            while($row =$result->fetch()){
-                $get_img_url = $row["image_path"];
-
-                $total = $row["price"]*$row["product_count"];
-
-                $total_sum = $total_sum + $total;
+            <div class="name_form">
+                <p class="name_label">生年月日(例：1990年3月3日の時は19900303)</p>
+                <input type="text" class="input_birthday_form" name="input_birthday_form">
+            </div>
+        </div>
                
-
-                // ３万円以上で送料無料で、未満で送料８００円
-                if($total_sum >= 30000){
-                    $delivery_charge=0;
-                }else{
-                    $delivery_charge=800;
-                }
-
-                $grand_total = $total_sum + $delivery_charge;
-
-    ?>
-                <div class="catalog_wrapper">
-                    <table>
-                                <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
-                                <td class="td_product_name"><?php print $row["product_name"];?></td>
-
-                                <!-- number_format関数で数値にカンマを付けられる。 -->
-                                <td class="td_price"><?php print number_format($row["price"])."(税込)";?></td>
-
-                                <td class="td_product_count">
-                                <form method="post" action="">
-                                        <input type ="hidden" name="product_count_id_value" value ="<?php print $row["product_id"]?>">
-                                        <input type ="text" name="text_product_count" class="text_product_count" value ="<?php print $row["product_count"];?>">
-                                        <input type="submit" class="product_count_button" name="product_count_button" value="変更"  >
-
-                                        
-                                </form>
-                                </td>
-
-
-                                <td class="td_delete">
-                                    <form method="post" action="">
-                                        <input type ="hidden" name="delete_id_value" value ="<?php print $row["product_id"]?>">
-                                        <input type ="hidden" name="delete_cart_id_value" value ="<?php print $row["cart_id"]?>">
-                                        <input type="submit" class="delete_button" name="delete_button" value="削除"  >
-                                    </form>
-                                </td>
-
-                    </table>
-              
-    <?php
-            }
-        }
-    ?>
-                </div>
-        </div>
-
         <div class="sub_wrapper">
-            <div class="total5">
-                <div class="total1">                        
-                    <p class="total_label1">小計</p>
-                    <p class="total_label2">￥<?php print number_format($total_sum);?>円(税込)</p>
-                </div>
-
-                <div class="total2">                        
-                    <p class="total_label1">配送料金</p>
-                    <p class="total_label2">￥<?php print number_format($delivery_charge);?>円(税込)</p>
-                </div>
-
-                <div class="total3">                        
-                    <p class="total_label1">合計</p>
-                    <p class="total_label2">￥<?php print number_format($grand_total);?>円(税込)</p>
-                </div>
-
-            </div>
-
-            <div class="total4">                        
-                    <p class="total_label1">総合計</p>
-                    <p class="total_label2">￥<?php print number_format($grand_total);?>円(税込)</p>
-            </div>
         </div>
-
-        <div class="button_container">
-                <form method="post" action="">
-                    <input type="submit" class="reverse-button" name="reverse-button" value="ショッピングバッグへ戻る">
-                    <input type="submit" class="next-button"  name="next-button" value="次へ">
-                </form>
-        </div>
+</div>
 
     
 </body>
