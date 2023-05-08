@@ -24,95 +24,138 @@
 
    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-            if(isset($_POST["delete_button"])){
+        //バリデーションチェック
+        if(isset($_POST["user_name"])){
 
-                $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
-                $delete_cart_id_number = htmlspecialchars($_POST["delete_cart_id_value"], ENT_QUOTES, 'UTF-8');
+            if(!empty($_POST['user_name'])){
 
-                //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$delete_number';";
-                if($result2 = $db->query($select)){
-                    $row2 =$result2->fetch();
-                }
+                $user_name = htmlspecialchars($_POST['user_name'], ENT_QUOTES, 'UTF-8');
 
-                $delete = "DELETE FROM ec_cart_table WHERE cart_id = '$delete_cart_id_number';";
-                $result = $db->query($delete);
-                
-                $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
-
+            }else {
+                $validation_error[]="お名前が未入力です"."<br>";
             }
+        }
 
-            if(isset($_POST["reverse-button"])){
-                header('Location:catalog_page.php');
-                exit();
+        if(isset($_POST["input_hiragana_form"])){
+
+            if(!empty($_POST['input_hiragana_form'])){
+
+                $input_hiragana_form = htmlspecialchars($_POST['input_hiragana_forme'], ENT_QUOTES, 'UTF-8');
+
+            }else {
+                $validation_error[]="ひらがなが未入力です"."<br>";
             }
+        }
 
-            if(isset($_POST["next-button"])){
-                header('Location:YYY.php');
-                exit();
+        if(isset($_POST["input_birthday_form"])){
+
+            if(!empty($_POST['input_birthday_form'])){
+
+                $input_birthday_form = htmlspecialchars($_POST['input_birthday_form'], ENT_QUOTES, 'UTF-8');
+
+            }else {
+                $validation_error[]="生年月日が未入力です"."<br>";
             }
+        }
 
+        if(isset($_POST["input_gender_form"])){
 
-            
-            if(isset($_POST["logout_tag"])){  
-                //ログアウトが押されたら、セッションとクッキーを空にして、login.phpに遷移する。
-                $_SESSION=[];
-                session_destroy();
+            if(!empty($_POST['input_gender_form'])){
 
-                setcookie("user_check","",time()-100);
-                setcookie("login_user_name","",time()-100);  
-                setcookie("sign_up_password_1","",time()-100);  
+                $input_gender_form = htmlspecialchars($_POST['input_gender_form'], ENT_QUOTES, 'UTF-8');
 
-                header('Location:login.php');
-                exit();
+            }else {
+                $validation_error[]="性別が未入力です"."<br>";
             }
+        }
 
+        if(isset($_POST["input_address_form"])){
 
+            if(!empty($_POST['input_address_form'])){
 
-            if(isset($_POST["cart_tag"])){
-                header('Location:cart_page.php');
-                exit();
+                $input_address_form = htmlspecialchars($_POST['input_address_form'], ENT_QUOTES, 'UTF-8');
 
-            
+            }else {
+                $validation_error[]="住所が未入力です"."<br>";
             }
+        }
 
+        if(isset($_POST["input_phone_number_form"])){
 
-            if(isset($_POST["favorite_tag"])){
-                // header('Location:login.php');
-                // exit();
+            if(!empty($_POST['input_phone_number_form'])){
+
+                $input_phone_number_form = htmlspecialchars($_POST['input_phone_number_form'], ENT_QUOTES, 'UTF-8');
+
+            }else {
+                $validation_error[]="電話番号が未入力です"."<br>";
+            }
+        }
+
+        if(isset($_POST["input_mail_address_form"])){
+
+            if(!empty($_POST['input_mail_address_form'])){
+
+                $input_mail_address_form = htmlspecialchars($_POST['input_mail_address_form'], ENT_QUOTES, 'UTF-8');
+
+            }else {
+                $validation_error[]="メールアドレスが未入力です"."<br>";
+            }
+        }
     
-             }
-    
-             if(isset($_POST["mypage_tag"])){
-                // header('Location:login.php');
-                // exit();
-    
-             }
-
-             if(isset($_POST["product_count_button"])){
-                
-                $product_count_id_number = htmlspecialchars($_POST["product_count_id_value"], ENT_QUOTES, 'UTF-8');
-                $text_product_count_number = htmlspecialchars($_POST["text_product_count"], ENT_QUOTES, 'UTF-8');
-
-                $update_date = date('Ymd');
-
-            
-                //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$product_count_id_number';";
-                if($result5 = $db->query($select)){
-                    $row5 =$result5->fetch();
-                }
 
 
-                $update = "UPDATE ec_cart_table SET product_count = '$text_product_count_number' WHERE ec_cart_table.product_id = '$product_count_id_number';";
-                $result = $db->query($update);
+        if(isset($_POST["reverse-button"])){
+            header('Location:catalog_page.php');
+            exit();
+        }
 
-                $update = "UPDATE ec_cart_table SET update_date = '$update_date' WHERE ec_cart_table.product_id = '$product_count_id_number';";
-                $result = $db->query($update);
+        if(isset($_POST["next-button"])){
+            header('Location:YYY.php');
+            exit();
+        }
 
-                $update_message[]= "『".$row5["product_name"]."』の個数を変更しました"."<br>";
+
+        
+        if(isset($_POST["logout_tag"])){  
+            //ログアウトが押されたら、セッションとクッキーを空にして、login.phpに遷移する。
+            $_SESSION=[];
+            session_destroy();
+
+            setcookie("user_check","",time()-100);
+            setcookie("login_user_name","",time()-100);  
+            setcookie("sign_up_password_1","",time()-100);  
+
+            header('Location:login.php');
+            exit();
+        }
+
+
+
+        if(isset($_POST["cart_tag"])){
+            header('Location:cart_page.php');
+            exit();
+
+        
+        }
+
+
+        if(isset($_POST["favorite_tag"])){
+            // header('Location:login.php');
+            // exit();
 
             }
+
+            if(isset($_POST["mypage_tag"])){
+            // header('Location:login.php');
+            // exit();
+
+            }
+
+        $input_gender_form = '';
+        if (isset($_POST['input_gender_form'])) {
+            $input_gender_form = htmlspecialchars($_POST['input_gender_form'], ENT_QUOTES, 'UTF-8');
+        }
+
 
             
     
@@ -121,16 +164,15 @@
              
     
 
-    //ログアウトであれば、catalog_page.phpに来ても、login.phpに遷移するようにする。
+    //ログアウトであれば、address_page.phpに来ても、login.phpに遷移するようにする。
     if (empty($_SESSION['login_user_name'])) {
         header('Location:login.php');
         exit(); 
     }
 
 
-
-
 ?>
+
 
 
 
@@ -166,7 +208,7 @@
 
                 * {
                     box-sizing:border-box;
-                    vertical-align:baseline;
+                    vertical-align:bottom;
                     font-family: system-ui;
                     letter-spacing: 2px;
 
@@ -267,101 +309,7 @@
                     margin-top: 20px;
                 }
 
-                .img-wrapper{
-                    height:170px;
-                }
 
-                table,
-                th,
-                td {
-                    text-align: center;
-                    border-bottom: 1px solid #CECECE;
-                    font-weight: bold;
-                    font-size: 14px;
-                   
-                }
-
-
-                .td_product_name{
-                    width: 500px;
-                    margin: auto;
-                    margin-top: 20px;
-                }
-
-                .td_price{
-                    width: 240px;
-                    top: 0;
-                    bottom: 0;
-                    margin: auto;
-
-                }
-
-                .td_product_count{
-                    width: 150px;
-                    display: flex;
-                    height: 30px;
-                    margin: 0 auto;
-
-                }
-
-                .td_delete{
-                    width: 100px;
-
-                }
-
-                .product_image_container{
-                    width:60px;
-                    height:60px;
-                }
-
-                
-                .delete_button,.product_count_button{
-                    color: white;
-                    background-color: #1c1c1c;
-                    width: 70px;
-                    height: 25px;
-                    /* margin-left: 20px; */
-                    font-family: system-ui;
-                    letter-spacing: 2px;
-                    /* margin-top: 10px; */
-                    font-size: 12px;
-                }
-                .sub_wrapper{
-                    margin: 0 auto;
-                    width: 1000px;
-                    border-top: 1px solid black;
-                    margin-top: 50px;
-                    height: 200px;
-                    /* display: column; */
-                }
-
-                .total4,.total5{
-                    float: right;
-                   
-                }
-                
-                .total1, .total2,.total3{
-                    margin-top: 10px;
-                    width: 250px;
-                    height: 30px;
-                }
-
-                .total_label1{
-                    float: left;
-                }
-
-                .total_label2{
-                    float: right;
-                }
-
-                .total4{
-                    margin-top: 20px;
-                    width: 1000px;
-                    height: 30px;
-                    font-size: 18px;
-                    font-weight: bold;
-                    background-color: #CECECE;
-                }
                 .update_area{
                     width: 1000px;
                     height: 200px;
@@ -415,9 +363,6 @@
                         
                 }
 
-                /* .btn_wrapper{
-                    height: 200px;
-                } */
                 .cart_tag{
                     background-image: url("img/cart.jpg");
                     background-size: cover; 
@@ -453,10 +398,6 @@
                     float: right;
                     margin-right: 20px;
                     display: flex;
-                    /* height: 30px; */
-                    /* background-color: green; */
-                    /* width:100% ; */
-                    /* float: right; */
 
                 }
 
@@ -477,19 +418,48 @@
                 }
 
                 
-                .input_name_form{
+                .input_name_form,.input_hiragana_form,.input_birthday_form,.input_gender_form,.input_address_form,.input_phone_number_form,.input_mail_address_form{
                     background-color: #f8f8f8;
                     height: 35px;
-                    width: 380px;
                     border:1px solid #66FFCC;
                     border-radius: 1px;
                     display: block;
                     text-align: left;
                 }
 
-                .name_label{
-                    font-weight: bolder;
+                .input_name_form,.input_hiragana_form,.input_mail_address_form{
+                    width: 700px;
                 }
+
+                .input_birthday_form,.input_phone_number_form{
+                    width: 400px;
+                }
+
+                .input_address_form{
+                    width: 800px;
+                }
+
+
+                .label{
+                    font-weight: bolder;
+                    width: 150px;
+                }
+
+                .input_form{
+                    margin-top: 50px;
+                    display: flex;
+                }
+
+                .input_gender{
+                    display: flex;
+
+                }
+
+                .input_gender_form{
+                    margin-right: 5px;
+                    /* width: 150px; */
+                }
+
 
 
     </style>
@@ -529,8 +499,8 @@
         
         <div class="update_area">
                         <?php
-                            if (!empty($update_message) ){
-                                foreach($update_message as $err2){
+                            if (!empty($validation_error) ){
+                                foreach($validation_error as $err2){
                                     print "<span class='msg2'>$err2</span>";
                                     
                                 }
@@ -543,24 +513,58 @@
     <div class="label_user">注文者情報</div>
 
         <div class="input_wrapper">
-            <div class="name_form">
-                <p class="name_label">お名前</p>
+
+            <div class="input_form">
+                <p class="label">お名前</p>
                 <input type="text" class="input_name_form" name="user_name">
             </div>
 
-            <div class="name_form">
-                <p class="name_label">ひらがな</p>
+            <div class="input_form">
+                <p class="label">ひらがな</p>
                 <input type="text" class="input_hiragana_form" name="input_hiragana_form">
             </div>
 
-            <div class="name_form">
-                <p class="name_label">生年月日(例：1990年3月3日の時は19900303)</p>
+            <div class="input_form">
+                <p class="label">生年月日</p>
                 <input type="text" class="input_birthday_form" name="input_birthday_form">
             </div>
+
+            
+            <div class="input_form">
+                <p class="label">性別</p>
+                <div class="input_gender">
+                    <input type="radio" class="input_gender_form" name="input_gender_form" value="男性"<?php if ($input_gender_form === '男性') { print 'checked'; } ?>>男性
+                    <input type="radio" class="input_gender_form" name="input_gender_form" value="女性"<?php if ($input_gender_form === '女性') { print 'checked'; } ?>>女性
+                </div>
+
+            </div>
+
+            
+            <div class="input_form">
+                <p class="label">住所</p>
+                <input type="text" class="input_address_form" name="input_address_form">
+            </div>
+
+            <div class="input_form">
+                <p class="label">電話番号</p>
+                <input type="text" class="input_phone_number_form" name="input_phone_number_form">
+            </div>
+
+            <div class="input_form">
+                <p class="label">メールアドレス</p>
+                <input type="text" class="input_mail_address_form" name="input_mail_address_form">
+            </div>
+
+
         </div>
                
-        <div class="sub_wrapper">
-        </div>
+</div>
+
+<div class="button_container">
+        <form method="post" action="">
+            <input type="submit" class="reverse-button" name="reverse-button" value="ひとつ前に戻る">
+            <input type="submit" class="next-button"  name="next-button" value="お支払い入力へ">
+        </form>
 </div>
 
     
