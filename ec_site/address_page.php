@@ -30,9 +30,6 @@
             if(!empty($_POST['user_name'])){
 
                 $user_name = htmlspecialchars($_POST['user_name'], ENT_QUOTES, 'UTF-8');
-
-            }else {
-                $validation_error[]="お名前が未入力です"."<br>";
             }
         }
 
@@ -41,10 +38,8 @@
             if(!empty($_POST['input_hiragana_form'])){
 
                 $input_hiragana_form = htmlspecialchars($_POST['input_hiragana_forme'], ENT_QUOTES, 'UTF-8');
-
-            }else {
-                $validation_error[]="ひらがなが未入力です"."<br>";
             }
+
         }
 
         if(isset($_POST["input_birthday_form"])){
@@ -52,31 +47,15 @@
             if(!empty($_POST['input_birthday_form'])){
 
                 $input_birthday_form = htmlspecialchars($_POST['input_birthday_form'], ENT_QUOTES, 'UTF-8');
-
-            }else {
-                $validation_error[]="生年月日が未入力です"."<br>";
             }
         }
 
-        if(isset($_POST["input_gender_form"])){
-
-            if(!empty($_POST['input_gender_form'])){
-
-                $input_gender_form = htmlspecialchars($_POST['input_gender_form'], ENT_QUOTES, 'UTF-8');
-
-            }else {
-                $validation_error[]="性別が未入力です"."<br>";
-            }
-        }
 
         if(isset($_POST["input_address_form"])){
 
             if(!empty($_POST['input_address_form'])){
 
                 $input_address_form = htmlspecialchars($_POST['input_address_form'], ENT_QUOTES, 'UTF-8');
-
-            }else {
-                $validation_error[]="住所が未入力です"."<br>";
             }
         }
 
@@ -84,10 +63,7 @@
 
             if(!empty($_POST['input_phone_number_form'])){
 
-                $input_phone_number_form = htmlspecialchars($_POST['input_phone_number_form'], ENT_QUOTES, 'UTF-8');
-
-            }else {
-                $validation_error[]="電話番号が未入力です"."<br>";
+                $input_phone_number_form = htmlspecialchars($_POST['input_phone_number_form'], ENT_QUOTES, 'UTF-8');  
             }
         }
 
@@ -97,8 +73,6 @@
 
                 $input_mail_address_form = htmlspecialchars($_POST['input_mail_address_form'], ENT_QUOTES, 'UTF-8');
 
-            }else {
-                $validation_error[]="メールアドレスが未入力です"."<br>";
             }
         }
     
@@ -110,8 +84,8 @@
         }
 
         if(isset($_POST["next-button"])){
-            header('Location:YYY.php');
-            exit();
+            // header('Location:YYY.php');
+            // exit();
         }
 
 
@@ -150,14 +124,6 @@
             // exit();
 
             }
-
-        $input_gender_form = '';
-        if (isset($_POST['input_gender_form'])) {
-            $input_gender_form = htmlspecialchars($_POST['input_gender_form'], ENT_QUOTES, 'UTF-8');
-        }
-
-
-            
     
     }
 
@@ -288,7 +254,7 @@
 
                 .top_tag{
                     /* display: flex; */
-                    height: 100px;
+                    height: 80px;
                     width: 100%;
                     margin-top: 100px;
                 }
@@ -310,18 +276,8 @@
                 }
 
 
-                .update_area{
-                    width: 1000px;
-                    height: 200px;
-                    background-color: #fff;
-                    /* padding-bottom: 50px; */
-                    
-                    /* margin-left: 50px; */
-                    
-                }
-
                 .msg2{
-                    color:blue;
+                    color:red;
                     font-size: 16px;
                     font-weight: bold;
                 }
@@ -418,7 +374,7 @@
                 }
 
                 
-                .input_name_form,.input_hiragana_form,.input_birthday_form,.input_gender_form,.input_address_form,.input_phone_number_form,.input_mail_address_form{
+                .input_name_form,.input_hiragana_form,.input_birthday_form,.input_address_form,.input_phone_number_form,.input_mail_address_form{
                     background-color: #f8f8f8;
                     height: 35px;
                     border:1px solid #66FFCC;
@@ -446,20 +402,15 @@
                 }
 
                 .input_form{
-                    margin-top: 50px;
+                    /* margin-top: 50px; */
                     display: flex;
                 }
 
-                .input_gender{
-                    display: flex;
-
+                .input_form2{
+                    height: 80px;
+                    /* background-color: #000099; */
+                    margin-top: 10px;
                 }
-
-                .input_gender_form{
-                    margin-right: 5px;
-                    /* width: 150px; */
-                }
-
 
 
     </style>
@@ -489,83 +440,122 @@
             </form>
         </div>
 </div>
-<div class="main_wrapper">
-    <div class="top_tag">
-        <p>Delivery Address</p>
 
-        <div class="image_wrapper">
-            <img src='img/shopping2.png' class="image">
+<form method="post" action="">
+    <div class="main_wrapper">
+        <div class="top_tag">
+            <p>Delivery Address</p>
+
+            <div class="image_wrapper">
+                <img src='img/shopping2.png' class="image">
+            </div>
         </div>
-        
-        <div class="update_area">
+            
+        <div class="label_user5"><span>お届け先情報入力</span><br><br>以下の項目をご入力いただき、「次へ」ボタンをクリックして下さい。</div>
+        <div class="label_user">注文者情報</div>
+
+            <div class="input_wrapper">
+
+                    <div class="input_form2">
                         <?php
-                            if (!empty($validation_error) ){
-                                foreach($validation_error as $err2){
-                                    print "<span class='msg2'>$err2</span>";
-                                    
-                                }
+                         if(isset($_POST["user_name"])){
+                            if(empty($_POST['user_name'])){
+                                print "<span class='msg2'>お名前が未入力です</span>"."<br>";
                             }
+                        }
                         ?>
-        </div>
+                        <div class="input_form">
+                            <p class="label">お名前</p>
+                            <input type="text" class="input_name_form" name="user_name">
+                        </div>
+                    </div>
+
+
+                    <div class="input_form2">
+                        <?php
+                        if(isset($_POST["input_hiragana_form"])){
+                            if(empty($_POST['input_hiragana_form'])){
+                                print "<span class='msg2'>ひらがなが未入力です</span>"."<br>";
+                            }
+                        }
+                        ?>
+                        <div class="input_form">
+                            <p class="label">ひらがな</p>
+                            <input type="text" class="input_hiragana_form" name="input_hiragana_form">
+                        </div>
+                    </div>
+
+
+                    <div class="input_form2">
+                        <?php
+                        if(isset($_POST["input_birthday_form"])){
+                            if(empty($_POST['input_birthday_form'])){
+                                print "<span class='msg2'>生年月日が未入力です</span>"."<br>";
+                            }
+                        }
+                        ?>
+                        <div class="input_form">
+                            <p class="label">生年月日</p>
+                            <input type="text" class="input_birthday_form" name="input_birthday_form">
+                        </div>
+                    </div>
+                    
+
+                    <div class="input_form2">
+                        <?php
+                        if(isset($_POST["input_address_form"])){
+                            if(empty($_POST['input_address_form'])){
+                                print "<span class='msg2'>住所が未入力です</span>"."<br>";
+                            }
+                        }
+                        ?>
+                        <div class="input_form">
+                            <p class="label">住所</p>
+                            <input type="text" class="input_address_form" name="input_address_form">
+                        </div>
+                    </div>
+
+
+
+                    <div class="input_form2">
+                        <?php
+                         if(isset($_POST["input_phone_number_form"])){
+                            if(empty($_POST['input_phone_number_form'])){
+                                print "<span class='msg2'>電話番号が未入力です</span>"."<br>";
+                            }
+                        }
+                        ?>
+                        <div class="input_form">
+                            <p class="label">電話番号</p>
+                            <input type="text" class="input_phone_number_form" name="input_phone_number_form">
+                        </div>
+                    </div>
+
+
+
+                    <div class="input_form2">
+                        <?php
+                         if(isset($_POST["input_mail_address_form"])){
+                            if(empty($_POST['input_mail_address_form'])){
+                                print "<span class='msg2'>メールアドレスが未入力です</span>"."<br>";
+                            }
+                        }
+                        ?>
+                        <div class="input_form">
+                            <p class="label">メールアドレス</p>
+                            <input type="text" class="input_mail_address_form" name="input_mail_address_form">
+                        </div>
+                    </div>
+
+            </div>
+                
     </div>
 
-    <div class="label_user5"><span>お届け先情報入力</span><br><br>以下の項目をご入力いただき、「次へ」ボタンをクリックして下さい。</div>
-    <div class="label_user">注文者情報</div>
-
-        <div class="input_wrapper">
-
-            <div class="input_form">
-                <p class="label">お名前</p>
-                <input type="text" class="input_name_form" name="user_name">
-            </div>
-
-            <div class="input_form">
-                <p class="label">ひらがな</p>
-                <input type="text" class="input_hiragana_form" name="input_hiragana_form">
-            </div>
-
-            <div class="input_form">
-                <p class="label">生年月日</p>
-                <input type="text" class="input_birthday_form" name="input_birthday_form">
-            </div>
-
-            
-            <div class="input_form">
-                <p class="label">性別</p>
-                <div class="input_gender">
-                    <input type="radio" class="input_gender_form" name="input_gender_form" value="男性"<?php if ($input_gender_form === '男性') { print 'checked'; } ?>>男性
-                    <input type="radio" class="input_gender_form" name="input_gender_form" value="女性"<?php if ($input_gender_form === '女性') { print 'checked'; } ?>>女性
-                </div>
-
-            </div>
-
-            
-            <div class="input_form">
-                <p class="label">住所</p>
-                <input type="text" class="input_address_form" name="input_address_form">
-            </div>
-
-            <div class="input_form">
-                <p class="label">電話番号</p>
-                <input type="text" class="input_phone_number_form" name="input_phone_number_form">
-            </div>
-
-            <div class="input_form">
-                <p class="label">メールアドレス</p>
-                <input type="text" class="input_mail_address_form" name="input_mail_address_form">
-            </div>
-
-
-        </div>
-               
-</div>
-
-<div class="button_container">
-        <form method="post" action="">
-            <input type="submit" class="reverse-button" name="reverse-button" value="ひとつ前に戻る">
-            <input type="submit" class="next-button"  name="next-button" value="お支払い入力へ">
-        </form>
-</div>
+    <div class="button_container">
+        <input type="submit" class="reverse-button" name="reverse-button" value="ひとつ前に戻る">
+        <input type="submit" class="next-button"  name="next-button" value="お支払い入力へ">
+    </div>
+</form>
 
     
 </body>
