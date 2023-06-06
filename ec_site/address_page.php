@@ -36,8 +36,10 @@
         if(isset($_POST["input_hiragana_form"])){
 
             if(!empty($_POST['input_hiragana_form'])){
-
-                $input_hiragana_form = htmlspecialchars($_POST['input_hiragana_forme'], ENT_QUOTES, 'UTF-8');
+                if (preg_match('/^[ぁ-ゞ]+$/u', $_POST['input_hiragana_form'])) {
+                    $input_hiragana_form = htmlspecialchars($_POST['input_hiragana_forme'], ENT_QUOTES, 'UTF-8');
+                }
+                 
             }
 
         }
@@ -476,6 +478,11 @@
                         if(isset($_POST["input_hiragana_form"])){
                             if(empty($_POST['input_hiragana_form'])){
                                 print "<span class='msg2'>ひらがなが未入力です</span>"."<br>";
+                                    
+                            }else{
+                                if (!preg_match('/^[ぁ-ゞ]+$/u', $_POST['input_hiragana_form'])) {
+                                    print "<span class='msg2'>ひらがな形式で入力されていません</span>"."<br>";     
+                                }
                             }
                         }
                         ?>
@@ -491,6 +498,11 @@
                         if(isset($_POST["input_birthday_form"])){
                             if(empty($_POST['input_birthday_form'])){
                                 print "<span class='msg2'>生年月日が未入力です</span>"."<br>";
+                            }else{
+                                if(!preg_match( '/^[0-9]+$/', $_POST["input_birthday_form"] ) ) {
+                                    print "<span class='msg2'>半角数字形式で入力されていません</span>"."<br>";     
+                                }
+                                
                             }
                         }
                         ?>
