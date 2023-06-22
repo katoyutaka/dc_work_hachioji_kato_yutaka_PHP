@@ -372,7 +372,7 @@
                     font-size: 14px;
                     height: 18px;
                     line-height:  18px;
-                    color:#02235F;
+                    /* color:#02235F; */
 
                 }
 
@@ -476,6 +476,7 @@
 
                 .limit{
                     font-size: 13px;
+                    opacity: 0.7;
                 }
 
                 .err{
@@ -558,46 +559,6 @@
                     
                 }
 
-                .slick-prev, 
-                .slick-next {
-                    position: absolute;/*絶対配置にする*/
-                    top: 42%;
-                    cursor: pointer;/*マウスカーソルを指マークに*/
-                    /* outline: none;クリックをしたら出てくる枠線を消す */
-                    
-                    height: 15px;
-                    width: 15px;
-           
-                    
-                    
-
-                   
-                   }
-                    /* 矢印変更はここ！！！ */
-                   .slick-prev:before{
-                    opacity: 1;
-                    background-color: blue;
-                    content: url(img/eye1.png);
-                    max-width:20px;
-                    height: 20px;
-                    z-index: 100;
-                    display: block;
-                   }
-
-                   .slick-next:before{
-                    opacity: 1;
-                    background-color: blue;
-                   }
-
-                   .slick-prev {/*戻る矢印の位置と形状*/
-                        left: -3%;
-                        /* transform: rotate(-135deg); */
-                    }
-
-                    .slick-next {/*次へ矢印の位置と形状*/
-                        right: -3%;
-                        /* transform: rotate(45deg); */
-                    }
 
                     .right_left1{
                         max-width:500px;
@@ -694,8 +655,8 @@
 <body>
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
      <div class="fade">
+        <img src="img/jewery25.jpg" alt="">
         <img src="img/jewery15.jpg" alt="">
-        <img src="img/jewery22.jpg" alt="">
         <img src="img/jewery10.jpg" alt="">
      </div>
 
@@ -703,21 +664,21 @@
      <div class="main_wrapper">
         <p class="arrival">NEW ARRIVAL</p>
         <ul class="slider">
-            <li><img src="img/jewery4.jpg" alt=""></li>
-            <li><img src="img/jewery5.jpg" alt=""></li>
-            <li><img src="img/jewery3.jpg" alt=""></li>
-            <li><img src="img/jewery7.jpg" alt=""></li>
-            <li><img src="img/jewery1.jpg" alt=""></li>
-            <li><img src="img/jewery6.jpg" alt=""></li>
-            <li><img src="img/jewery8.jpg" alt=""></li>
-            <li><img src="img/jewery9.jpg" alt=""></li>
+            <li><img src="img/ring1.jpg" alt=""></li>
+            <li><img src="img/ring5.jpg" alt=""></li>
+            <li><img src="img/ring4.jpg" alt=""></li>
+            <li><img src="img/necklace1.jpg" alt=""></li>
+            <li><img src="img/necklace2.jpg" alt=""></li>
+            <li><img src="img/necklace3.jpg" alt=""></li>
+            <li><img src="img/necklace4.jpg" alt=""></li>
+            <li><img src="img/necklace5.jpg" alt=""></li>
         </ul>
             
         
      
         <div class="right_left_fade_in">
             <div class="right_left_fade_in_container1">
-                <img class="right_left1" src="img/jewery7.jpg" alt="">
+                <img class="right_left1" src="img/jewery3.jpg" alt="">
             </div>
 
             <div class="right_left_fade_in_container2">

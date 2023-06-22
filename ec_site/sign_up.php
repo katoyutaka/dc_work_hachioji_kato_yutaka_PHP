@@ -33,8 +33,8 @@
                
 
 
-                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_user_name)){
-                    $validation_error[] = "ユーザー名が半角英数字以外の形式になっています。"."<br>";
+                if(!preg_match("/^[a-zA-Z0-9]{5,}+$/",$sign_up_user_name)){
+                    $validation_error[] ="ユーザー名が半角英数字以外の形式もしくは５文字未満になっています。"."<br>";
                 }
 
             } else {
@@ -47,8 +47,8 @@
 
                 $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
 
-                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_password_1)){
-                    $validation_error[] = "パスワードが半角英数字以外の形式になっています。"."<br>";
+                if(!preg_match("/^[a-zA-Z0-9]{8,}+$/",$sign_up_password_1)){
+                    $validation_error[] ="パスワードが半角英数字以外の形式もしくは８文字未満になっています。"."<br>";
                 }
 
             } else {
@@ -204,7 +204,7 @@
                     height:35px;
                     margin-right:40px;
                     line-height: 35px;
-                    width:300px;
+                    width:600px;
                 }
 
                 .label_2{
@@ -212,7 +212,7 @@
                     height:35px;
                     margin-right:40px;
                     line-height: 35px;
-                    width:300px;
+                    width:600px;
                 }
 
                 .label_3{
@@ -220,7 +220,7 @@
                     height:35px;
                     margin-right:40px;
                     line-height: 35px;
-                    width:300px;
+                    width:600px;
                 }
 
                 .main-container{
@@ -286,6 +286,12 @@
                     margin-bottom: 20px;
                 }
 
+                .limit{
+                    font-size: 15px;
+                    color: #02235F;
+                    opacity: 0.7;
+                }
+
 
     </style>
               
@@ -318,17 +324,17 @@
                     <form method="post" action="sign_up.php">
                         <div class="sign_up_form">
                             <div class="name_form_container">
-                                <p class="label_1">ユーザー名（半角英数字）</p>
+                                <p class="label_1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>
                                 <input type="text" class="user_name_form" name="sign_up_user_name">
                             </div>
                             
                             <div class="name_form_container">
-                                <p class="label_2">パスワード（半角英数字）</p>
+                                <p class="label_2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
                                 <input type="password" class="password_name_form" name="sign_up_password_1" >
                             </div>
 
                             <div class="name_form_container">
-                                <p class="label_3">パスワード (再確認)</p>
+                                <p class="label_3">パスワード <span class="limit"> （再確認）</span></p>
                                 <input type="password" class="password_name_form" name="sign_up_password_2">
                             </div>
                             
