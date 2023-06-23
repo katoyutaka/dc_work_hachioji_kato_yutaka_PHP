@@ -31,8 +31,6 @@
 
                 $sign_up_user_name = htmlspecialchars($_POST['sign_up_user_name'], ENT_QUOTES, 'UTF-8');
                
-
-
                 if(!preg_match("/^[a-zA-Z0-9]{5,}+$/",$sign_up_user_name)){
                     $validation_error[] ="ユーザー名が半角英数字以外の形式もしくは５文字未満になっています。"."<br>";
                 }
@@ -139,13 +137,27 @@
                     vertical-align: middle;
                 }
 
+                .header{
+                    text-align: center;
+                    background-color: #02235F;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 16px;
+                    padding-left:50px;
+                    color:white;
+                    font-weight:bold;
+                    font-family:"Yu Mincho";
+                }
+
+                
+
                 .msg{
                     color:red;
                 }
 
                 h2 {
-                    margin-top: 40px;
-                    /* margin-bottom: 40px; */
+                    /* margin-top: 0px; */
+                    margin-bottom: 40px;
                     text-align: center;
                 }
 
@@ -283,12 +295,12 @@
                     width: 1000px;
                     height:60px;
                     margin:0 auto;
-                    margin-bottom: 20px;
+                    /* margin-bottom: 20px; */
+                    margin-top: 10px;
                 }
 
                 .limit{
                     font-size: 15px;
-                    color: #02235F;
                     opacity: 0.7;
                 }
 
@@ -297,16 +309,14 @@
               
 </head>
 <body>
-
-
-
-    
+    <p class="header">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
+    <div class="image_wrapper">
+        <img src='img/status2.png' class="image">
+    </div>
 
     <h2>New Customer 新規会員登録</h2>
 
-        <div class="image_wrapper">
-            <img src='img/status2.png' class="image">
-        </div>
+
         
 
         <div class="sign_up_wrapper">
@@ -322,6 +332,7 @@
                     <p class="label_user">お客様情報</p>
 
                     <form method="post" action="sign_up.php">
+
                         <div class="sign_up_form">
                             <div class="name_form_container">
                                 <p class="label_1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>

@@ -280,15 +280,12 @@
 
                 .label_user{
                     text-align: center;
-                    font-size:18px;
                     font-weight:bold;
                     background-color: #02235F;
                     height: 30px;
                     line-height: 30px;
                     font-size: 16px;
-                    /* width: 1000px; */
                     padding-left:50px;
-                    /* margin-top:50px; */
                     color:white;
                     
                 }

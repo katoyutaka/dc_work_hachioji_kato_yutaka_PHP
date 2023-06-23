@@ -32,6 +32,20 @@
                     letter-spacing: 2px;
                 }
 
+                
+                .header{
+                    text-align: center;
+                    background-color: #02235F;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 16px;
+                    padding-left:50px;
+                    color:white;
+                    font-weight:bold;
+                    font-family:"Yu Mincho";
+                    letter-spacing: 0px;
+                }
+
                 .label_user{
                     text-align: left;
                     font-size:18px;
@@ -42,7 +56,7 @@
                     font-size: 16px;
                     width: 1000px;
                     padding-left:50px;
-                    margin-top:50px;
+                    /* margin-top:50px; */
                     color:white;
                     
                 }
@@ -146,12 +160,28 @@
 
                 }
 
+                .image{
+                        width:250px;
+                        float:right;
+                }
+
+                .image_wrapper{
+                    width: 1000px;
+                    height:90px;
+                    margin:0 auto;
+                    /* margin-top:20px; */
+                }
+
 
 
     </style>
               
 </head>
 <body>
+    <p class="header">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
+    <div class="image_wrapper">
+        <img src='img/status4.png' class="image">
+    </div>
 
      <div class="main_wrapper">
         <p class="label_user">ユーザー登録完了</p>

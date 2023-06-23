@@ -197,13 +197,24 @@
                     height: 30px;
                     line-height: 30px;
                     font-size: 16px;
-                    /* width: 1000px; */
                     padding-left:50px;
                     color:white;
                     font-family:"Yu Mincho";
-                    letter-spacing: 2px;
-                    
+                    letter-spacing: 0px;   
                 }
+/* 
+                .header{
+                    text-align: center;
+                    font-size:18px;
+                    font-weight:bold;
+                    background-color: #02235F;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 16px;
+                    padding-left:50px;
+                    color:white;
+                    
+                } */
 
                 .scrollBox {
                     margin:0 auto;
@@ -228,7 +239,7 @@
               
 </head>
 <body>
-    <p class="header">JEWELRY HOMME 銀座本店オープン</p>
+    <p class="header">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
         <div class="image_wrapper">
             <img src='img/status1.png' class="image">
         </div>

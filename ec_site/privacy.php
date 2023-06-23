@@ -29,7 +29,7 @@
 
         * {
                 box-sizing:border-box;
-                vertical-align: middle;
+                vertical-align: bottom;
         }
 
         body{
@@ -40,19 +40,29 @@
                 margin-left:200px;
 
         }
+
+        p{
+                font-weight: bolder;
+                text-align: center;
+                border-bottom: 1px solid gray;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+                margin-bottom: 40px;
+        }
         
-        .header{
+        /* .header{
                 text-align: left;
                 height:100px;
                 border-bottom:2px solid gray;
                 width:1100px;
-                margin-left: 200px;
-                margin-bottom: 70px;
+                
         }
 
         .header p{
                 display: inline-block;
-        }
+                margin-bottom: 0px;
+        } */
 
         /* .link_text{
   float:right;
@@ -60,9 +70,7 @@
 </style>
 
 <body>
-        <div class="header">
-                <p>PRIVACY POLICY</p>
-        </div>
+        <p>PRIVACY POLICY</p>
         
         <div class="text">
                 <h5>＜株式会社マエチャンキンワークスのプライバシーポリシーについて＞</h5>

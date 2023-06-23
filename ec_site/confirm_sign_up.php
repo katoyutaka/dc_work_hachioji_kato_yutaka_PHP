@@ -93,6 +93,19 @@
                         letter-spacing: 2px;
                     }
 
+                    .header{
+                        text-align: center;
+                        background-color: #02235F;
+                        height: 30px;
+                        line-height: 30px;
+                        font-size: 16px;
+                        padding-left:50px;
+                        color:white;
+                        font-weight:bold;
+                        font-family:"Yu Mincho";
+                        letter-spacing: 0px;
+                    }
+
                     .msg{
                         color:red;
                     }
@@ -224,7 +237,7 @@
                         width: 1000px;
                         height:90px;
                         margin:0 auto;
-                        margin-top:20px;
+                        /* margin-top:20px; */
                     }
 
         </style>
@@ -233,6 +246,7 @@
 
 
     <body>
+        <p class="header">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
         <div class="image_wrapper">
             <img src='img/status3.png' class="image">
         </div>
