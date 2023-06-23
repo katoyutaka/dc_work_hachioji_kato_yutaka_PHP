@@ -39,7 +39,7 @@
                     height: 30px;
                     line-height: 30px;
                     font-size: 16px;
-                    padding-left:50px;
+                    /* padding-left:50px; */
                     color:white;
                     font-weight:bold;
                     font-family:"Yu Mincho";
@@ -178,7 +178,7 @@
               
 </head>
 <body>
-    <p class="header">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
+    <p class="header">STANDARD PLATINUM 発売開始</p>
     <div class="image_wrapper">
         <img src='img/status4.png' class="image">
     </div>

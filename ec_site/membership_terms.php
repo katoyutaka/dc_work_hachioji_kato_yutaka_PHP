@@ -197,7 +197,7 @@
                     height: 30px;
                     line-height: 30px;
                     font-size: 16px;
-                    padding-left:50px;
+                    /* padding-left:50px; */
                     color:white;
                     font-family:"Yu Mincho";
                     letter-spacing: 0px;   

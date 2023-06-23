@@ -184,7 +184,7 @@
             autoplay: true, // 自動再生
             fade: true, // スライドをフェードイン・フェードアウト
             cssEase: 'linear',// アニメーション
-            speed: 600, // フェードアニメーションの速度設定
+            speed: 800, // フェードアニメーションの速度設定
             arrows:false,
             dots: true, // インジケーター
             infinite: true, // 無限ループするかどうか
@@ -194,7 +194,7 @@
         // 横にスライドできる画像
         $('.slider').slick({
             autoplay: true, // 自動再生するかどうか
-            autoplaySpeed: 3000, // 自動再生する場合のスピード（ms単位）
+            autoplaySpeed: 1000, // 自動再生する場合のスピード（ms単位）
             arrows: true, // 左右の矢印を表示するかどうか
             dots: false, // ページネーションを表示するかどうか
             infinite: true, // 無限ループするかどうか
@@ -652,8 +652,8 @@
 <body>
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
      <div class="fade">
-        <img src="img/jewery25.jpg" alt="">
         <img src="img/jewery15.jpg" alt="">
+        <img src="img/jewery25.jpg" alt="">
         <img src="img/jewery10.jpg" alt="">
      </div>
 

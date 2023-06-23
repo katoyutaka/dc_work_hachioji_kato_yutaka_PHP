@@ -143,10 +143,10 @@
                     height: 30px;
                     line-height: 30px;
                     font-size: 16px;
-                    padding-left:50px;
                     color:white;
                     font-weight:bold;
                     font-family:"Yu Mincho";
+                    text-align: center;
                 }
 
                 
@@ -309,7 +309,7 @@
               
 </head>
 <body>
-    <p class="header">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
+    <p class="header">【MEN'S VERY 7月号掲載】2023 Summer Collection 発売中 </p>
     <div class="image_wrapper">
         <img src='img/status2.png' class="image">
     </div>
