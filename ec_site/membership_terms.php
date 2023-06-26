@@ -243,7 +243,6 @@
         <div class="image_wrapper">
             <img src='img/status1.png' class="image">
         </div>
-
     <div class="main_wrapper">
         <p class="label_user">登録前にご確認下さい</p>
         <div class="text">「JEWELRY HOMME ONLINE SHOP」入会お申込の前に、以下の会員規約・利用規約を必ずお読み下さい。<br>ご同意いただける方は、「同意する」をクリックして入会お申込フォームへお進み下さい。</div>

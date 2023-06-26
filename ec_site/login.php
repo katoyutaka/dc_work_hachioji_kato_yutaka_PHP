@@ -17,7 +17,7 @@
         }
 
         $validation_error = array();
-        $cookie_display = "visible";
+        // $cookie_display = "";
         $sign_up_password_1="";
         $user_check="";
         $cookie_agree= "";
@@ -29,8 +29,6 @@
 ?>
 
 
-
-
 <?php
         if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -39,21 +37,22 @@
                 exit();
             }
 
-                //どうやらhiddenで消えてしまうやつの中で変数格納の式を作成しても、消えると変数内がリセットされるようだ。setcookieやセッション変数は消えないようなので
-                //今回はセッション変数に格納する方法をとった。
-                //「同意する」ボタンが押された時の処理
-                //のちに($_SESSION["cookie_display"] === "")も下に追加する。
-            if(isset($_POST["cookie_agree"])){
-                
-                $_SESSION["cookie_display"]="hidden";
-                // $cookie_display = "hidden";
 
+            if(isset($_POST["cookie_agree"])){
+
+                 //「クッキー同意」したことが続くようにセッションを用意する。
+                $_SESSION["cookie_agree"] = "hidden";
+              
                 $eye_check="表示する";
                 $user_check2="password";
             }
-            //上記の波かっこ外で変数を格納
-            $cookie_display=$_SESSION["cookie_display"];
+            
 
+            if(isset($_SESSION["cookie_agree"])){
+                $_SESSION["cookie_agree"]= "hidden";
+            }else{
+                $_SESSION["cookie_agree"] = "visible";
+            }
 
             
             if(isset($_POST["login_user_name"])){
@@ -755,7 +754,7 @@
      </div>
 
      
-     <div style="visibility:<?php print $cookie_display;?>;"class="cookie-consent">
+     <div style="visibility:<?php print $_SESSION["cookie_agree"];?>;"class="cookie-consent">
         <div class="cookie-text">
             当サイトはクッキー(cookie)を使用します。クッキーはサイト内の一部の機能および、<br>
             サイトの使用状況の分析からマーケティング活動に利用することを目的としています。<br>

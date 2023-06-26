@@ -35,9 +35,6 @@
                 
                 if($result=$db->query($insert)){
                     
-                    $_SESSION = [];
-                    session_destroy();
-
                     header('Location:complete_sign_up.php');
                     exit();
 
@@ -250,6 +247,7 @@
         <div class="image_wrapper">
             <img src='img/status3.png' class="image">
         </div>
+
                 
         <div class="main_wrapper">
             <p class="label_user">入力内容の確認</p>
