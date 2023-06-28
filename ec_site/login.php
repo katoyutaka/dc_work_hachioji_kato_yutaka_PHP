@@ -22,8 +22,8 @@
         $user_check="";
         $cookie_agree= "";
         $login_user_name="";
-        $user_check2 = "text";
-        $eye_check ="非表示にする";
+        $user_check2 = "password";
+        $eye_check ="表示にする";
         $eye_path="img/eye2.png";
 
 ?>
@@ -32,124 +32,119 @@
 <?php
         if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-            if(isset($_POST["sign_up_button"])){
-                header('Location:membership_terms.php');
-                exit();
-            }
-
-
-            if(isset($_POST["cookie_agree"])){
-
-                 //「クッキー同意」したことが続くようにセッションを用意する。
-                $_SESSION["cookie_agree"] = "hidden";
-              
-                $eye_check="表示する";
-                $user_check2="password";
-            }
-            
-
-            if(isset($_SESSION["cookie_agree"])){
-                $_SESSION["cookie_agree"]= "hidden";
-            }else{
-                $_SESSION["cookie_agree"] = "visible";
-            }
-
-            
-            if(isset($_POST["login_user_name"])){
-
-                if(!empty($_POST['login_user_name'])){
-
-                    $login_user_name = htmlspecialchars($_POST['login_user_name'], ENT_QUOTES, 'UTF-8');
-                    
-                    if(!preg_match("/^[a-z0-9]{5,}+$/",$login_user_name)){
-                        $validation_error[] = "ユーザー名が半角英数字以外の形式もしくは５文字未満になっています。"."<br>";
-                    }
-
-                }else {
-                    $validation_error[]="ユーザー名が未入力です"."<br>";
+                if(isset($_POST["sign_up_button"])){
+                    header('Location:membership_terms.php');
+                    exit();
                 }
-            }
-
-            
-            if(isset($_POST["sign_up_password_1"])){
-
-                if(!empty($_POST['sign_up_password_1'])){
-
-                    $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
-                    
-                    if(!preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
-                        $validation_error[] = "パスワードが半角英数字以外の形式もしくは８文字未満になっています。"."<br>";
-                    }
-
-                }else {
-                    $validation_error[]="パスワードが未入力です"."<br>";
-                }    
-            }
 
 
-            
-            if(isset($_POST["user_check"])){
-                $user_check = htmlspecialchars($_POST['user_check'], ENT_QUOTES, 'UTF-8');
+                if(isset($_POST["cookie_agree"])){
+
+                    //「クッキー同意」したことが続くようにセッションを用意する。
+                    $_SESSION["cookie_agree"] = "hidden";
                 
-            }
-
-    
-            if(($_POST["eye_check"])==="非表示にする"){
-                $user_check2 = "password";
-                $eye_check ="表示する";
-                $eye_path= "img/eye2.png";
+                }
                 
-            }
 
-            if(($_POST["eye_check"])==="表示する"){
-                $user_check2 = "text";
-                $eye_check ="非表示にする";
-                $eye_path= "img/eye1.png";
-            }
-  
-           
-            //「チェック」が押されたときの処理
-            if($user_check==="checked"){
-                //クッキーの話
-                setcookie("user_check",$user_check,$cookie_expiration);
-                setcookie("login_user_name",$login_user_name,$cookie_expiration);  
-                setcookie("sign_up_password_1",$sign_up_password_1,$cookie_expiration);  
-            }
-
+                if(isset($_SESSION["cookie_agree"])){
+                    $_SESSION["cookie_agree"]= "hidden";
+                }else{
+                    $_SESSION["cookie_agree"] = "visible";
+                }
 
             
-            //「ログイン」が押されたときの処理
-            if((isset($_POST["login_button"]))){
+                if(isset($_POST["login_user_name"])){
 
-                //バリデーションチェックでOKならばデータ接続
-                if (empty($validation_error) ){
+                    if(!empty($_POST['login_user_name'])){
 
-                    $select = 'SELECT * FROM ec_user_table WHERE user_name = "'.$login_user_name.'";';
-
-                    if ($result = $db->query($select)) {
-                        while($row = $result->fetch()){
-                            $final_password= $row["password"];
+                        $login_user_name = htmlspecialchars($_POST['login_user_name'], ENT_QUOTES, 'UTF-8');
+                        
+                        if(!preg_match("/^[a-z0-9]{5,}+$/",$login_user_name)){
+                            $validation_error[] = "ユーザー名が半角英数字以外の形式もしくは５文字未満になっています。"."<br>";
                         }
-                
 
-                        if($final_password === $sign_up_password_1){
+                    }else {
+                        $validation_error[]="ユーザー名が未入力です"."<br>";
+                    }
+                }
 
-                            //セッションの話
-                            $_SESSION["login_user_name"]= $login_user_name;
-                            $_SESSION["sign_up_password_1"] = $sign_up_password_1;
+            
+                if(isset($_POST["sign_up_password_1"])){
 
-                            //↓はショッピングサイト内へ行く
-                            header('Location:catalog_page.php');
-                            exit();
+                    if(!empty($_POST['sign_up_password_1'])){
+
+                        $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+                        
+                        if(!preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
+                            $validation_error[] = "パスワードが半角英数字以外の形式もしくは８文字未満になっています。"."<br>";
+                        }
+
+                    }else {
+                        $validation_error[]="パスワードが未入力です"."<br>";
+                    }    
+                }
+
+                if(isset($_POST["user_check"])){
+                    $user_check = htmlspecialchars($_POST['user_check'], ENT_QUOTES, 'UTF-8');
+                    
+                }
+
         
-                        } else {
-                            $str = "ユーザー名またはパスワードが一致しません";
-                            
-                        }
+                if(($_POST["eye_check"])==="表示にする"){
+                    $user_check2 = "password";
+                    $eye_check ="非表示する";
+                    $eye_path= "img/eye2.png";
+                    
+                }
 
+                if(($_POST["eye_check"])==="非表示する"){
+                    $user_check2 = "text";
+                    $eye_check ="表示にする";
+                    $eye_path= "img/eye1.png";
+                }
+    
+           
+                //「チェック」が押されたときの処理
+                if($user_check==="checked"){
+                    //クッキーの話
+                    setcookie("user_check",$user_check,$cookie_expiration);
+                    setcookie("login_user_name",$login_user_name,$cookie_expiration);  
+                    setcookie("sign_up_password_1",$sign_up_password_1,$cookie_expiration);  
+                }
+
+
+                //「ログイン」が押されたときの処理
+                if((isset($_POST["login_button"]))){
+
+                    //バリデーションチェックでOKならばデータ接続
+                    if (empty($validation_error) ){
+
+                        $select = 'SELECT * FROM ec_user_table WHERE user_name = "'.$login_user_name.'";';
+
+                        if ($result = $db->query($select)) {
+                            while($row = $result->fetch()){
+                                $final_password= $row["password"];
+                            }
+                    
+
+                            if($final_password === $sign_up_password_1){
+
+                                //セッションの話
+                                $_SESSION["login_user_name"]= $login_user_name;
+                                $_SESSION["sign_up_password_1"] = $sign_up_password_1;
+
+                                //↓はショッピングサイト内へ行く
+                                header('Location:catalog_page.php');
+                                exit();
+            
+                            } else {
+                                $str = "ユーザー名またはパスワードが一致しません";
+                                
+                            }
+
+                        }
                     }
                 }
-            }
 
         }
         
@@ -158,6 +153,7 @@
             header('Location:catalog_page.php');
             exit(); 
         }
+
             
 ?>
 
@@ -527,20 +523,23 @@
                     text-align:center;
                     /* background-color: gray; */
                     /* width: 750px; */
-                    margin: 0 auto;
-                    /* background-image: url(img/jewery1.jpg);
-                    background-image: url(img/jewery6.jpg);
-                    background-image: url(img/jewery10.jpg); */
-                    width: 100%;
-                    height: 500px;
+                    /* margin: 0 auto; */
+                    /* /* background-image: url(img/jewery1.jpg); */
+                    /* background-image: url(img/jewery15.jpg); 
+                    background-image: url(img/main_72sec_4.png); */
+                    /* width: 100%;
+                    height: 500px; */
+                    width: auto;
+                    height: 714px;
                     
 
                 }
 
                 .fade img{
                     /* max-width:750px; */
-                    width: 100%;
-                    height: 500px;
+                    width: auto;
+                    height: 714px;
+                    /* height: auto; */
                     /* height: 100%; */
                     object-fit: cover;
                 
@@ -651,9 +650,9 @@
 <body>
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
      <div class="fade">
+        <img src="img/main_72sec_13_1.jpg" alt="">
+        <img src="img/ring1.jpg" alt="">
         <img src="img/jewery15.jpg" alt="">
-        <img src="img/jewery25.jpg" alt="">
-        <img src="img/jewery10.jpg" alt="">
      </div>
 
      <!-- //<li>より<div>で囲った方がよいので後で修正すること。 -->

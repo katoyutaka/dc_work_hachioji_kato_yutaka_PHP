@@ -25,52 +25,99 @@
    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         //バリデーションチェック
-        if(isset($_POST["user_name"])){
-            if(!empty($_POST['user_name'])){
-                if(preg_match( '/[^一-龠]/u',$_POST["user_name"])) {
-                    $user_name = htmlspecialchars($_POST['user_name'], ENT_QUOTES, 'UTF-8');
-                }
+
+        //なぜ漢字の正規表現だけ逆の結果になるのか不明
+        if(isset($_POST["input_user_name"])){
+            if(empty($_POST['input_user_name'])){
+                $validation_error1[] = "お名前が未入力です";
+
+            } elseif (preg_match( '/[^一-龠]/u',$_POST["input_user_name"])) {
+                $validation_error1[] = "漢字形式で入力されていません";  
+                
+            } else{
+                $input_user_name = htmlspecialchars($_POST['input_user_name'], ENT_QUOTES, 'UTF-8');
+                   
+                
             }
         }
 
         if(isset($_POST["input_hiragana_form"])){
-            if(!empty($_POST['input_hiragana_form'])){
-                if (preg_match('/^[ぁ-ゞ]+$/u', $_POST['input_hiragana_form'])) {
-                    $input_hiragana_form = htmlspecialchars($_POST['input_hiragana_forme'], ENT_QUOTES, 'UTF-8');
-                }
+            if(empty($_POST['input_hiragana_form'])){
+                $validation_error2[] = "ひらがなが未入力です";
+
+            } elseif (preg_match('/^[ぁ-ゞ]+$/u', $_POST['input_hiragana_form'])) {
+                $input_user_name = htmlspecialchars($_POST['input_user_name'], ENT_QUOTES, 'UTF-8');
+                
+            } else{
+                $validation_error2[] = "ひらがな形式で入力されていません";     
             }
         }
 
+
         if(isset($_POST["input_birthday_form"])){
-            if(!empty($_POST['input_birthday_form'])){
-                if(!preg_match( '/^[0-9]{8}+$/', $_POST["input_birthday_form"] ) ) {
-                    $input_birthday_form = htmlspecialchars($_POST['input_birthday_form'], ENT_QUOTES, 'UTF-8');
-                }
+            if(empty($_POST["input_birthday_form"])){
+                $validation_error3[] = "生年月日が未入力です";
+
+            } elseif (preg_match( '/^[0-9]{8}+$/', $_POST["input_birthday_form"] )) {
+                $input_birthday_form = htmlspecialchars($_POST['input_birthday_form'], ENT_QUOTES, 'UTF-8');
+                
+            } else{
+                $validation_error3[] = "半角数字８文字の形式で入力されていません";
             }
         }
 
 
         if(isset($_POST["input_address_form"])){
-            if(!empty($_POST['input_address_form'])){
-                $input_address_form = htmlspecialchars($_POST['input_address_form'], ENT_QUOTES, 'UTF-8');
-            }
+            if(empty($_POST["input_address_form"])){
+                $validation_error4[] = "住所が未入力ですが未入力です";
+
+            } else {
+                $input_address_form = htmlspecialchars($_POST["input_address_form"], ENT_QUOTES, 'UTF-8');
+                
+            } 
         }
 
 
         if(isset($_POST["input_phone_number_form"])){
-            if(!empty($_POST['input_phone_number_form'])){
-                if(preg_match("/^0[7-9]0[0-9]{4}[0-9]{4}$/" ,$_POST["input_phone_number_form"])){
-                    $input_phone_number_form = htmlspecialchars($_POST['input_phone_number_form'], ENT_QUOTES, 'UTF-8');  
-                }
+            if(empty($_POST["input_phone_number_form"])){
+                $validation_error5[] = "携帯電話番号が未入力です";
+
+            } elseif (preg_match( "/^0[7-9]0[0-9]{4}[0-9]{4}$/", $_POST["input_phone_number_form"] )) {
+                $input_phone_number_form = htmlspecialchars($_POST['input_phone_number_form'], ENT_QUOTES, 'UTF-8');
+                
+            } else{
+                $validation_error5[] = "携帯電話番号の形式ではありません";
             }
         }
 
+
         if(isset($_POST["input_mail_address_form"])){
-            if(!empty($_POST['input_mail_address_form'])){
-                if(preg_match('/^[a-z0-9._+^~-]+@[a-z0-9.-]+$/i', ($_POST["input_mail_address_form"]))) {
-                    $input_mail_address_form = htmlspecialchars($_POST['input_mail_address_form'], ENT_QUOTES, 'UTF-8');
-                }
+            if(empty($_POST["input_mail_address_form"])){
+                $validation_error6[] = "メールアドレスが未入力です";
+
+            } elseif (preg_match('/^[a-z0-9._+^~-]+@[a-z0-9.-]+$/i', $_POST["input_mail_address_form"] )) {
+                $input_mail_address_form = htmlspecialchars($_POST['input_mail_address_form'], ENT_QUOTES, 'UTF-8');
+                
+            } else{
+                $validation_error6[] = "メールアドレスの形式ではありません";
             }
+        }
+        
+
+
+
+
+        //バリデーションチェックでOKならば、各入力データをセッション変数にいれて保管する。
+        if (empty($validation_error) ){
+
+            $_SESSION["input_user_name"] = $input_user_name;
+            $_SESSION["input_hiragana_form"] = $input_hiragana_form;
+            $_SESSION["input_birthday_form"] = $input_birthday_form;
+            $_SESSION["input_address_form"]  = $input_address_form;
+            $_SESSION["input_phone_number_form"] = $input_phone_number_form;
+            $_SESSION["input_mail_address_form"] = $input_mail_address_form;
+
+            
         }
     
 
@@ -465,40 +512,34 @@
             <div class="input_wrapper">
 
                     <div class="input_form2">
-                        <?php
-                         if(isset($_POST["user_name"])){
-                            if(empty($_POST['user_name'])){
-                                print "<span class='msg2'>お名前が未入力です</span>"."<br>";
-                            }else{
-                                if(!preg_match( '/[^一-龠]/u',$_POST["user_name"])) {
-                                    print "<span class='msg2'>漢字形式で入力されていません</span>"."<br>";     
-                                }
+
+                    <?php
+                        if(!empty($validation_error1)){
+                            foreach($validation_error1 as $err1){
+                                print "<span class='msg2'>$err1</span>";
                             }
                         }
-                        ?>
+                    ?>
 
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">お名前（漢字）</p>
                                 <p class="example_label">(例)山田　太郎</p>
                             </div>
-                            <input type="text" class="input_name_form" name="user_name">
+                            <input type="text" class="input_name_form" name="input_user_name">
                         </div>
                     </div>
 
 
                     <div class="input_form2">
-                        <?php
-                        if(isset($_POST["input_hiragana_form"])){
-                            if(empty($_POST['input_hiragana_form'])){
-                                print "<span class='msg2'>ひらがなが未入力です</span>"."<br>";        
-                            }else{
-                                if (!preg_match('/^[ぁ-ゞ]+$/u', $_POST['input_hiragana_form'])) {
-                                    print "<span class='msg2'>ひらがな形式で入力されていません</span>"."<br>";     
-                                }
+
+                    <?php
+                        if(!empty($validation_error2)){
+                            foreach($validation_error2 as $err2){
+                                print "<span class='msg2'>$err2</span>";
                             }
                         }
-                        ?>
+                    ?>
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">ひらがな</p>
@@ -510,17 +551,13 @@
 
 
                     <div class="input_form2">
-                        <?php
-                        if(isset($_POST["input_birthday_form"])){
-                            if(empty($_POST['input_birthday_form'])){
-                                print "<span class='msg2'>生年月日が未入力です</span>"."<br>";
-                            }else{
-                                if(!preg_match( '/^[0-9]{8}+$/', $_POST["input_birthday_form"] ) ) {
-                                    print "<span class='msg2'>半角数字８文字の形式で入力されていません</span>"."<br>";     
-                                }  
+                    <?php
+                        if(!empty($validation_error3)){
+                            foreach($validation_error3 as $err3){
+                                print "<span class='msg2'>$err3</span>";
                             }
                         }
-                        ?>
+                    ?>
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">生年月日（半角数字８文字）</p>
@@ -532,13 +569,13 @@
                     
 
                     <div class="input_form2">
-                        <?php
-                        if(isset($_POST["input_address_form"])){
-                            if(empty($_POST['input_address_form'])){
-                                print "<span class='msg2'>住所が未入力です</span>"."<br>";
+                    <?php
+                        if(!empty($validation_error4)){
+                            foreach($validation_error4 as $err4){
+                                print "<span class='msg2'>$err4</span>";
                             }
                         }
-                        ?>
+                    ?>
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">住所</p>
@@ -550,17 +587,13 @@
 
 
                     <div class="input_form2">
-                        <?php
-                         if(isset($_POST["input_phone_number_form"])){
-                            if(empty($_POST['input_phone_number_form'])){
-                                print "<span class='msg2'>携帯電話番号が未入力です</span>"."<br>";
-                            }else{
-                                if(!preg_match("/^0[7-9]0[0-9]{4}[0-9]{4}$/" ,$_POST["input_phone_number_form"])){
-                                    print "<span class='msg2'>携帯電話番号の形式ではありません</span>"."<br>";     
-                                }
+                    <?php
+                        if(!empty($validation_error5)){
+                            foreach($validation_error5 as $err5){
+                                print "<span class='msg2'>$err5</span>";
                             }
                         }
-                        ?>
+                    ?>
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">携帯電話番号（ハイフンなしの半角数字）</p>
@@ -573,18 +606,13 @@
 
 
                     <div class="input_form2">
-                        <?php
-                         if(isset($_POST["input_mail_address_form"])){
-                            if(empty($_POST['input_mail_address_form'])){
-                                print "<span class='msg2'>メールアドレスが未入力です</span>"."<br>";
-                            }else{
-                                if(!preg_match('/^[a-z0-9._+^~-]+@[a-z0-9.-]+$/i', ($_POST["input_mail_address_form"]))) {
-                                    print "<span class='msg2'>メールアドレスの形式ではありません</span>"."<br>";
-                                }
-                                
+                    <?php
+                        if(!empty($validation_error6)){
+                            foreach($validation_error6 as $err6){
+                                print "<span class='msg2'>$err6</span>";
                             }
                         }
-                        ?>
+                    ?>
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">メールアドレス</p>
