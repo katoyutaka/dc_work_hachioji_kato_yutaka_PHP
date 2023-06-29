@@ -55,13 +55,9 @@
 
             
             if(isset($_POST["logout_tag"])){  
-                //ログアウトが押されたら、セッションとクッキーを空にして、login.phpに遷移する。
+                  //ログアウトが押されたら、セッションのみを消してクッキーは消さず、login.phpに遷移する。
                 $_SESSION=[];
                 session_destroy();
-
-                setcookie("user_check","",time()-100);
-                setcookie("login_user_name","",time()-100);  
-                setcookie("sign_up_password_1","",time()-100);  
 
                 header('Location:login.php');
                 exit();
