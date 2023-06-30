@@ -19,7 +19,7 @@
         // $validation_error = array();
         $sign_up_password_1="";
         $user_check="";
-        $cookie_agree= "";
+        // $cookie_agree= "";
         $login_user_name="";
         $user_check2 = "password";
         $eye_check ="表示にする";
@@ -49,6 +49,17 @@
             $cookie_sign_up_password_1 = $_COOKIE["sign_up_password_1"];
         } else {
             $cookie_sign_up_password_1 = "";
+        }
+
+
+        if(isset($_COOKIE["agree"])){
+            $cookie_agree = $_COOKIE["agree"];
+            $cookie_agree_display = "hidden";
+
+
+        } else {
+            $cookie_agree = "";
+            $cookie_agree_display = "visible";
         }
 
 ?>
@@ -172,24 +183,21 @@
             }
 
 
-  
+
+
+            //クッキー同意の処理
+            if(isset($_POST["agree"])){
+
+                $agree="";
+                $agree = htmlspecialchars($_POST["agree"], ENT_QUOTES, 'UTF-8');
                 
+                setcookie("agree",$agree,$cookie_expiration);
+            }
+           
+  
             if(isset($_POST["sign_up_button"])){
                 header('Location:membership_terms.php');
                 exit();
-            }
-
-
-            if(isset($_POST["cookie_agree"])){
-                //「クッキー同意」したことが続くようにセッションを用意する。
-                $_SESSION["cookie_agree"] = "hidden";
-            }
-            
-
-            if(isset($_SESSION["cookie_agree"])){
-                $_SESSION["cookie_agree"]= "hidden";
-            }else{
-                $_SESSION["cookie_agree"] = "visible";
             }
 
 
@@ -503,7 +511,7 @@
                     font-family: system-ui;
                     letter-spacing: 2px;
                 }
-                .cookie_agree {
+                .agree {
                     color: white;
                     background-color: #000099;
                     padding:10px 30px;
@@ -512,7 +520,7 @@
                     letter-spacing: 2px;
                 }
 
-                .cookie_agree:hover{
+                .agree:hover{
                     cursor: pointer;
                 }
 
@@ -805,7 +813,7 @@
      </div>
 
      
-     <div style="visibility:<?php print $_SESSION["cookie_agree"];?>;"class="cookie-consent">
+     <div style="visibility:<?php print $cookie_agree_display;?>;"class="cookie-consent">
         <div class="cookie-text">
             当サイトはクッキー(cookie)を使用します。クッキーはサイト内の一部の機能および、<br>
             サイトの使用状況の分析からマーケティング活動に利用することを目的としています。<br>
@@ -815,7 +823,7 @@
         </div>
 
         <form method="post" action="">
-            <input type="submit" class="cookie_agree" name="cookie_agree" value="同意する">
+            <input type="submit" class="agree" name="agree" value="同意する">
         </form>
      </div>
 

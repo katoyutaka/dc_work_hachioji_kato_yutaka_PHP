@@ -6,8 +6,6 @@
        define("LOGIN_USER",'bcdhm_hoj_pf0001');
        define("PASSWORD",'Au3#DZ~G');
 
-        
-
        try{
             $db=new PDO(DSN,LOGIN_USER,PASSWORD);
    
@@ -20,77 +18,87 @@
 
 <?php
 
-    //バリデーションチェック実施
+    //バリデーションチェック
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if(isset($_POST["check-button"])){
 
-            $validation_error = array();
-
-            $sign_up_user_name ='';
-            if(!empty($_POST['sign_up_user_name'])){
-
-                $sign_up_user_name = htmlspecialchars($_POST['sign_up_user_name'], ENT_QUOTES, 'UTF-8');
-               
-                if(!preg_match("/^[a-zA-Z0-9]{5,}+$/",$sign_up_user_name)){
-                    $validation_error[] ="ユーザー名が半角英数字以外の形式もしくは５文字未満になっています。"."<br>";
-                }
-
-            } else {
-                $validation_error[]="ユーザー名が未入力です"."<br>";
-            }
+        if(isset($_POST['sign_up_user_name'])){
+            
+            $sign_up_user_name="";
+            $sign_up_user_name = htmlspecialchars($_POST['sign_up_user_name'], ENT_QUOTES, 'UTF-8');
         
 
-            $sign_up_password_1="";
-            if(!empty($_POST['sign_up_password_1'])){
+            if(empty($sign_up_user_name)){
+                $validation_error1[] = "ユーザー名が未入力です";
 
-                $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+            } elseif (preg_match("/^[a-z0-9]{5,}+$/",$sign_up_user_name)){
 
-                if(!preg_match("/^[a-zA-Z0-9]{8,}+$/",$sign_up_password_1)){
-                    $validation_error[] ="パスワードが半角英数字以外の形式もしくは８文字未満になっています。"."<br>";
-                }
+                $ok_sign_up_user_name = $sign_up_user_name;
 
             } else {
-                $validation_error[]="パスワードが未入力です"."<br>";
-            }
+                $validation_error1[] = "ユーザー名が半角英数字以外の形式か、５文字未満になっています";
 
-            $sign_up_password_2="";
-            if(!empty($_POST['sign_up_password_2'])){
-
-                $sign_up_password_2 = htmlspecialchars($_POST['sign_up_password_2'], ENT_QUOTES, 'UTF-8');
-
-                if(!preg_match("/^[a-zA-Z0-9]+$/",$sign_up_password_2)){
-                    $validation_error[] = "パスワード（再確認）が半角英数字以外の形式になっています。"."<br>";
-                }
-
-            } else {
-                $validation_error[]="パスワード（再確認）が未入力です"."<br>";
-            }
-
-            if(!($sign_up_password_1 === $sign_up_password_2)){
-                $validation_error[]="パスワードが一致しません"."<br>";
-
-            }
-
-    //バリデーションチェックOKならばデータベースに新規登録
-            if (empty($validation_error) ){
-
-                $_SESSION["sign_up_user_name"]=$sign_up_user_name;
-                $_SESSION["sign_up_password_1"]=$sign_up_password_1;
-
-                header('Location:confirm_sign_up.php');
-                exit();
-
-
-            }else{
-                foreach($validation_error as $err){
-                    print "<span class='msg'>$err</span><br>";
-                    
-                }
-            
             }
         }
 
 
+        
+        if(isset($_POST['sign_up_password_1'])){
+            
+            $sign_up_password_1="";
+            $sign_up_password_1= htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+        
+
+            if(empty($sign_up_password_1)){
+                $validation_error2[] = "パスワードが未入力です";
+
+            } elseif (preg_match("/^[a-z0-9]{8,}+$/",$sign_up_password_1)){
+
+                $ok_sign_up_password_1 = $sign_up_password_1;
+
+            } else {
+                $validation_error2[] = "パスワードが半角英数字以外の形式もしくは８文字未満になっています";
+            }
+            
+        }
+
+
+        if(isset($_POST['sign_up_password_2'])){
+            
+            $sign_up_password_2="";
+            $sign_up_password_2= htmlspecialchars($_POST['sign_up_password_2'], ENT_QUOTES, 'UTF-8');
+        
+
+            if(empty($sign_up_password_2)){
+                $validation_error2[] = "ユーザー名が未入力です";
+
+            } elseif (preg_match("/^[a-z0-9]{8,}+$/",$sign_up_password_2)){
+
+                $ok_sign_up_password_2 = $sign_up_password_2;
+
+            } else {
+                $validation_error3[] = "パスワード（再確認）が半角英数字以外の形式もしくは８文字未満になっています";
+            }
+            
+        }
+
+
+        
+        if(!($ok_sign_up_password_1ign_up_password_1 === $ok_sign_up_password_2)){
+            
+            $validation_error4[]="パスワードが一致しません"."<br>";
+
+        }
+
+
+        //バリデーションチェックOKならば確認ページへ行く
+        if ((empty($validation_error1)) && (empty($validation_error2)) && (empty($validation_error3)) && (empty($validation_error4))){
+    
+            $_SESSION["ok_sign_up_user_name"] = $ok_sign_up_user_name;
+            $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
+
+            header('Location:confirm_sign_up.php');
+            exit();
+        }
 
 
         if(isset($_POST["reverse-button"])){
@@ -98,13 +106,10 @@
             exit();
 
         }
+
     }
     
-    
 ?>
-
-
-
 
 
 
@@ -153,6 +158,7 @@
 
                 .msg{
                     color:red;
+                    font-weight: bolder;
                 }
 
                 h2 {
@@ -206,15 +212,15 @@
 
                 .name_form_container{
                     display:flex;
-                    margin-top:40px;
-                    margin-left:230px;
-                    width: 700px;
+                    /* margin-top:40px; */
+                    /* margin-left:230px; */
+                    width: 1000px;
                 }
 
                 .label_1{
-                    display:flex;
+                    /* display:flex; */
                     height:35px;
-                    margin-right:40px;
+                    margin-right:10px;
                     line-height: 35px;
                     width:600px;
                 }
@@ -304,6 +310,13 @@
                     opacity: 0.7;
                 }
 
+                .validation_error_area{
+                    width: 1000px;
+                    height: 30px;
+                    margin: 0;
+                    background-color: yellow;
+                }
+
 
     </style>
               
@@ -315,9 +328,6 @@
     </div>
 
     <h2>New Customer 新規会員登録</h2>
-
-
-        
 
         <div class="sign_up_wrapper">
             <div class="sign_up_text">
@@ -334,14 +344,60 @@
                     <form method="post" action="sign_up.php">
 
                         <div class="sign_up_form">
+
+                            <div class= validation_error_area>
+                                <?php
+                                    if(!empty($validation_error1)){
+                                        foreach($validation_error1 as $err1){
+                                            print "<p class='msg'>$err1</p>";
+                                        }
+                                    }
+                                ?>
+                            </div>
+
+                            
+                            <div class= validation_error_area>
+                                <?php
+                                    if(!empty($validation_error4)){
+                                        foreach($validation_error4 as $err4){
+                                            print "<p class='msg'>$err4</p>";
+                                        }
+                                    }
+                                ?>
+                            </div>
+
+
                             <div class="name_form_container">
                                 <p class="label_1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>
                                 <input type="text" class="user_name_form" name="sign_up_user_name">
+                            </div>
+
+
+                            <div class= validation_error_area>
+                                <?php
+                                    if(!empty($validation_error2)){
+                                        foreach($validation_error2 as $err2){
+                                            print "<p class='msg'>$err2</p>";
+                                        }
+                                    }
+                                ?>
                             </div>
                             
                             <div class="name_form_container">
                                 <p class="label_2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
                                 <input type="password" class="password_name_form" name="sign_up_password_1" >
+                            </div>
+
+
+
+                            <div class= validation_error_area>
+                                <?php
+                                    if(!empty($validation_error3)){
+                                        foreach($validation_error3 as $err3){
+                                            print "<p class='msg'>$err3</p>";
+                                        }
+                                    }
+                                ?>
                             </div>
 
                             <div class="name_form_container">
@@ -350,6 +406,8 @@
                             </div>
                             
                         </div>
+
+                        
 
                         <div class="button_container">
                             <input type="submit" class="reverse-button" name="reverse-button" value="戻る">
