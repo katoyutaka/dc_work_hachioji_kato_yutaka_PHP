@@ -18,8 +18,8 @@
 
 <?php
 
-    $sign_up_user_name = $_SESSION["sign_up_user_name"];
-    $sign_up_password_1 = $_SESSION["sign_up_password_1"];
+    $ok_sign_up_user_name = $_SESSION["ok_sign_up_user_name"];
+    $ok_sign_up_password_1 = $_SESSION["ok_sign_up_password_1"];
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -29,7 +29,7 @@
                 $update_date = date('Ymd');
 
                 //あとでプレースホルダやる
-                $insert = "INSERT INTO ec_user_table (user_name, password, create_date, update_date) VALUES ('$sign_up_user_name','$sign_up_password_1',".$create_date.",".$update_date.");";
+                $insert = "INSERT INTO ec_user_table (user_name, password, create_date, update_date) VALUES ('$ok_sign_up_user_name','$ok_sign_up_password_1',".$create_date.",".$update_date.");";
 
                 $db=new PDO(DSN,LOGIN_USER,PASSWORD);
                 
@@ -103,9 +103,14 @@
                         letter-spacing: 0px;
                     }
 
+
                     .msg{
-                        color:red;
-                    }
+                    color:red;
+                    font-weight: bolder;
+                    height: 20px;
+                    display: flex;
+                    padding-left: 85px;
+                }
 
                     .label_user{
                         text-align: left;
@@ -150,7 +155,7 @@
                         border-radius: 1px;
                         border: 1px solid #000099;
                         font-size:14px;
-                        margin-right:10px;
+                        /* margin-right:10px; */
                         
                     }
 
@@ -160,23 +165,26 @@
                         margin-left:10px;
                         transition: all 0.6s;
                         cursor: pointer;
+                        float:right;
                     }
 
                     .reverse-button{
                         color:#000099;
                         transition: all 0.6s;
                         cursor: pointer;
+                        float:left;
                     }
 
                     .button_container{
                         width:100%;
                         margin:0 auto;
-                        margin-top:80px;
+                        /* margin-top:80px; */
                         width:600px;
+                        height: 100px;
 
                     }
                     .label1{
-                        margin-top: 60px;
+                        margin-top: 20px;
                         height:35px;
                         line-height: 35px;
                         font-weight: bold;
@@ -184,14 +192,16 @@
                     }
 
                     .label2{
-                        margin-top: 60px;
+                        margin-top: 20px;
                         height:35px;
                         line-height: 35px;
+                        text-align: left;
+                        padding-left:140px;
                         width: 50%;
                     }
 
                     .label3{
-                        margin-top: 80px;  
+                        margin-top: 60px;  
                         height:35px;
                         line-height: 35px;
                         font-weight: bold;
@@ -200,10 +210,12 @@
 
                     
                     .label4{
-                        margin-top: 80px;  
+                        margin-top: 60px;  
                         height:35px;
                         line-height: 35px;
                         width: 50%;
+                        padding-left:140px;
+                        text-align: left;
                     }
                     
 
@@ -211,6 +223,7 @@
                         display:flex;
                         justify-content: space-between;
                         width:500px;
+                        height: 70px;
                         text-align: center;
 
                     }
@@ -218,10 +231,7 @@
                         margin:0 auto;
                         width:100%;
                         width:600px;
-                    }
-
-                    .link_text{
-                        float: right;
+                        height: 300px;
                     }
 
                     
@@ -234,8 +244,16 @@
                         width: 1000px;
                         height:90px;
                         margin:0 auto;
-                        /* margin-top:20px; */
                     }
+
+                    .error_area{
+                        width: 500px;
+                        height: 50px;
+                        margin: 0;
+                        display: flex;
+                        margin-top: 5px;
+                    }
+
 
         </style>
                 
@@ -255,14 +273,21 @@
             <p class="label_user2">お客様情報</p>
 
             <div class="sub_wrapper">
+
+                <div class= error_area>
+                    <?php
+                        print "<p class='msg'>$str</p>";
+                    ?>
+                </div>
+
                 <div class="form_container">
                     <p class="label1">ユーザー名</p>
-                    <p class="label2"><?php print $sign_up_user_name ?></p>
+                    <p class="label2"><?php print $ok_sign_up_user_name ?></p>
                 </div>
 
                 <div class="form_container">
                     <p class="label3">パスワード</p>
-                    <p class="label4"><?php print $sign_up_password_1 ?></p>
+                    <p class="label4"><?php print $ok_sign_up_password_1 ?></p>
                 </div>
             </div>
         
@@ -271,7 +296,6 @@
                     <input type="submit" class="reverse-button" name="reverse-button" value="戻る">
                     <input type="submit" class="confirm-button"  name="confirm-button" value="登録する">
                 </div>
-                <!-- <a href="login.php?" class="link_text">ログイン画面はこちらから</a> -->   
             </form>
 
 

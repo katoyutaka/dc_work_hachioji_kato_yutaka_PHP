@@ -69,7 +69,7 @@
         
 
             if(empty($sign_up_password_2)){
-                $validation_error2[] = "ユーザー名が未入力です";
+                $validation_error3[] = "パスワード（再確認）が未入力です";
 
             } elseif (preg_match("/^[a-z0-9]{8,}+$/",$sign_up_password_2)){
 
@@ -83,18 +83,18 @@
 
 
         
-        if(!($ok_sign_up_password_1ign_up_password_1 === $ok_sign_up_password_2)){
+        if((!($ok_sign_up_password_1 === $ok_sign_up_password_2)||!($sign_up_password_1 === $sign_up_password_2))){
             
-            $validation_error4[]="パスワードが一致しません"."<br>";
+            $validation_error4[]="パスワードとパスワード（再確認）が一致しません"."<br>";
 
         }
 
 
-        //バリデーションチェックOKならば確認ページへ行く
+        //バリデーションチェックOKならば次のページへ行く
         if ((empty($validation_error1)) && (empty($validation_error2)) && (empty($validation_error3)) && (empty($validation_error4))){
     
             $_SESSION["ok_sign_up_user_name"] = $ok_sign_up_user_name;
-            $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
+            $_SESSION["ok_sign_up_password_1"] = $ok_sign_up_password_1;
 
             header('Location:confirm_sign_up.php');
             exit();
@@ -159,10 +159,12 @@
                 .msg{
                     color:red;
                     font-weight: bolder;
+                    height: 20px;
+                    display: flex;
+                    padding-left: 100px;
                 }
 
                 h2 {
-                    /* margin-top: 0px; */
                     margin-bottom: 40px;
                     text-align: center;
                 }
@@ -182,7 +184,6 @@
                 .user_sign_up_wrapper{
                     width:1000px;
                     text-align:center;
-                    /* margin-top: 50px; */
                     border-top: 1px solid #b7b7b7;
                     margin:0 auto;
                 
@@ -205,40 +206,36 @@
                 .user_name_form,.password_name_form{
                     background-color: #f8f8f8;
                     height: 35px;
-                    width: 700px;
+                    width: 400px;
                     border:1px solid #66FFCC;
                     border-radius: 1px;
                 }
 
                 .name_form_container{
                     display:flex;
-                    /* margin-top:40px; */
-                    /* margin-left:230px; */
                     width: 1000px;
+                    padding-left: 100px;
                 }
 
                 .label_1{
-                    /* display:flex; */
+                    display:flex;
                     height:35px;
-                    margin-right:10px;
                     line-height: 35px;
-                    width:600px;
+                    width:400px;
                 }
 
                 .label_2{
                     display:flex;
                     height:35px;
-                    margin-right:40px;
                     line-height: 35px;
-                    width:600px;
+                    width:400px;
                 }
 
                 .label_3{
                     display:flex;
                     height:35px;
-                    margin-right:40px;
                     line-height: 35px;
-                    width:600px;
+                    width:400px;
                 }
 
                 .main-container{
@@ -263,20 +260,12 @@
                     cursor: pointer;
                 }
 
-                /* .check-button:hover{
-                    color: red;
-                    transition: all 0.6s;
-                } */
-
                 .reverse-button{
                     color:#000099;
-                    /* transition: all 0.6s; */
                     cursor: pointer;
-                    /* margin-left:100px; */
                 }
 
                 .button_container{
-                    /* display:flex; */
                     width:100%;
                     margin:0 auto;
                     margin-top:80px;
@@ -285,7 +274,6 @@
 
                 .sign_up_form{
                     width:700px;
-                    /* width:100%; */
                 }
 
                 .link_text{
@@ -301,7 +289,6 @@
                     width: 1000px;
                     height:60px;
                     margin:0 auto;
-                    /* margin-bottom: 20px; */
                     margin-top: 10px;
                 }
 
@@ -314,7 +301,7 @@
                     width: 1000px;
                     height: 30px;
                     margin: 0;
-                    background-color: yellow;
+                    padding-top:10px;
                 }
 
 
@@ -353,6 +340,12 @@
                                         }
                                     }
                                 ?>
+                            </div>                            
+
+
+                            <div class="name_form_container">
+                                <p class="label_1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>
+                                <input type="text" class="user_name_form" name="sign_up_user_name">
                             </div>
 
                             
@@ -364,12 +357,6 @@
                                         }
                                     }
                                 ?>
-                            </div>
-
-
-                            <div class="name_form_container">
-                                <p class="label_1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>
-                                <input type="text" class="user_name_form" name="sign_up_user_name">
                             </div>
 
 
