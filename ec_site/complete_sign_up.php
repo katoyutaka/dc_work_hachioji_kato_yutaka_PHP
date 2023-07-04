@@ -54,7 +54,6 @@
                     height: 30px;
                     line-height: 30px;
                     font-size: 16px;
-                    /* padding-left:50px; */
                     color:white;
                     font-weight:bold;
                     font-family:"Yu Mincho";
@@ -71,7 +70,6 @@
                     font-size: 16px;
                     width: 1000px;
                     padding-left:50px;
-                    /* margin-top:50px; */
                     color:white;
                     
                 }
@@ -87,7 +85,6 @@
                     width: 1000px;
                     padding-left:50px;
                     margin-top:20px;
-                    
                 }
 
 
@@ -96,78 +93,12 @@
                     width: 1000px;
                     margin:0 auto;
                 }
+
                 .text{
                     margin-left:50px;
                     margin-top:20px;
                 }
 
-                .login-button{
-                    margin:0 auto;
-                    width:250px;
-                    height: 50px;
-                    border-radius: 1px;
-                    border: 1px solid #000099;
-                    font-size:14px;
-                    margin-right:10px;
-                    background-color: #000099;
-                    color:white;
-                    cursor: pointer;
-                    
-                }
-
-                .button_container{
-                    width:100%;
-                    margin-top:80px;
-                    width:600px;
-                    display: flex;
-
-                }
-                .label1{
-                    margin-left:120px;
-                    margin-top: 60px;
-                    display:flex;
-                    height:35px;
-                    line-height: 35px;
-                    font-weight: bold;
-                }
-
-                .label2{
-                    margin-left:120px;
-                    margin-top: 60px;
-                    display:flex;
-                    height:35px;
-                    line-height: 35px;
-                }
-
-                .label3{
-                    margin-left:120px;
-                    margin-top: 80px;  
-                    display:flex;
-                    height:35px;
-                    line-height: 35px;
-                    font-weight: bold;
-                }
-
-                
-                .label4{
-                    margin-left:120px;
-                    margin-top: 80px;  
-                    display:flex;
-                    height:35px;
-                    line-height: 35px;
-                }
-                
-
-                .form_container{
-                    display:flex;
-                    width:600px;
-
-                }
-                .sub_wrapper{
-                    margin:0 auto;
-                    width:100%;
-                    width:600px;
-                }
 
                 .link_text{
                     float: left;
@@ -184,7 +115,6 @@
                     width: 1000px;
                     height:90px;
                     margin:0 auto;
-                    /* margin-top:20px; */
                 }
 
 
@@ -203,7 +133,6 @@
         <div class="text">お客様のユーザー登録が完了しました。<br>ログイン画面よりログイン下さい。</div>
         <p class="label_user2"></p>
        
-      
         <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
      </div>
 

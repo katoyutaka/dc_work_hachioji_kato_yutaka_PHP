@@ -96,7 +96,6 @@
                         height: 30px;
                         line-height: 30px;
                         font-size: 16px;
-                        /* padding-left:50px; */
                         color:white;
                         font-weight:bold;
                         font-family:"Yu Mincho";
@@ -105,12 +104,12 @@
 
 
                     .msg{
-                    color:red;
-                    font-weight: bolder;
-                    height: 20px;
-                    display: flex;
-                    padding-left: 85px;
-                }
+                        color:red;
+                        font-weight: bolder;
+                        height: 20px;
+                        display: flex;
+                        padding-left: 85px;
+                    }
 
                     .label_user{
                         text-align: left;
@@ -143,6 +142,7 @@
                         width: 1000px;
                         margin:0 auto;
                     }
+
                     .text{
                         margin-left:50px;
                         margin-top:20px;
@@ -155,8 +155,6 @@
                         border-radius: 1px;
                         border: 1px solid #000099;
                         font-size:14px;
-                        /* margin-right:10px; */
-                        
                     }
 
                     .confirm-button{
@@ -178,11 +176,12 @@
                     .button_container{
                         width:100%;
                         margin:0 auto;
-                        /* margin-top:80px; */
                         width:600px;
                         height: 100px;
 
                     }
+
+
                     .label1{
                         margin-top: 20px;
                         height:35px;
@@ -227,6 +226,8 @@
                         text-align: center;
 
                     }
+
+                    
                     .sub_wrapper{
                         margin:0 auto;
                         width:100%;
