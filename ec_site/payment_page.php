@@ -24,6 +24,10 @@
 
    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+    $conveni = $_POST["select_conveni"];
+
+    
+
 
         if(isset($_POST["reverse-button"])){
             header('Location:catalog_page.php');
@@ -123,7 +127,7 @@
                     /* text-align: left; */
                     font-size:18px;
                     font-weight:bold;
-                    background-color: #eff6fc;
+                    /* background-color: #eff6fc; */
                     height: 50px;
                     line-height: 50px;
                     width: 1000px;
@@ -135,9 +139,10 @@
 
                 .main_wrapper{
                     width: 1000px;
-                    height: 3000px;
+                    height: 1400px;
                     margin:0 auto;
                 }
+
                 .text{
                     margin-left:50px;
                     margin-top:20px;
@@ -203,11 +208,45 @@
                     float:right;
                 }
 
-                .input_wrapper{
+                .card_input_wrapper{
+                    width: 1000px;
+                    height: 400px;
+                    margin-top: 70px;
+                    display: flex;
+                    /* background-color:darkseagreen; */
+                    border-bottom:1px solid gray;
+                    padding-bottom: 40px;
+                }
+
+                .conveni_input_wrapper{
                     width: 1000px;
                     height: 250px;
                     margin-top: 20px;
                     display: flex;
+                    border-bottom:1px solid gray;
+                    padding-top: 20px;
+                    /* padding-bottom: 20px; */
+                    /* background-color: yellowgreen; */
+                }
+
+                .smartphone_input_wrapper{
+                    width: 1000px;
+                    height: 150px;
+                    margin-top: 20px;
+                    display: flex;
+                    border-bottom:1px solid gray;
+                    padding-top: 20px;
+                     /* background-color: yellowgreen; */
+                }
+
+                .cash_input_wrapper{
+                    width: 1000px;
+                    height: 150px;
+                    margin-top: 20px;
+                    display: flex;
+                    border-bottom:1px solid gray;
+                    padding-top: 20px;
+                     /* background-color: yellowgreen; */
                 }
 
                 .next-button{
@@ -230,7 +269,7 @@
                 .button_container{
                         width:100%;
                         margin:0 auto;
-                        margin-top:80px;
+                        /* margin-top:20px; */
                         width:600px;
                         height: 60px;
 
@@ -311,14 +350,45 @@
                     text-align: left;
                 }
 
-                .label{
+                .card_label{
                     font-weight: bolder;
                     display: inline;
                     /* height: 30px; */
                     width: 50px;
-                    background-color: #000099;
+                    /* background-color: #000099; */
                     line-height: 30px;
+                    padding-left: 30px;
+                }
+                
 
+                .conveni_label{
+                    font-weight: bolder;
+                    display: inline;
+                    /* height: 30px; */
+                    width: 50px;
+                    /* background-color: #000099; */
+                    line-height: 30px;
+                    padding-left: 55px;
+                }
+
+                .smartphone_label{
+                    font-weight: bolder;
+                    display: inline;
+                    /* height: 30px; */
+                    width: 50px;
+                    /* background-color: #000099; */
+                    line-height: 30px;
+                    padding-left: 40px;
+                }
+
+                .cash_label{
+                    font-weight: bolder;
+                    display: inline;
+                    /* height: 30px; */
+                    width: 50px;
+                    /* background-color: #000099; */
+                    line-height: 30px;
+                    padding-left: 60px;
                 }
 
                 .input_form{
@@ -333,9 +403,9 @@
 
                 .label_container{
                     text-align: left;
-                    width: 200px;
+                    width: 250px;
                     height: 50px;
-                    background-color: #000099;
+                    /* background-color: #000099; */
                     margin-top: 40px;
                     padding-left:10px ;
                 }
@@ -344,11 +414,36 @@
                     color:darkcyan;
                 }
 
-                .label_wrapper{
-                    background-color:brown;
+                .card_example_label{
+                    color:darkcyan;
+                    margin-left: 10px;
+                }
+
+                .card_label_wrapper{
+                    /* background-color:brown; */
                     width: 200px;
                     height: 60px;
+                }
 
+                .conveni_label_wrapper{
+                    /* background-color:brown; */
+                    width: 200px;
+                    height: 60px;
+                }
+
+                
+
+                .smartphone_label_wrapper{
+                    /* background-color:brown; */
+                    width: 350px;
+                    height: 60px;
+                }
+
+                
+                .cash_label_wrapper{
+                    /* background-color:brown; */
+                    width: 400px;
+                    height: 60px;
                 }
 
                 .payment_method_button{
@@ -359,21 +454,91 @@
                     margin-right: 30px;
                 }
 
-                .payment_tag{
+                .r-edy_payment_method_button{
+                    /* line-height: 54px; */
+                    margin:0 auto;
+                    margin-bottom: 20px;
+                    margin-left: 10px;
+                    margin-right: 30px;
+                }
+
+                .paypay_payment_method_button{
+                    /* line-height: 54px; */
+                    margin:0 auto;
+                    margin-bottom: 20px;
+                    margin-left: 100px;
+                    margin-right: 20px;
+                }
+
+                .card_payment_tag{
                     font-size: 10px;
                     margin-left: 65px;
-                   
                 }
+
+                .conveni_payment_tag{
+                    font-size: 10px;
+                    margin-left: 40px;
+                }
+
+                .smartphone_payment_tag{
+                    font-size: 10px;
+                    margin-left: 65px;
+                    margin-right: 10px;
+                }
+                
+                
+                .cash_payment_tag{
+                    font-size: 10px;
+                    margin-left: 45px;
+                }
+
 
                 .card_wrapper{
                     width: 700px;
                     height: 350px;
-                    background-color: yellow;
+                    /* background-color: yellow; */
                     margin-left: 100px;
                 }
 
+                
+                .conveni_wrapper{
+                    width: 700px;
+                    height: 150px;
+                    /* background-color: yellow; */
+                    margin-left: 100px;
+                }
+
+                .smartphone_wrapper{
+                    width: 700px;
+                    height: 80px;
+                    /* background-color: yellow; */
+                    /* margin-left: 100px; */
+                }
+
+                .cash_wrapper{
+                    width: 700px;
+                    height: 80px;
+                    /* background-color: yellow; */
+                    margin-left: 100px;
+                }
+
+
                 .card_image_wrapper{
                     max-width:350px;
+                }
+
+                .conveni_image_wrapper{
+                    max-width:500px;
+                }
+
+                .r-edy_image_wrapper{
+                    max-width:35px;
+                }
+
+                .paypay_image_wrapper{
+                    margin: 0 auto;
+                    max-width:100px;
+                   margin-bottom:10px
                 }
 
 
@@ -388,8 +553,13 @@
                     margin-top: 40px;
                 }
 
-
-
+                .select_conveni{
+                    background-color: #f8f8f8;
+                    width: 150px;
+                    height: 30px;
+                    margin-top: 38px;
+                    border:1px solid #66FFCC;
+                }
 
 
 
@@ -433,54 +603,114 @@
             
         <div class="label_user5"><span>お支払方法入力</span><br><br>以下の項目をご入力いただき、「確認」ボタンをクリックして下さい。</div>
 
-        <div class="label_user">クレジットカード決済</div>
+        <!-- <div class="label_user">クレジットカード決済</div> -->
+        <?php
+        print $conveni;
+        ?>
+        <div class="card_input_wrapper">
+            <div class="card_label_wrapper">
+                <!-- <form method="post" action=""> -->
+                        <input type="radio" name="payment_method_button" class="card_payment_method_button" value="クレジットカード" <?php if ($payment_method_button === 'クレジットカード') { echo 'checked'; } ?>><p class="card_label">クレジットカード</p>
+                        <p class="card_payment_tag">CREDIT CARD</p>
+                <!-- </form> -->
+            </div>
 
-            <div class="input_wrapper">
-                <div class="label_wrapper">
-                    <form method="post" action="">
-                            <input type="radio" name="payment_method_button" class="payment_method_button" value="クレジットカード" <?php if ($payment_method_button === 'クレジットカード') { echo 'checked'; } ?>><p class="label">クレジットカード</p>
-                            <p class="payment_tag">CREDIT CARD</p>
-                    </form>
+            <div class="card_wrapper">
+                    <img src='img/credit_card_payment.png' class="card_image_wrapper">
+
+                    <div class="input_form">
+                        <div class="label_container">
+                            <p class="label">カード番号</p>
+                            <p class="example_label">半角数字16桁</p>
+                        </div>
+                        <input type="text" class="input_card_number_form" name="input_card_number_form">
+                    </div>
+
+                    <div class="input_form">
+                        <div class="label_container">
+                                <p class="label">有効期限</p>
+                                <p class="example_label">(例)2017年3月⇒03/17</p>
+                        </div>
+                        <input type="text" class="input_card_number_form" name="input_card_number_form">
+                    </div>
+
+                    <div class="input_form">
+                        <div class="label_container">
+                                <p class="label">セキュリティコード</p>
+                                
+                        </div>
+                        <input type="text" class="input_card_number_form" name="input_card_number_form">
+                        
+                    </div>
+                    <p class="card_example_label">※セキュリティコードとはクレジットカード裏面の署名欄に印字されている数字のうち<br>下3桁または4桁の番号です。</p>
+
+            </div>
+        </div>
+
+
+        <!-- <div class="label_user">コンビニ決済</div> -->
+
+            <div class="conveni_input_wrapper">
+                <div class="conveni_label_wrapper">
+                    <!-- <form method="post" action=""> -->
+                            <input type="radio" name="payment_method_button" class="conveni_payment_method_button" value="コンビニ" <?php if ($payment_method_button === 'コンビニ') { echo 'checked'; } ?>><p class="conveni_label">コンビニ</p>
+                            <p class="conveni_payment_tag">CONVENIENCE STORE</p>
+                    <!-- </form> -->
                 </div>
 
-                <div class="card_wrapper">
-                        <img src='img/credit_card_payment.png' class="card_image_wrapper">
+                <div class="conveni_wrapper">
+                        <img src='img/conveni.png' class="conveni_image_wrapper">
 
                         <div class="input_form">
                             <div class="label_container">
-                                <p class="label">カード番号</p>
-                                <p class="example_label">半角数字16桁</p>
+                                <p class="label">ご利用になるコンビニ</p>
                             </div>
-                            <input type="text" class="input_card_number_form" name="input_card_number_form">
+                            <select name='select_conveni' class='select_conveni'>
+                            <option value='セブンイレブン'>セブンイレブン</option>
+                            <option value='ファミリーマート'>ファミリーマート</option>
+                            <option value='ローソン'>ローソン</option>
+                            <option value='ミニストップ'>ミニストップ</option>
+                            <option value='セイコーマート'>セイコーマート</option>
+                            </select>
                         </div>
 
-                        <div class="input_form">
-                            <div class="label_container">
-                                    <p class="label">有効期限</p>
-                                    <p class="example_label">(例)2017年3月⇒03/17</p>
-                            </div>
-                            <input type="text" class="input_card_number_form" name="input_card_number_form">
-                        </div>
-
-                        <div class="input_form">
-                            <div class="label_container">
-                                    <p class="label">セキュリティコード</p>
-                                    
-                            </div>
-                            <input type="text" class="input_card_number_form" name="input_card_number_form">
-                           
-                        </div>
-                        <p class="example_label">セキュリティコードとはクレジットカード裏面の署名欄に印字されている数字のうち<br>下3桁または4桁の番号です。</p>
 
                 </div>
             </div>
 
+        <!-- <div class="label_user">スマホ決済</div> -->
 
-            <div class="label_user">コンビニ決済</div>
+        <div class="smartphone_input_wrapper">
+            <div class="smartphone_label_wrapper">
+                <!-- <form method="post" action=""> -->
+                        <input type="radio" name="payment_method_button" class="smartphone_payment_method_button" value="スマートフォン" <?php if ($payment_method_button === 'スマートフォン') { echo 'checked'; } ?>><p class="smartphone_label">スマートフォン</p>
+                        <p class="smartphone_payment_tag">SMARTPHONE</p>
+                <!-- </form> -->
+            </div>
 
-                <div class="convini_wrapper">
+            <div class="smartphone_wrapper">
 
+                <div class="smartphone_label_wrapper">
+                    <!-- <form method="post" action=""> -->
+                            <input type="radio" name="smartphone_payment_method_button" class="r-edy_payment_method_button" value="楽天edy" <?php if ($payment_method_button === '楽天edy') { echo 'checked'; } ?>>
+                            <img src='img/r-edy.png' class="r-edy_image_wrapper">
+
+                            <input type="radio" name="smartphone_payment_method_button" class="paypay_payment_method_button" value="paypay" <?php if ($payment_method_button === 'paypay') { echo 'checked'; } ?>>
+                            <img src='img/paypay.jpg' class="paypay_image_wrapper">
+                    <!-- </form> -->
                 </div>
+            </div>
+        </div>
+
+
+        <div class="cash_input_wrapper">
+            <div class="cash_label_wrapper">
+                <!-- <form method="post" action=""> -->
+                        <input type="radio" name="payment_method_button" class="cash_payment_method_button" value="代引き" <?php if ($payment_method_button === '代引き') { echo 'checked'; } ?>><p class="cash_label">代引き</p>
+                        <p class="cash_payment_tag">CASH ON DELIVERY</p>
+                <!-- </form> -->
+            </div>
+        </div>
 
     </div>
 
@@ -494,6 +724,8 @@
         <input type="submit" class="next-button"  name="next-button" value="確認">
     </div>
 </form>
+
+
 
     
 </body>
