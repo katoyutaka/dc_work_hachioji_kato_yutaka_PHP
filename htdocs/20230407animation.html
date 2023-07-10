@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(function () { $(window).scroll(function () { 
+        const windowHeight = $(window).height(); 
+        const scroll = $(window).scrollTop(); 
+        $('.over-area1').each(function () { 
+            const targetPosition = $(this).offset().top; 
+            if (scroll > targetPosition - windowHeight + 50) { 
+                $(this).addClass(".under-area1"); } 
+            }); 
+        }); 
+    });
+
+</script>
+
+
+<style>
+
+        body{ 
+            font-size: 5rem; 
+            margin: 0 auto; 
+            position: relative; 
+        } 
+
+
+        .over-area1{ 
+            height: 300vh; 
+            background-color: gray; 
+            text-align: center;
+            transform: translate(0,100px); 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: transform 2s, opacity 1s, visibility 1s; 
+           
+                }
+
+        .under-area1{ 
+            height: 200vh; 
+            color: white; 
+            text-align: center; 
+        }
+
+        .under-area1::before{ 
+            content: ""; 
+            position: fixed;
+            top: 0; left: 0; 
+            width: 100%; 
+            height: 100vh; 
+            z-index: -1; 
+            background-image: url("jewery7.jpg"); 
+            background-size: cover; background-repeat: no-repeat;
+            transform: translate(0,0); 
+            opacity: 1; 
+            visibility: visible; 
+        } 
+
+        .over-area2{ 
+            position: relative; 
+            z-index: 1; 
+            width: 100%; 
+            height: 200vh; 
+            text-align: center; 
+            padding-top: 200px; 
+            background: #ddd; 
+        }
+
+     
+
+</style>
+
+</head>
+<body>
+    <div class="over-area1">Hello</div>
+    <div class="under-area1">Scroll↓</div> 
+    <div class="over-area2">Hello</div>
+</body>
+</html>
+
