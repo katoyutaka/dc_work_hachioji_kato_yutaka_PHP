@@ -26,18 +26,107 @@
 
     $conveni = $_POST["select_conveni"];
 
+
+        //バリデーションチェック
+
+        if(($_POST["payment_method_button"])==="クレジットカード"){
+            
+                if(isset($_POST["input_card_number_form"])){
+                    if(empty($_POST['input_card_number_form'])){
+                        $validation_error1[] = "カード番号が未入力です";
+        
+                    } elseif (preg_match("/^[0-9]{16}+$/",$_POST["input_card_number_form"])) {
+                        $input_card_number_form="";
+                        $input_card_number_form = htmlspecialchars($_POST['input_card_number_form'], ENT_QUOTES, 'UTF-8');
+                        
+                    } else{
+                        $validation_error1[] = "半角数字16桁の形式で入力されていません";    
+                    }
+                }
+
+
+
+                if(isset($_POST["input_security_number_form"])){
+                    if(empty($_POST["input_security_number_form"])){
+                        $validation_error2[] = "セキュリティコードが未入力です";
+
+                    } elseif((preg_match("/^[0-9]{3}+$/",$_POST["input_security_number_form"])) ||(preg_match("/^[0-9]{4}+$/",$_POST["input_security_number_form"]))){
+                        $input_security_number_form="";
+                        $input_security_number_form= htmlspecialchars($_POST["input_security_number_form"], ENT_QUOTES, 'UTF-8');
+                        
+                    } else{
+                        $validation_error2[] = "半角数字3桁または4桁の形式で入力されていません";       
+                    }
+                }
+
+
+                if(isset($_POST["expiration_date_month"])){
+                    if(empty($_POST["expiration_date_month"])){
+                        $validation_error3[] = "有効期限の「月」が未入力です";
+
+                    } else{
+                        $expiration_date_month="";
+                        $expiration_date_month= htmlspecialchars($_POST["expiration_date_month"], ENT_QUOTES, 'UTF-8');       
+                    }
+                }
+
+
+        
+                if(isset($_POST["expiration_date_year"])){
+                    if(empty($_POST["expiration_date_year"])){
+                        $validation_error4[] = "有効期限の「年」が未入力です";
+
+                    } else{
+                        $expiration_date_year="";
+                        $expiration_date_year= htmlspecialchars($_POST["expiration_date_year"], ENT_QUOTES, 'UTF-8');       
+                    }
+                }
+        }
+
+
+
+
+        if(($_POST["payment_method_button"])==="コンビニ"){
+            if(empty($_POST["select_conveni"])){
+                $validation_error7[] = "支払い先のコンビニ名が未選択です";
+
+            } else{
+                $expiration_date_year="";
+                $select_conveni= htmlspecialchars($_POST["select_conveni"], ENT_QUOTES, 'UTF-8');       
+            }
+
+        }
+
+
+        if(($_POST["payment_method_button"])==="スマートフォン"){
+            if(empty($_POST["smartphone_payment_method_button"])){
+                $validation_error8[] = "支払い先のスマートフォンが未選択です";
+
+            } else{
+                $smartphone_payment_method_buttonr="";
+                $smartphone_payment_method_button= htmlspecialchars($_POST["smartphone_payment_method_button"], ENT_QUOTES, 'UTF-8');       
+            }
+
+        }
+
+
+
+ 
+        if(($_POST["payment_method_button"])===NULL){
+            $validation_error5[] = "お支払方法が選択されていません";
+
+        } else{
+            $payment_method_button="";
+            $payment_method_button= htmlspecialchars($_POST["payment_method_button"], ENT_QUOTES, 'UTF-8');       
+        }
     
 
-
         if(isset($_POST["reverse-button"])){
-            header('Location:catalog_page.php');
+            header('Location:address_page.php');
             exit();
         }
 
-        if(isset($_POST["next-button"])){
-            // header('Location:YYY.php');
-            // exit();
-        }
+
 
 
         
@@ -71,12 +160,32 @@
             // exit();
 
             }
+
+
+        //バリデーションチェックでOKならば、各入力データをセッション変数にいれて保管する。
+        if ((empty($validation_error1)) && (empty($validation_error2))&& (empty($validation_error3) )&& (empty($validation_error4)) && (empty($validation_error5))){
+
+            $_SESSION["input_card_number_form"] = $input_card_number_form;
+            $_SESSION["input_security_number_form"] = $input_security_number_form;
+            $_SESSION["expiration_date_month"] = $expiration_date_month;
+            $_SESSION["expiration_date_year"]  = $expiration_date_year;
+            $_SESSION["payment_method_button"] = $payment_method_button;
+            $_SESSION["select_conveni"] = $select_conveni;
+            $_SESSION["smartphone_payment_method_button"] = $smartphone_payment_method_button;
+            
+
+            if(isset($_POST["next-button"])){
+                header('Location:confirmation_page.php');
+                exit();
+            }
+      
+        }
     
     }
 
              
 
-    //ログアウトであれば、address_page.phpに来ても、login.phpに遷移するようにする。
+    //ログアウトであれば、payment_page.phpに来ても、login.phpに遷移するようにする。
     if (empty($_SESSION['login_user_name'])) {
         header('Location:login.php');
         exit(); 
@@ -210,8 +319,8 @@
 
                 .card_input_wrapper{
                     width: 1000px;
-                    height: 400px;
-                    margin-top: 70px;
+                    height: 450px;
+                    /* margin-top: 20px; */
                     display: flex;
                     /* background-color:darkseagreen; */
                     border-bottom:1px solid gray;
@@ -406,7 +515,16 @@
                     width: 250px;
                     height: 50px;
                     /* background-color: #000099; */
-                    margin-top: 40px;
+                    margin-top: 10px;
+                    padding-left:10px ;
+                }
+
+                .conveni_label_container{
+                    text-align: left;
+                    width: 250px;
+                    height: 10px;
+                    /* background-color: #000099; */
+                    margin-top: 45px;
                     padding-left:10px ;
                 }
 
@@ -525,6 +643,7 @@
 
                 .card_image_wrapper{
                     max-width:350px;
+                    margin-bottom: 20px;
                 }
 
                 .conveni_image_wrapper{
@@ -550,7 +669,18 @@
                     display: block;
                     text-align: left;
                     width: 300px;
-                    margin-top: 40px;
+                    margin-top: 10px;
+                }
+
+                .input_security_number_form{
+                    background-color: #f8f8f8;
+                    height: 35px;
+                    border:1px solid #66FFCC;
+                    border-radius: 1px;
+                    display: block;
+                    text-align: left;
+                    width: 300px;
+                    margin-top: 10px;
                 }
 
                 .select_conveni{
@@ -559,6 +689,65 @@
                     height: 30px;
                     margin-top: 38px;
                     border:1px solid #66FFCC;
+                }
+
+                .expiration_date_month{
+                    background-color: #f8f8f8;
+                    width: 60px;
+                    height: 30px;
+                    margin-top: 10px;
+                    border:1px solid #66FFCC;
+                }
+
+                .expiration_date_year{
+                    background-color: #f8f8f8;
+                    width: 100px;
+                    height: 30px;
+                    margin-top: 10px;
+                    border:1px solid #66FFCC;
+                }
+
+                .slash{
+                    margin: 0 auto;
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 5px;
+                    margin-left: 5px;
+                    margin-top: 15px;
+                    padding-left: 10px;
+                }
+
+                .msg2{
+                    color:red;
+                    font-size: 16px;
+                    font-weight: bold;
+                    height: 20px;
+                    width: 200px;
+                    padding-left: 10px;
+                }
+
+                .card_sub_wrapper{
+                    /* background-color: skyblue; */
+                    width: 700px;
+                    height: 90px;
+                    /* margin-top: 30px; */
+                }
+
+                .payment_sub_wrapper{
+                    /* background-color: skyblue; */
+                    width: 1000px;
+                    height: 50px;
+                    /* margin-top: 30px; */
+                    padding-top:20px;
+                }
+
+                .msg3{
+                    color:red;
+                    font-size: 16px;
+                    font-weight: bold;
+                    height: 20px;
+                    width: 200px;
+                    /* padding-left: 10px; */
                 }
 
 
@@ -603,11 +792,19 @@
             
         <div class="label_user5"><span>お支払方法入力</span><br><br>以下の項目をご入力いただき、「確認」ボタンをクリックして下さい。</div>
 
-        <!-- <div class="label_user">クレジットカード決済</div> -->
-        <?php
-        print $conveni;
-        ?>
+
+        <div class="payment_sub_wrapper">
+            <?php
+                if(!empty($validation_error5)){
+                    foreach($validation_error5 as $err5){
+                        print "<span class='msg3'>$err5</span>";
+                    }
+                }
+            ?>
+        </div>
+
         <div class="card_input_wrapper">
+
             <div class="card_label_wrapper">
                 <!-- <form method="post" action=""> -->
                         <input type="radio" name="payment_method_button" class="card_payment_method_button" value="クレジットカード" <?php if ($payment_method_button === 'クレジットカード') { echo 'checked'; } ?>><p class="card_label">クレジットカード</p>
@@ -618,35 +815,100 @@
             <div class="card_wrapper">
                     <img src='img/credit_card_payment.png' class="card_image_wrapper">
 
-                    <div class="input_form">
-                        <div class="label_container">
-                            <p class="label">カード番号</p>
-                            <p class="example_label">半角数字16桁</p>
+                    <div class="card_sub_wrapper">
+                        <?php
+                                if(!empty($validation_error1)){
+                                    foreach($validation_error1 as $err1){
+                                        print "<span class='msg2'>$err1</span>";
+                                    }
+                                }
+                        ?>
+
+                        <div class="input_form">
+                            <div class="label_container">
+
+                                <p class="label">カード番号</p>
+                                <p class="example_label">半角数字16桁</p>
+                            </div>
+                            <input type="text" class="input_card_number_form" name="input_card_number_form">
                         </div>
-                        <input type="text" class="input_card_number_form" name="input_card_number_form">
                     </div>
 
-                    <div class="input_form">
-                        <div class="label_container">
-                                <p class="label">有効期限</p>
-                                <p class="example_label">(例)2017年3月⇒03/17</p>
+
+                    <div class="card_sub_wrapper">
+                        <?php
+                            if(!empty($validation_error4)){
+                                foreach($validation_error4 as $err4){
+                                    print "<span class='msg2'>$err4</span>";
+                                }
+                            }
+                        ?>
+
+                        <?php
+                            if(!empty($validation_error3)){
+                                foreach($validation_error3 as $err3){
+                                    print "<span class='msg2'>$err3</span>";
+                                }
+                            }
+                        ?>
+
+                        <div class="input_form">
+                            <div class="label_container">
+                                    <p class="label">有効期限</p>
+                                    <p class="example_label">(例)2017年3月⇒03/17</p>
+                            </div>
+                                <select name='expiration_date_month' class='expiration_date_month'>
+                                    <?php
+                                        for($month = 1; $month <= 12;$month++){
+                                            $new_month = str_pad($month, 2, 0, STR_PAD_LEFT);
+                                    ?>
+                                            <option value='<?php print $new_month?>'><?php print $new_month?></option>
+                                    <?php
+                                        }
+                                    ?> 
+                                </select>
+
+                                <div class="slash">／</div>
+
+                                <select name='expiration_date_year' class='expiration_date_year'>
+                                    <?php
+                                        for($year = 2023; $year <=2033 ;$year++){
+                                    ?>
+                                            <option value='<?php print $year?>'><?php print $year?></option>
+                                    <?php
+                                        }
+                                    ?> 
+                                </select>
                         </div>
-                        <input type="text" class="input_card_number_form" name="input_card_number_form">
                     </div>
 
-                    <div class="input_form">
-                        <div class="label_container">
-                                <p class="label">セキュリティコード</p>
-                                
-                        </div>
-                        <input type="text" class="input_card_number_form" name="input_card_number_form">
-                        
-                    </div>
-                    <p class="card_example_label">※セキュリティコードとはクレジットカード裏面の署名欄に印字されている数字のうち<br>下3桁または4桁の番号です。</p>
 
+                    <div class="card_sub_wrapper">
+
+                        <?php
+                            if(!empty($validation_error2)){
+                                foreach($validation_error2 as $err2){
+                                    print "<span class='msg2'>$err2</span>";
+                                }
+                            }
+                        ?>
+
+                        <div class="input_form">
+                            <div class="label_container">
+                                    <p class="label">セキュリティコード</p>
+                                    
+                            </div>
+                            <input type="text" class="input_security_number_form" name="input_security_number_form">
+                            
+                        </div>
+
+                        <p class="card_example_label">※セキュリティコードとはクレジットカード裏面の署名欄に印字されている数字のうち<br>下3桁または4桁の番号です。</p>
+
+                    </div>
             </div>
-        </div>
 
+
+        </div>
 
         <!-- <div class="label_user">コンビニ決済</div> -->
 
@@ -661,8 +923,16 @@
                 <div class="conveni_wrapper">
                         <img src='img/conveni.png' class="conveni_image_wrapper">
 
+                        <?php
+                            if(!empty($validation_error7)){
+                                foreach($validation_error7 as $err7){
+                                    print "<span class='msg2'>$err7</span>";
+                                }
+                            }
+                        ?>
+
                         <div class="input_form">
-                            <div class="label_container">
+                            <div class="conveni_label_container">
                                 <p class="label">ご利用になるコンビニ</p>
                             </div>
                             <select name='select_conveni' class='select_conveni'>

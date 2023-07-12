@@ -700,8 +700,8 @@
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
 
      <div class="fade">
-        <img src="img/ring1.jpg" alt="">
-        <img src="img/main_72sec_11.jpg" alt="">
+        <img src="img/topmain1.png" alt="">
+        <img src="img/20230712_2.png" alt="">
         <img src="img/jewery15.jpg" alt="">
      </div>
 
