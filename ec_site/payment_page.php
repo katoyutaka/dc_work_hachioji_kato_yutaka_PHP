@@ -99,7 +99,7 @@
 
 
         if(($_POST["payment_method_button"])==="スマートフォン"){
-            if(empty($_POST["smartphone_payment_method_button"])){
+            if((empty($_POST["smartphone_payment_method_button"]))){
                 $validation_error8[] = "支払い先のスマートフォンが未選択です";
 
             } else{
@@ -163,7 +163,7 @@
 
 
         //バリデーションチェックでOKならば、各入力データをセッション変数にいれて保管する。
-        if ((empty($validation_error1)) && (empty($validation_error2))&& (empty($validation_error3) )&& (empty($validation_error4)) && (empty($validation_error5))){
+        if ((empty($validation_error1)) && (empty($validation_error2))&& (empty($validation_error3) )&& (empty($validation_error4)) && (empty($validation_error5)) && (empty($validation_error6)) && (empty($validation_error7)) && (empty($validation_error8))){
 
             $_SESSION["input_card_number_form"] = $input_card_number_form;
             $_SESSION["input_security_number_form"] = $input_security_number_form;
@@ -330,10 +330,10 @@
                 .conveni_input_wrapper{
                     width: 1000px;
                     height: 250px;
-                    margin-top: 20px;
-                    display: flex;
+                    /* margin-top: 20px; */
+                    /* display: flex; */
                     border-bottom:1px solid gray;
-                    padding-top: 20px;
+                    /* padding-top: 20px; */
                     /* padding-bottom: 20px; */
                     /* background-color: yellowgreen; */
                 }
@@ -341,10 +341,10 @@
                 .smartphone_input_wrapper{
                     width: 1000px;
                     height: 150px;
-                    margin-top: 20px;
-                    display: flex;
+                    /* margin-top: 20px; */
+                    /* display: flex; */
                     border-bottom:1px solid gray;
-                    padding-top: 20px;
+                    /* padding-top: 20px; */
                      /* background-color: yellowgreen; */
                 }
 
@@ -750,6 +750,19 @@
                     /* padding-left: 10px; */
                 }
 
+                .smartphone_error_wrapper,.conveni_error_wrapper{
+                    height: 20px;
+                    width: 1000px;
+                    /* background-color: #000099; */
+                    padding-left: 50px;
+                }
+
+                .smartphone_input_container,.conveni_input_container{
+                    display: flex;
+                    margin-top: 20px;
+                    
+                }
+
 
 
     </style>
@@ -913,16 +926,8 @@
         <!-- <div class="label_user">コンビニ決済</div> -->
 
             <div class="conveni_input_wrapper">
-                <div class="conveni_label_wrapper">
-                    <!-- <form method="post" action=""> -->
-                            <input type="radio" name="payment_method_button" class="conveni_payment_method_button" value="コンビニ" <?php if ($payment_method_button === 'コンビニ') { echo 'checked'; } ?>><p class="conveni_label">コンビニ</p>
-                            <p class="conveni_payment_tag">CONVENIENCE STORE</p>
-                    <!-- </form> -->
-                </div>
 
-                <div class="conveni_wrapper">
-                        <img src='img/conveni.png' class="conveni_image_wrapper">
-
+                <div class="conveni_error_wrapper">
                         <?php
                             if(!empty($validation_error7)){
                                 foreach($validation_error7 as $err7){
@@ -930,32 +935,58 @@
                                 }
                             }
                         ?>
+                </div>
 
-                        <div class="input_form">
-                            <div class="conveni_label_container">
-                                <p class="label">ご利用になるコンビニ</p>
+                <div class="conveni_input_container">
+                    <div class="conveni_label_wrapper">
+                            <!-- <form method="post" action=""> -->
+                                    <input type="radio" name="payment_method_button" class="conveni_payment_method_button" value="コンビニ" <?php if ($payment_method_button === 'コンビニ') { echo 'checked'; } ?>><p class="conveni_label">コンビニ</p>
+                                    <p class="conveni_payment_tag">CONVENIENCE STORE</p>
+                            <!-- </form> -->
+                    </div>
+
+                    <div class="conveni_wrapper">
+                            <img src='img/conveni.png' class="conveni_image_wrapper">
+
+                            <div class="input_form">
+                                <div class="conveni_label_container">
+                                    <p class="label">ご利用になるコンビニ</p>
+                                </div>
+                                <select name='select_conveni' class='select_conveni'>
+                                <option value='セブンイレブン'>セブンイレブン</option>
+                                <option value='ファミリーマート'>ファミリーマート</option>
+                                <option value='ローソン'>ローソン</option>
+                                <option value='ミニストップ'>ミニストップ</option>
+                                <option value='セイコーマート'>セイコーマート</option>
+                                </select>
                             </div>
-                            <select name='select_conveni' class='select_conveni'>
-                            <option value='セブンイレブン'>セブンイレブン</option>
-                            <option value='ファミリーマート'>ファミリーマート</option>
-                            <option value='ローソン'>ローソン</option>
-                            <option value='ミニストップ'>ミニストップ</option>
-                            <option value='セイコーマート'>セイコーマート</option>
-                            </select>
-                        </div>
-
+                    </div>
 
                 </div>
+
             </div>
 
         <!-- <div class="label_user">スマホ決済</div> -->
 
         <div class="smartphone_input_wrapper">
+
+        <div class="smartphone_error_wrapper">
+                <?php
+                    if(!empty($validation_error8)){
+                        foreach($validation_error8 as $err8){
+                            print "<span class='msg2'>$err8</span>";
+                        }
+                    }
+                ?>
+        </div>
+
+
+        <div class="smartphone_input_container">
             <div class="smartphone_label_wrapper">
-                <!-- <form method="post" action=""> -->
-                        <input type="radio" name="payment_method_button" class="smartphone_payment_method_button" value="スマートフォン" <?php if ($payment_method_button === 'スマートフォン') { echo 'checked'; } ?>><p class="smartphone_label">スマートフォン</p>
-                        <p class="smartphone_payment_tag">SMARTPHONE</p>
-                <!-- </form> -->
+                    <!-- <form method="post" action=""> -->
+                            <input type="radio" name="payment_method_button" class="smartphone_payment_method_button" value="スマートフォン" <?php if ($payment_method_button === 'スマートフォン') { echo 'checked'; } ?>><p class="smartphone_label">スマートフォン</p>
+                            <p class="smartphone_payment_tag">SMARTPHONE</p>
+                    <!-- </form> -->
             </div>
 
             <div class="smartphone_wrapper">
@@ -970,6 +1001,10 @@
                     <!-- </form> -->
                 </div>
             </div>
+
+        </div>
+
+
         </div>
 
 

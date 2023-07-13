@@ -913,7 +913,8 @@
 
         <div class="payment_wrapper">
             <div class="name_form">
-                <p class="input_payment_form" name="input_user_name"><?php print $payment_method_button;?></p>
+                <p class="input_payment_form" name="input_user_name"><?php print $payment_method_button;?>/<?php print $select_conveni;?></p>
+               
             </div>
         </div>
 
