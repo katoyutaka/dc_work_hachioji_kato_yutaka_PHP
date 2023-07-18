@@ -21,10 +21,10 @@
 
 <?php
 
-    //注文の商品
+    $login_user_name = $_SESSION["login_user_name"];
 
     //注文者情報
-    $input_user_name = $_SESSION["input_user_name"];
+    $input_user_name_form = $_SESSION["input_user_name_form"];
     $input_hiragana_form=  $_SESSION["input_hiragana_form"];
     $input_birthday_form = $_SESSION["input_birthday_form"];
     $input_address_form = $_SESSION["input_address_form"];
@@ -38,13 +38,57 @@
     $expiration_date_month = $_SESSION["expiration_date_month"];
     $expiration_date_year = $_SESSION["expiration_date_year"];
     $payment_method_button = $_SESSION["payment_method_button"];
+    $select_conveni=  $_SESSION["select_conveni"];
+    $smartphone_payment_method_button = $_SESSION["smartphone_payment_method_button"];
 
 
 
    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+    if(isset($_POST["reverse-button"])){
+        header('Location:payment_page.php');
+        exit();
+    }
+
+
+    if(isset($_POST["logout_tag"])){  
+        //ログアウトが押されたら、セッションのみを消してクッキーは消さず、login.phpに遷移する。
+       $_SESSION=[];
+       session_destroy();
+
+       header('Location:login.php');
+       exit();
+   }
+
+
+
+   if(isset($_POST["cart_tag"])){
+       header('Location:cart_page.php');
+       exit();
+
+    }
+
+    if(isset($_POST["favorite_tag"])){
+       // header('Location:login.php');
+       // exit();
+
+    }
+
+    if(isset($_POST["mypage_tag"])){
+       // header('Location:login.php');
+       // exit();
+
+    }
+
     
    }
+
+
+       //ログアウトであれば、confirmation_page.phpに来ても、login.phpに遷移するようにする。
+    if (empty($_SESSION['login_user_name'])) {
+        header('Location:login.php');
+        exit(); 
+    }
 ?>
 
 <!DOCTYPE html>
@@ -75,7 +119,7 @@
 
                 * {
                     box-sizing:border-box;
-                    vertical-align:bottom;
+                    vertical-align:middle;
                     font-family: system-ui;
                     letter-spacing: 2px;
 
@@ -100,12 +144,45 @@
                     width: 1000px;
                     padding-left:30px;
                     margin-top: 30px;
+                    border-bottom:1px solid #b7b7b7;
+                    /* background-color: #b7b7b7;  */
+                }
+
+                .payment_label{
+                    font-size:18px;
+                    font-weight:bold;
+                    height: 50px;
+                    line-height: 50px;
+                    width: 1000px;
+                    padding-left:30px;
+                    border-bottom:1px solid #b7b7b7; 
+                }
+
+                .product_label{
+                    font-size:18px;
+                    font-weight:bold;
+                    height: 50px;
+                    line-height: 50px;
+                    width: 1000px;
+                    padding-left:30px;
+                    margin-top: 50px;
+                    border-bottom:1px solid #b7b7b7; 
+                }
+
+                
+                .send_label{
+                    font-size:18px;
+                    font-weight:bold;
+                    height: 50px;
+                    line-height: 50px;
+                    width: 1000px;
+                    padding-left:30px;
+                    margin-top: 30px;
                     border-bottom:1px solid #b7b7b7; 
                 }
 
                 .main_wrapper{
                     width: 1000px;
-                    height: 1400px;
                     margin:0 auto;
                 }
 
@@ -177,9 +254,7 @@
                 .card_input_wrapper{
                     width: 1000px;
                     height: 450px;
-                    /* margin-top: 20px; */
                     display: flex;
-                    /* background-color:darkseagreen; */
                     border-bottom:1px solid gray;
                     padding-bottom: 40px;
                 }
@@ -191,8 +266,6 @@
                     display: flex;
                     border-bottom:1px solid gray;
                     padding-top: 20px;
-                    /* padding-bottom: 20px; */
-                    /* background-color: yellowgreen; */
                 }
 
                 .smartphone_input_wrapper{
@@ -202,7 +275,6 @@
                     display: flex;
                     border-bottom:1px solid gray;
                     padding-top: 20px;
-                     /* background-color: yellowgreen; */
                 }
 
                 .cash_input_wrapper{
@@ -212,10 +284,9 @@
                     display: flex;
                     border-bottom:1px solid gray;
                     padding-top: 20px;
-                     /* background-color: yellowgreen; */
                 }
 
-                .next-button{
+                .order-button{
                         background-color: #000099;
                         color:white;
                         margin-left:10px;
@@ -235,9 +306,10 @@
                 .button_container{
                         width:100%;
                         margin:0 auto;
-                        /* margin-top:20px; */
+                        margin-top:20px;
                         width:600px;
                         height: 60px;
+                    
 
                 }
 
@@ -249,6 +321,7 @@
                         border: 1px solid #000099;
                         font-size:14px;
                         margin-right:10px;
+                    
                         
                 }
 
@@ -306,39 +379,6 @@
                    
                 }
 
-            
-                /* .conveni_label{
-                    font-weight: bolder;
-                    display: inline;
-                    width: 50px;
-                    line-height: 30px;
-                    padding-left: 55px;
-                }
-
-                .smartphone_label{
-                    font-weight: bolder;
-                    display: inline;
-                    width: 50px;
-                    line-height: 30px;
-                    padding-left: 40px;
-                }
-
-                .cash_label{
-                    font-weight: bolder;
-                    display: inline;
-                    width: 50px;
-                    line-height: 30px;
-                    padding-left: 60px;
-                }
-
-
-
-                /* .input_form2{
-                    height: 80px;
-                    background-color: #000099;
-                    margin-top: 10px;
-                } */
-
                 .label_container{
                     text-align: left;
                     width: 250px;
@@ -347,274 +387,169 @@
                     padding-left:10px ;
                 }
 
-                /* .conveni_label_container{
-                    text-align: left;
-                    width: 250px;
-                    height: 10px;
-                    margin-top: 45px;
-                    padding-left:10px ;
-                }
 
-                .example_label{
-                    color:darkcyan;
-                } */
-
-                /* .card_example_label{
-                    color:darkcyan;
-                    margin-left: 10px;
-                }
-
-                .card_label_wrapper{
-                    width: 200px;
-                    height: 60px;
-                }
-
-                .conveni_label_wrapper{
-                    width: 200px;
-                    height: 60px;
-                }
-
-                
-
-                .smartphone_label_wrapper{
-                    width: 350px;
-                    height: 60px;
-                } */
-
-                
-                /* .cash_label_wrapper{
-                    width: 400px;
-                    height: 60px;
-                }
-
-                .payment_method_button{
-                    line-height: 30px;
-                    margin:0 auto;
-                    margin-bottom: 7px;
-                    margin-left: 10px;
-                    margin-right: 30px;
-                }
-
-                .r-edy_payment_method_button{
-                    margin:0 auto;
-                    margin-bottom: 20px;
-                    margin-left: 10px;
-                    margin-right: 30px;
-                } */
-
-                /* .paypay_payment_method_button{
-                    margin:0 auto;
-                    margin-bottom: 20px;
-                    margin-left: 100px;
-                    margin-right: 20px;
-                } */
-/* 
-                .card_payment_tag{
-                    font-size: 10px;
-                    margin-left: 65px;
-                }
-
-                .conveni_payment_tag{
-                    font-size: 10px;
-                    margin-left: 40px;
-                }
-
-                .smartphone_payment_tag{
-                    font-size: 10px;
-                    margin-left: 65px;
-                    margin-right: 10px;
-                }
-                
-                
-                .cash_payment_tag{
-                    font-size: 10px;
-                    margin-left: 45px;
-                } */
-
-
-                /* .card_wrapper{
-                    width: 700px;
-                    height: 350px;
-                    margin-left: 100px;
-                } */
-
-                
-                /* .conveni_wrapper{
-                    width: 700px;
-                    height: 150px;
-                    margin-left: 100px;
-                } */
-
-                /* .smartphone_wrapper{
-                    width: 700px;
-                    height: 80px;
-                }
-
-                .cash_wrapper{
-                    width: 700px;
-                    height: 80px;
-                    margin-left: 100px;
-                }
-
-
-                .card_image_wrapper{
-                    max-width:350px;
-                    margin-bottom: 20px;
-                }
-
-                .conveni_image_wrapper{
-                    max-width:500px;
-                }
-
-                .r-edy_image_wrapper{
-                    max-width:35px;
-                }
-
-                .paypay_image_wrapper{
-                    margin: 0 auto;
-                    max-width:100px;
-                   margin-bottom:10px
-                } */
-
-
-                /* .input_card_number_form{
-                    background-color: #f8f8f8;
-                    height: 35px;
-                    border:1px solid #66FFCC;
-                    border-radius: 1px;
-                    display: block;
-                    text-align: left;
-                    width: 300px;
-                    margin-top: 10px;
-                }
-
-                .input_security_number_form{
-                    background-color: #f8f8f8;
-                    height: 35px;
-                    border:1px solid #66FFCC;
-                    border-radius: 1px;
-                    display: block;
-                    text-align: left;
-                    width: 300px;
-                    margin-top: 10px;
-                }
-
-                .select_conveni{
-                    background-color: #f8f8f8;
-                    width: 150px;
-                    height: 30px;
-                    margin-top: 38px;
-                    border:1px solid #66FFCC;
-                }
-
-                .expiration_date_month{
-                    background-color: #f8f8f8;
-                    width: 60px;
-                    height: 30px;
-                    margin-top: 10px;
-                    border:1px solid #66FFCC;
-                }
-
-                .expiration_date_year{
-                    background-color: #f8f8f8;
-                    width: 100px;
-                    height: 30px;
-                    margin-top: 10px;
-                    border:1px solid #66FFCC;
-                }
-
-                .slash{
-                    margin: 0 auto;
-                    width: 30px;
-                    height: 30px;
-                    margin-right: 5px;
-                    margin-left: 5px;
-                    margin-top: 15px;
-                    padding-left: 10px;
-                }
-
-                .msg2{
-                    color:red;
-                    font-size: 16px;
-                    font-weight: bold;
-                    height: 20px;
-                    width: 200px;
-                    padding-left: 10px;
-                } */
-
-                /* .card_sub_wrapper{
-                    width: 700px;
-                    height: 90px;
-                }
-
-                .payment_sub_wrapper{
+                .product_wrapper{
                     width: 1000px;
+                    margin-top: 20px;
+                }
+
+                .send_wrapper{
+                    width: 1000px;
+                    margin-top: 20px;
                     height: 50px;
-                    padding-top:20px;
-                }
-
-                .msg3{
-                    color:red;
-                    font-size: 16px;
-                    font-weight: bold;
-                    height: 20px;
-                    width: 200px;
-                } */
-
-
-                .input_wrapper{
-                    width: 1000px;
-                    margin-top: 20px;
-                    height: 400px;
-                    background-color: #b7b7b7;
-                }
-
-                .address_wrapper{
-                    width: 1000px;
-                    margin-top: 20px;
-                    height: 400px;
-                    background-color: #b7b7b7;
+                    padding-left:30px;
                 }
 
                 .name_form{
                     display: flex;
                     width: 1000px;
                     height: 50px;
-                    background-color: darkred;
                 }
 
                 
                 .label{
                     font-weight: bolder;
                     display: inline;
-                    width:200px;
+                    width:300px;
                     height: 35px;
                     line-height: 20px;
                     padding-left: 30px;
-                    background-color: yellow;
                 }
                 
                 
                 .input_name_form,.input_hiragana_form,.input_birthday_form,.input_phone_number_form,.input_mail_address_form{
-                    background-color: #f8f8f8;
                     width:300px;
                     height: 35px;
                     text-align: left;
                 }
 
                 .input_address_form{
-                    background-color: #f8f8f8;
-                    width:800px;
+                    width:600px;
                     height: 35px;
                     text-align: left;
                 }
 
                 .input_mail_address_form{
-                    background-color: #f8f8f8;
                     width:600px;
                     height: 35px;
                     text-align: left;
                 }
+
+                .input_payment_form{
+                    width:600px;
+                    height: 35px;
+                    text-align: left;
+                    margin-left:30px
+                }
+
+                .image{
+                    width:300px;
+                    float:right;
+                }
+
+                .catalog_wrapper{
+                    width: 1000px;
+                    margin-top: 20px;
+                    padding-left: 70px;
+                   
+                }
+
+                .img-wrapper{
+                    height:170px;
+                }
+
+                table,
+                th,
+                td {
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 14px;
+                   
+                }
+
+
+                
+                .td_product_name{
+                    width: 500px;
+                    margin: auto;
+                    margin-top: 20px;
+                }
+
+                .td_price{
+                    width: 240px;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+
+                }
+
+                .td_product_count{
+                    width: 50px;
+                    height: 60px;
+                    margin: 0 auto;
+                }
+                
+                .product_image_container{
+                    width:60px;
+                    height:60px;
+                }
+
+                
+                .delete_button,.product_count_button{
+                    color: white;
+                    background-color: #1c1c1c;
+                    width: 70px;
+                    height: 25px;
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+                    font-size: 12px;
+                }
+                .sub_wrapper{
+                    margin: 0 auto;
+                    width: 1000px;
+                    border-top: 1px solid black;
+                    margin-top: 50px;
+                    height: 200px;
+                }
+
+                .total4,.total5{
+                    float: right;
+                   
+                }
+                
+                .total1, .total2,.total3{
+                    margin-top: 10px;
+                    width: 250px;
+                    height: 30px;
+                }
+
+                .total_label1{
+                    float: left;
+                }
+
+                .total_label2{
+                    float: right;
+                }
+
+                .total4{
+                    margin-top: 20px;
+                    width: 1000px;
+                    height: 30px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    background-color: #CECECE;
+                }
+                .update_area{
+                    width: 1000px;
+                    height: 200px;
+                    background-color: #fff;
+                }
+
+                
+                .text_product_count{
+                    width: 35px;
+                }
+
 
     </style>
               
@@ -623,7 +558,7 @@
 <body>
 
 <div class="header">
-     <p class="header_label">3万円以上のご購入で送料無料キャンペーン実施中！</p>
+     <p class="header_label">自然の輝きを表現した新作「BULK HOMME」発売中</p>
      
      <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div><br>
         <div class="tag_wrapper">
@@ -668,7 +603,7 @@
 
             <div class="name_form">
                 <p class="label">お名前（漢字）</p>
-                <p class="input_name_form" name="input_user_name"><?php print $input_user_name;?></p>
+                <p class="input_name_form" name="input_user_name"><?php print $input_user_name_form;?></p>
             </div>
 
             <div class="name_form">
@@ -693,46 +628,132 @@
          
         </div>
 
-        <div class="label_user">注文者情報</div>
+        <div class="payment_label">お支払方法</div>
 
-        <div class="input_wrapper">
+        <div class="payment_wrapper">
+            <div class="name_form">
+                <div class="input_payment_form" name="input_user_name"><?php print $payment_method_button;?> 
+                <?php 
+                    if(!empty($select_conveni || $smartphone_payment_method_button)){
+                        print "/";
+                    } 
+                ?>
+                <?php 
+                    if(!empty($select_conveni)){
+                        print $select_conveni;
+                    
+                    }else{
+                        print $smartphone_payment_method_button;
 
+                    }
+                
+                ?>
+                </div>
+
+               
+            </div>
+        </div>
+
+
+        
+        <div class="send_label">発送予定日</div>
+            
+        <div class="send_wrapper">
+            <?php
+            $date = date('Ymd')+ 2;
+             print  date('Y/m/d', strtotime($date)); 
+            ?>
         </div>
 
 
 
-        <div class="label_user">注文者情報</div>
+        <div class="product_label">ご注文の商品</div>
 
-        <div class="input_wrapper">
+        <div class="product_wrapper">
+
+                <?php
+                $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
+                if($result = $db->query($sql)){
+
+                    $total_sum = 0;
+                    while($row =$result->fetch()){
+                        $get_img_url = $row["image_path"];
+
+                        $total = $row["price"]*$row["product_count"];
+
+                        $total_sum = $total_sum + $total;
+                    
+
+                        // ３万円以上で送料無料で、未満で送料８００円
+                        if($total_sum >= 30000){
+                            $delivery_charge=0;
+                        }else{
+                            $delivery_charge=800;
+                        }
+
+                        $grand_total = $total_sum + $delivery_charge;
+
+                ?>
+                        <div class="catalog_wrapper">
+                            <table>
+                                        <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
+                                        <td class="td_product_name"><?php print $row["product_name"];?></td>
+
+                                        <!-- number_format関数で数値にカンマを付けられる。 -->
+                                        <td class="td_price"><?php print number_format($row["price"])."(税込)";?></td>
+
+                                        <td class="td_product_count">
+                                            <form method="post" action="">
+                                                    <input type ="hidden" name="product_count_id_value" value ="<?php print $row["product_id"]?>">
+                                                    <div name="text_product_count" class="text_product_count"><?php print $row["product_count"];?></div>
+                                            </form>
+                                        </td>
+
+                            </table>
+                        </div>
+                    
+            <?php
+                    }
+                }
+            ?>
+                        
+        
+
+                <div class="sub_wrapper">
+                    <div class="total5">
+                        <div class="total1">                        
+                            <p class="total_label1">小計</p>
+                            <p class="total_label2">￥<?php print number_format($total_sum);?>円(税込)</p>
+                        </div>
+
+                        <div class="total2">                        
+                            <p class="total_label1">配送料金</p>
+                            <p class="total_label2">￥<?php print number_format($delivery_charge);?>円(税込)</p>
+                        </div>
+
+                        <div class="total3">                        
+                            <p class="total_label1">合計</p>
+                            <p class="total_label2">￥<?php print number_format($grand_total);?>円(税込)</p>
+                        </div>
+
+                    </div>
+
+                    <div class="total4">                        
+                            <p class="total_label1">総合計</p>
+                            <p class="total_label2">￥<?php print number_format($grand_total);?>円(税込)</p>
+                    </div>
+                </div>
 
         </div>
 
+    </div>
 
-
-        <div class="label_user">注文者情報</div>
-
-        <div class="input_wrapper">
-
-        </div>
-
-
-        <div class="label_user">注文者情報</div>
-
-        <div class="input_wrapper">
-
-        </div>
-
-
-        <div class="label_user">注文者情報</div>
-
-        <div class="input_wrapper">
-
-        </div>
 
     <div class="button_container">
         <input type="submit" class="reverse-button" name="reverse-button" value="ひとつ前に戻る">
         <input type="submit" class="order-button"  name="order-button" value="注文を確定する">
     </div>
+    
 </form>
 
 </body>

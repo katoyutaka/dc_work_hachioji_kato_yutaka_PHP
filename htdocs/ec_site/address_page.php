@@ -27,17 +27,18 @@
         //バリデーションチェック
 
         //なぜ漢字の正規表現だけ逆の結果になるのか不明
-        if(isset($_POST["input_user_name"])){
-            if(empty($_POST['input_user_name'])){
+        if(isset($_POST["input_user_name_form"])){
+            if(empty($_POST['input_user_name_form'])){
                 $validation_error1[] = "お名前が未入力です";
 
-            } elseif (preg_match( '/[^一-龠]/u',$_POST["input_user_name"])) {
+            } elseif (preg_match( '/[^一-龠]/u',$_POST["input_user_name_form"])) {
+                
                 $validation_error1[] = "漢字形式で入力されていません";  
                 
             } else{
-                $input_user_name = htmlspecialchars($_POST['input_user_name'], ENT_QUOTES, 'UTF-8');
-                   
+                $input_user_name_form = htmlspecialchars($_POST['input_user_name_form'], ENT_QUOTES, 'UTF-8');
                 
+               
             }
         }
 
@@ -46,7 +47,7 @@
                 $validation_error2[] = "ひらがなが未入力です";
 
             } elseif (preg_match('/^[ぁ-ゞ]+$/u', $_POST['input_hiragana_form'])) {
-                $input_user_name = htmlspecialchars($_POST['input_user_name'], ENT_QUOTES, 'UTF-8');
+                $input_hiragana_form = htmlspecialchars($_POST['input_hiragana_form'], ENT_QUOTES, 'UTF-8');
                 
             } else{
                 $validation_error2[] = "ひらがな形式で入力されていません";     
@@ -108,9 +109,9 @@
 
 
         //バリデーションチェックでOKならば、各入力データをセッション変数にいれて保管する。
-        if (empty($validation_error) ){
+        if ((empty($validation_error1) ) && (empty($validation_error2)) && (empty($validation_error3)) && (empty($validation_error4)) && (empty($validation_error5)) && (empty($validation_error6))){
 
-            $_SESSION["input_user_name"] = $input_user_name;
+            $_SESSION["input_user_name_form"] = $input_user_name_form;
             $_SESSION["input_hiragana_form"] = $input_hiragana_form;
             $_SESSION["input_birthday_form"] = $input_birthday_form;
             $_SESSION["input_address_form"]  = $input_address_form;
@@ -413,7 +414,7 @@
                 }
 
                 
-                .input_name_form,.input_hiragana_form,.input_birthday_form,.input_address_form,.input_phone_number_form,.input_mail_address_form{
+                .input_user_name_form,.input_hiragana_form,.input_birthday_form,.input_address_form,.input_phone_number_form,.input_mail_address_form{
                     background-color: #f8f8f8;
                     height: 35px;
                     border:1px solid #66FFCC;
@@ -422,8 +423,8 @@
                     text-align: left;
                 }
 
-                .input_name_form,.input_hiragana_form,.input_mail_address_form{
-                    width: 700px;
+                .input_user_name_form,.input_hiragana_form,.input_mail_address_form{
+                    width: 400px;
                 }
 
                 .input_birthday_form,.input_phone_number_form{
@@ -519,9 +520,9 @@
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">お名前（漢字）</p>
-                                <p class="example_label">(例)山田　太郎</p>
+                                <p class="example_label">(例)山田太郎</p>
                             </div>
-                            <input type="text" class="input_name_form" name="input_user_name">
+                            <input type="text" class="input_user_name_form" name="input_user_name_form">
                         </div>
                     </div>
 
@@ -538,7 +539,7 @@
                         <div class="input_form">
                             <div class="label_container">
                                 <p class="label">ひらがな</p>
-                                <p class="example_label">(例)やまだ　たろう</p>
+                                <p class="example_label">(例)やまだたろう</p>
                             </div>
                             <input type="text" class="input_hiragana_form" name="input_hiragana_form">
                         </div>
