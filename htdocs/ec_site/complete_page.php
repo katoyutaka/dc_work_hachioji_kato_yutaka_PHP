@@ -1,34 +1,7 @@
 
-
-
-
-
-<?php
-       session_start();
-
-       define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
-       define("LOGIN_USER",'bcdhm_hoj_pf0001');
-       define("PASSWORD",'Au3#DZ~G');
-       define("EXPIRATION_PERIOD", 1);
-
-       $cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
-       $login_user_name = $_SESSION["login_user_name"];
-
-       try{
-            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-   
-        } catch (PDOException $e){
-            print $e->getMessage();
-            exit();
-        }
-
-?>
-
-
-
 <?php
 
-// include_once './include/config/config.php';
+    require_once '../include/config/config.php';
 
    
 
@@ -67,9 +40,7 @@
 ?>
 
 
-<?php
-    include_once './view/header.php';
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,6 +50,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注文完了</title>
     <style>
+
+                html,
+                body,
+                ul,
+                ol,
+                li,
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6,
+                p,
+                div {
+                    margin: 0;
+                    padding: 0;
+                }
+
+
+                * {
+                    box-sizing:border-box;
+                    vertical-align:middle;
+                    font-family: system-ui;
+                    letter-spacing: 2px;
+
+                }
   
 
 
@@ -130,10 +127,10 @@
 
     </style>
               
-</head>
 
-<body>
-
+<?php
+    include_once './view/header.php';
+?>
     <div class="main_wrapper">
     </div>
 
