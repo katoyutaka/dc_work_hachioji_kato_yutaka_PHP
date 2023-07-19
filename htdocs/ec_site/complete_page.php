@@ -1,9 +1,8 @@
 
 <?php
 
-    require_once '../include/config/config.php';
 
-   
+    require_once '../include/config/config.php';
 
     $login_user_name = $_SESSION["login_user_name"];
 
@@ -81,9 +80,12 @@
 
                 .main_wrapper{
                     width: 1000px;
-                    height: 200px;
+                    height: 100px;
                     margin:0 auto;
                     background-color: #000099;
+                    padding-top: 10px;
+                    margin-top: 200px;
+                    /* z-index: 5; */
                 }
 
                 .order-button{
@@ -109,8 +111,6 @@
                         margin-top:20px;
                         width:600px;
                         height: 60px;
-                    
-
                 }
 
                 .order-button,.reverse-button{
@@ -121,8 +121,18 @@
                         border: 1px solid #000099;
                         font-size:14px;
                         margin-right:10px;
-                    
                         
+                }
+
+                .order_label{
+                    font-size: 30px;
+                    font-weight: bolder;
+                    color:red;
+                    height: 100px;
+                    width: 1000px;
+                    text-align: center;
+                    line-height: 100px
+                    ;
                 }
 
     </style>
@@ -131,7 +141,10 @@
 <?php
     include_once './view/header.php';
 ?>
+
+
     <div class="main_wrapper">
+        <p class="order_label">ご注文ありがとうございました </p>
     </div>
 
 
