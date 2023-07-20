@@ -50,6 +50,11 @@
         exit();
     }
 
+    if(isset($_POST["order-button"])){
+        header('Location:complete_page.php');
+        exit();
+    }
+
 
     if(isset($_POST["logout_tag"])){  
         //ログアウトが押されたら、セッションのみを消してクッキーは消さず、login.phpに遷移する。

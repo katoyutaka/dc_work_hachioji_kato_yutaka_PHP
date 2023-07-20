@@ -6,12 +6,42 @@
 
     $login_user_name = $_SESSION["login_user_name"];
 
+    //注文者情報
+    $input_user_name_form = $_SESSION["input_user_name_form"];
+    $input_hiragana_form=  $_SESSION["input_hiragana_form"];
+    $input_birthday_form = $_SESSION["input_birthday_form"];
+    $input_address_form = $_SESSION["input_address_form"];
+    $input_phone_number_form = $_SESSION["input_phone_number_form"];
+    $input_mail_address_form = $_SESSION["input_mail_address_form"];
+
+
+    //支払い方法
+    $input_card_number_form = $_SESSION["input_card_number_form"];
+    $input_security_number_form = $_SESSION["input_security_number_form"];
+    $expiration_date_month = $_SESSION["expiration_date_month"];
+    $expiration_date_year = $_SESSION["expiration_date_year"];
+    $payment_method_button = $_SESSION["payment_method_button"];
+    $select_conveni=  $_SESSION["select_conveni"];
+    $smartphone_payment_method_button = $_SESSION["smartphone_payment_method_button"];
+
+
+    $to="$input_mail_address_form";
+    $subject="【72Sec Jewerly Homme+】ご注文内容の確認";
+    $message="この度は72Sec Jewelry Homme+ Online Shoppingをご利用いただき有難う御座います。発送までしばしお待ちください。";
+    $headers="";
+
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if(isset($_POST["reverse-button"])){
-            header('Location:payment_page.php');
+            header('Location:login.php');
             exit();
+        }
+
+        
+        if(isset($_POST["order-button"])){
+            mail($input_mail_address_form,$subject,$message,$headers);
+
         }
 
 
@@ -80,10 +110,9 @@
 
                 .main_wrapper{
                     width: 1000px;
-                    height: 100px;
+                    height: 50px;
                     margin:0 auto;
-                    background-color: #000099;
-                    padding-top: 10px;
+                    /* background-color: #000099; */
                     margin-top: 200px;
                     /* z-index: 5; */
                 }
@@ -108,7 +137,7 @@
                 .button_container{
                         width:100%;
                         margin:0 auto;
-                        margin-top:20px;
+                        margin-top:300px;
                         width:600px;
                         height: 60px;
                 }
@@ -127,31 +156,47 @@
                 .order_label{
                     font-size: 30px;
                     font-weight: bolder;
-                    color:red;
-                    height: 100px;
+                    color:darkcyan;
+                    height: 50px;
                     width: 1000px;
                     text-align: center;
-                    line-height: 100px
-                    ;
+                    line-height: 50px;
+                }
+
+                .order_label2{
+                    /* font-size: 12px;
+                    font-weight: bolder;
+                    color:darkcyan; */
+                    /* height: 50px; */
+                    width: 680px;
+                    text-align: left;
+                    margin:0 auto;
+                    margin-top: 80px;
+
+                
                 }
 
     </style>
               
 
 <?php
-    include_once './view/header.php';
+    include_once '../include/view/header.php';
 ?>
 
 
     <div class="main_wrapper">
-        <p class="order_label">ご注文ありがとうございました </p>
+        <p class="order_label">ご注文ありがとうございました! </p>
+        <p class="order_label2">ご入力頂きましたメールアドレスへ「ご注文確認メール」をお送り致しましたのでご確認下さい。<br>１営業日が経ってもメールが来ない場合、恐れ入りますが以下にご連絡下さい。<br><br>メールアドレス:XXX_XX@gmail.com<br>電話番号:03-XXXX-XXXX </p>
     </div>
 
+    <form method="post" action="">
+        <div class="button_container">
+            <input type="submit" class="reverse-button" name="reverse-button" value="ショッピングページに行く">
+            <input type="submit" class="order-button"  name="order-button" value="ログアウト">
+        </div>
+    </form>
 
-    <div class="button_container">
-        <input type="submit" class="reverse-button" name="reverse-button" value="ショッピングページに行く">
-        <input type="submit" class="order-button"  name="order-button" value="ログアウト">
-    </div>
     
+
 </body>
 </html>

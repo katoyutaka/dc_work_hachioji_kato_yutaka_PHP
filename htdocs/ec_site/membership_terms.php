@@ -399,8 +399,8 @@
             当サイトにおける商品販売については、下記にお問合せください。<br>
             <br> 
             72Sec JEWELRY HOMME+ ONLINE SHOP問い合わせ窓口<br>
-            メール: kyupi13@gamil.com<br>
-            お電話: 0120-0000-0000 (受付時間：平日11:00～17:30 ※年末年始除く)<br>
+            メール: XXX_XX@gamil.com<br>
+            お電話: 03-XXXX-XXXX (受付時間：平日11:00～17:30 ※年末年始除く)<br>
             <br>
             <br>
 
