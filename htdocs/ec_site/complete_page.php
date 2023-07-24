@@ -160,6 +160,9 @@
                     width: 1000px;
                     text-align: center;
                     line-height: 50px;
+                    font-family: fantasy;
+                    letter-spacing: 4px;
+
                 }
 
                 .order_label2{
@@ -194,7 +197,7 @@
     <div class="main_wrapper">
         <p class="order_label">ARIGATO! </p>
         <div class="video_wrapper">
-            <video autoplay muted loop controls width="200" height="200"  src='img/arigato2.mp4'></video>
+            <video autoplay muted loop width="200" height="200"  src='img/arigato2.mp4'></video>
         </div>
         <p class="order_label2">ご入力頂きましたメールアドレスへ「ご注文確認メール」をお送り致しましたのでご確認下さい。<br>１営業日が経ってもメールが来ない場合、恐れ入りますが以下にご連絡下さい。<br><br>メールアドレス:XXX_XX@gmail.com<br>電話番号:03-XXXX-XXXX </p>
     </div>
