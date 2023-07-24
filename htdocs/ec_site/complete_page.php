@@ -110,10 +110,10 @@
 
                 .main_wrapper{
                     width: 1000px;
-                    height: 50px;
+                    height:500px;
                     margin:0 auto;
                     /* background-color: #000099; */
-                    margin-top: 200px;
+                    margin-top: 100px;
                     /* z-index: 5; */
                 }
 
@@ -137,7 +137,7 @@
                 .button_container{
                         width:100%;
                         margin:0 auto;
-                        margin-top:300px;
+                        margin-top:50px;
                         width:600px;
                         height: 60px;
                 }
@@ -154,9 +154,8 @@
                 }
 
                 .order_label{
-                    font-size: 30px;
+                    font-size: 50px;
                     font-weight: bolder;
-                    color:darkcyan;
                     height: 50px;
                     width: 1000px;
                     text-align: center;
@@ -171,9 +170,17 @@
                     width: 680px;
                     text-align: left;
                     margin:0 auto;
-                    margin-top: 80px;
+                    margin-top: 50px;
+                    color:darkcyan;
+                }
 
-                
+                .video_wrapper{
+                    height: 200px;
+                    width: 200px;
+                    margin:0 auto;
+                    padding:0 auto;
+                    margin-top: 10px;
+                    margin-top: 50px;
                 }
 
     </style>
@@ -185,7 +192,10 @@
 
 
     <div class="main_wrapper">
-        <p class="order_label">ご注文ありがとうございました! </p>
+        <p class="order_label">ARIGATO! </p>
+        <div class="video_wrapper">
+            <video autoplay muted loop controls width="200" height="200"  src='img/arigato2.mp4'></video>
+        </div>
         <p class="order_label2">ご入力頂きましたメールアドレスへ「ご注文確認メール」をお送り致しましたのでご確認下さい。<br>１営業日が経ってもメールが来ない場合、恐れ入りますが以下にご連絡下さい。<br><br>メールアドレス:XXX_XX@gmail.com<br>電話番号:03-XXXX-XXXX </p>
     </div>
 
