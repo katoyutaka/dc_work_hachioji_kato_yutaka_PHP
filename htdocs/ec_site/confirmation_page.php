@@ -50,9 +50,39 @@
         exit();
     }
 
+    //注文確定ボタンで、「在庫数のデータベース変更」と「カートのデータベース変更」をする。
+
+    //SELECT * FROM ec_stock_table WHERE product_id ="41";
     if(isset($_POST["order-button"])){
-        header('Location:complete_page.php');
-        exit();
+
+        $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
+        if($result = $db->query($sql)){
+
+            while($row =$result->fetch()){
+
+                $sql1 ="SELECT * FROM ec_stock_table WHERE product_id =".$row["product_id"].";";
+                if($result1 = $db->query($sql1)){
+                    while($row1 =$result1->fetch()){
+
+                        $new_stock_count =$row1["stock_count"]-$row["product_count"];
+                        
+                        $update = "UPDATE ec_stock_table SET stock_count =".$new_stock_count." WHERE product_id =".$row["product_id"].";";
+                        $result2 = $db->query($update);
+
+                        $update_date = date('Ymd');
+                        
+                        $update = "UPDATE ec_stock_table SET update_date = '$update_date' WHERE product_id = ".$row["product_id"].";";
+                        $result = $db->query($update);
+                    }
+                }
+
+            }
+        }
+                
+
+
+        // header('Location:complete_page.php');
+        // exit();
     }
 
 
@@ -708,10 +738,9 @@
                                         <td class="td_price"><?php print number_format($row["price"])."(税込)";?></td>
 
                                         <td class="td_product_count">
-                                            <form method="post" action="">
-                                                    <input type ="hidden" name="product_count_id_value" value ="<?php print $row["product_id"]?>">
-                                                    <div name="text_product_count" class="text_product_count"><?php print $row["product_count"];?></div>
-                                            </form>
+                                            <input type ="hidden" name="product_count_id_value" value ="<?php print $row["product_id"]?>">
+                                            <input type ="hidden" name="text_product_count" value ="<?php print $row["product_count"]?>">
+                                            <div class="text_product_count"><?php print $row["product_count"];?></div>
                                         </td>
 
                             </table>
