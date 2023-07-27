@@ -55,34 +55,39 @@
     //SELECT * FROM ec_stock_table WHERE product_id ="41";
     if(isset($_POST["order-button"])){
 
-        $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
-        if($result = $db->query($sql)){
+	
+        $db->beginTransaction();
 
-            while($row =$result->fetch()){
+        $sql = "SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id LEFT JOIN ec_stock_table ON ec_stock_table.product_id = ec_product_table.product_id;";
+        if ($result = $db->query($sql)) {
+        
+ 
+            while ($row = $result->fetch()) {
 
-                $sql1 ="SELECT * FROM ec_stock_table WHERE product_id =".$row["product_id"].";";
-                if($result1 = $db->query($sql1)){
-                    while($row1 =$result1->fetch()){
+                //ここで在庫数から引いて在庫が不足のときはロールバック機能つけること！?
+                $new_stock_count = $row["stock_count"] - $row["product_count"];
 
-                        $new_stock_count =$row1["stock_count"]-$row["product_count"];
-                        
-                        $update = "UPDATE ec_stock_table SET stock_count =".$new_stock_count." WHERE product_id =".$row["product_id"].";";
-                        $result2 = $db->query($update);
-
-                        $update_date = date('Ymd');
-                        
-                        $update = "UPDATE ec_stock_table SET update_date = '$update_date' WHERE product_id = ".$row["product_id"].";";
-                        $result = $db->query($update);
-                    }
+                if($new_stock_count < 0){
+                    $str = "在庫数が足りないため購入できません";
+                    $db->rollback();
+                    break;
                 }
 
-            }
-        }
+                $update = "UPDATE ec_stock_table SET stock_count =".$new_stock_count." WHERE product_id =".$row["product_id"].";";
+                $db->query($update);
+
+                $update_date = date('Ymd');
+                $update = "UPDATE ec_stock_table SET update_date =".$update_date." WHERE product_id =".$row["product_id"].";";
+                $db->query($update);
                 
+            }
 
-
-        // header('Location:complete_page.php');
-        // exit();
+            //コミットはループが終わった後にする。
+            $db->commit();
+            header('Location:complete_page.php');
+            exit();
+            
+        }
     }
 
 
@@ -115,8 +120,8 @@
 
     }
 
-    
-   }
+}
+   
 
 
        //ログアウトであれば、confirmation_page.phpに来ても、login.phpに遷移するようにする。
@@ -585,6 +590,22 @@
                     width: 35px;
                 }
 
+                .err{
+                    width: 1000px;
+                    height: 30px;
+                    font-size: 16px;
+                    text-align: center;
+                    /* margin-top: 30px; */
+                    /* background-color: aquamarine; */
+                }
+
+                .msg{
+                    color:red;
+                    text-align: left;
+                    margin :0 auto;
+                    font-weight: bold;;
+                }
+
 
     </style>
               
@@ -701,8 +722,15 @@
         </div>
 
 
+                
 
         <div class="product_label">ご注文の商品</div>
+
+        <div class="err">
+            <?php
+                print "<span class='msg'>$str</span>";
+            ?>
+        </div>
 
         <div class="product_wrapper">
 
