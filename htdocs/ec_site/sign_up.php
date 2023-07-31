@@ -400,7 +400,7 @@
                             <input type="submit" class="reverse-button" name="reverse-button" value="戻る">
                             <input type="submit" class="check-button"  name="check-button" value="確認する">
                         </div>
-                        <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
+                        <a href="index.php?" class="link_text">ログイン画面はこちらから</a>
 
 
                     

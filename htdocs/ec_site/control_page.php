@@ -23,14 +23,6 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(isset($_POST["submit"])){
-            //商品名,価格,個数,画像,公開/非公開のバリデーションチェック
-
-            //商品名product_name
-            //  価格price
-            //  個数stock_count
-            //  画像product_image
-            //  公開/非公開public_flg
-
 
                     
                     if(!empty($_POST['product_name'])){
@@ -300,7 +292,7 @@
 
 
          if(isset($_POST["logout_button"])){
-            //ログアウトが押されたら、セッションとクッキーを空にして、login.phpに遷移する。
+            //ログアウトが押されたら、セッションとクッキーを空にして、index.phpに遷移する。
             $_SESSION=[];
             session_destroy();
 
@@ -308,7 +300,7 @@
             setcookie("login_user_name","",time()-100);  
             setcookie("sign_up_password_1","",time()-100);  
 
-            header('Location:login.php');
+            header('Location:index.php');
             exit();
          }
 
@@ -321,9 +313,9 @@
 
     }
 
-    //ログアウトであれば、control_page.phpに来ても、login.phpに遷移するようにする。
+    //ログアウトであれば、control_page.phpに来ても、index.phpに遷移するようにする。
     if (empty($_SESSION['login_user_name'])) {
-        header('Location:login.php');
+        header('Location:index.php');
         exit(); 
     }
 

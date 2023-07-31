@@ -135,11 +135,11 @@
 
         
         if(isset($_POST["logout_tag"])){  
-            //ログアウトが押されたら、セッションのみを消してクッキーは消さないで、login.phpに遷移する。
+            //ログアウトが押されたら、セッションのみを消してクッキーは消さないで、index.phpに遷移する。
             $_SESSION=[];
             session_destroy();
 
-            header('Location:login.php');
+            header('Location:index.php');
             exit();
         }
 
@@ -154,13 +154,13 @@
 
 
         if(isset($_POST["favorite_tag"])){
-            // header('Location:login.php');
+            // header('Location:index.php');
             // exit();
 
             }
 
             if(isset($_POST["mypage_tag"])){
-            // header('Location:login.php');
+            // header('Location:index.php');
             // exit();
 
             }
@@ -170,9 +170,9 @@
              
     
 
-    //ログアウトであれば、address_page.phpに来ても、login.phpに遷移するようにする。
+    //ログアウトであれば、address_page.phpに来ても、index.phpに遷移するようにする。
     if (empty($_SESSION['login_user_name'])) {
-        header('Location:login.php');
+        header('Location:index.php');
         exit(); 
     }
 

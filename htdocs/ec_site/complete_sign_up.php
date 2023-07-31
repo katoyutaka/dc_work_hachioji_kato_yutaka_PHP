@@ -133,7 +133,7 @@
         <div class="text">お客様のユーザー登録が完了しました。<br>ログイン画面よりログイン下さい。</div>
         <p class="label_user2"></p>
        
-        <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
+        <a href="index.php?" class="link_text">ログイン画面はこちらから</a>
      </div>
 
 

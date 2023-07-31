@@ -104,25 +104,25 @@
                 当サイトにおいて記録されたCookieは当社の広告配信の目的にのみ使用され、その他の目的等には一切使用致しません。<br>
                 本広告サービスをご希望でない場合は、大変お手数ですが以下の手順に従い配信停止（オプトアウト）を行って下さい。<br>
                 <br>
-                <h5>・提携先サイト名とオプトアウトの手順</h5>
+                <h5>＜提携先サイト名とオプトアウトの手順＞</h5>
                 Criteo　https://www.criteo.com/jp/privacy/<br>
                 Google　http://www.google.com/settings/ads<br>
                 Yahoo! JAPAN　http://btoptout.yahoo.co.jp/optout/preferences.html<br>
                 Facebook　https://www.facebook.com/policy.php<br>
                 <br>
 
-                <h5>・パーソナライズ広告とは</h5>
+                <h5>＜パーソナライズ広告とは＞</h5>
                 広告主が提供するサービス（Webサイト、アプリ、メールマガジン）を閲覧したお客様に対して、<br>
                 パーソナライズされた広告メールやその他の広告を配信するサービスです。<br>
                 <br>
 
-                <h5>・Cookie同意ポップアップに関して</h5>
+                <h5>＜Cookie同意ポップアップに関して＞</h5>
                 個人情報保護法改正に伴いクッキー同意のポップアップが画面下に表示されます。承諾ボタン押下で非表示となります。<br>
                 サイト内の一部の機能および、サイトの使用状況の分析からマーケティング活動に利用することを目的としてお客様へ同意をいただいております。<br>
                 同意いただけない場合、一部機能が正常に動かない可能性があります。<br>
                 <br>
                 <br>
-                <a href="login.php?" class="link_text">ログイン画面はこちらから</a>
+                <a href="index.php?" class="link_text">ログイン画面はこちらから</a>
                         
         </div>
     

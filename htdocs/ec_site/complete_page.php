@@ -25,32 +25,21 @@
     $smartphone_payment_method_button = $_SESSION["smartphone_payment_method_button"];
 
 
-    $to="$input_mail_address_form";
-    $subject="【72Sec Jewerly Homme+】ご注文内容の確認";
-    $message="この度は72Sec Jewelry Homme+ Online Shoppingをご利用いただき有難う御座います。発送までしばしお待ちください。";
-    $headers="";
-
-
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if(isset($_POST["reverse-button"])){
-            header('Location:login.php');
+            header('Location:index.php');
             exit();
         }
 
-        
-        if(isset($_POST["order-button"])){
-            mail($input_mail_address_form,$subject,$message,$headers);
-
-        }
 
 
-        if(isset($_POST["logout_tag"])){  
-            //ログアウトが押されたら、セッションのみを消してクッキーは消さず、login.phpに遷移する。
+        if((isset($_POST["logout_tag"]))||(isset($_POST["logout-button"]))){  
+            //ログアウトが押されたら、セッションのみを消してクッキーは消さず、index.phpに遷移する。
             $_SESSION=[];
             session_destroy();
 
-            header('Location:login.php');
+            header('Location:index.php');
             exit();
         }
 
@@ -61,11 +50,10 @@
 
     }
 
-       //ログアウトであれば、complete_page.phpに来ても、login.phpに遷移するようにする。
-    // if (empty($_SESSION['login_user_name'])) {
-    //     header('Location:login.php');
-    //     exit(); 
-    // }
+    if (empty($_SESSION['login_user_name'])) {
+        header('Location:index.php');
+        exit(); 
+    }
 ?>
 
 
@@ -117,7 +105,7 @@
                     /* z-index: 5; */
                 }
 
-                .order-button{
+                .logout-button{
                         background-color: #000099;
                         color:white;
                         margin-left:10px;
@@ -142,7 +130,7 @@
                         height: 60px;
                 }
 
-                .order-button,.reverse-button{
+                .logout-button,.reverse-button{
                         margin:0 auto;
                         width:250px;
                         height: 50px;
@@ -166,10 +154,6 @@
                 }
 
                 .order_label2{
-                    /* font-size: 12px;
-                    font-weight: bolder;
-                    color:darkcyan; */
-                    /* height: 50px; */
                     width: 680px;
                     text-align: left;
                     margin:0 auto;
@@ -205,7 +189,7 @@
     <form method="post" action="">
         <div class="button_container">
             <input type="submit" class="reverse-button" name="reverse-button" value="ショッピングページに行く">
-            <input type="submit" class="order-button"  name="order-button" value="ログアウト">
+            <input type="submit" class="logout-button"  name="logout-button" value="ログアウト">
         </div>
     </form>
 
