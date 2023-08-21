@@ -702,7 +702,7 @@
      <div class="fade">
         <img src="img/20230713.jpg" alt="">
         <img src="img/zu1.png" alt="">
-        <img src="img/jewery15.jpg" alt="">
+        <img src="img/jewery15.png" alt="">
      </div>
 
 

@@ -700,9 +700,9 @@
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
 
      <div class="fade">
-        <img src="img/20230713.jpg" alt="">
-        <img src="img/zu1.png" alt="">
-        <img src="img/jewery15.jpg" alt="">
+        <img src="img/topview2.png" alt="">
+        <img src="img/topview1.png" alt="">
+        <img src="img/topview3.png" alt="">
      </div>
 
 
@@ -710,13 +710,13 @@
         <p class="arrival">NEW ARRIVAL</p>
         <ul class="slider">
             <li><img src="img/saletag2.png" alt=""></li>
-            <li><img src="img/ring5.jpg" alt=""></li>
-            <li><img src="img/ring4.jpg" alt=""></li>
-            <li><img src="img/necklace1.jpg" alt=""></li>
-            <li><img src="img/necklace2.jpg" alt=""></li>
-            <li><img src="img/necklace3.jpg" alt=""></li>
+            <li><img src="img/ring5.png" alt=""></li>
+            <li><img src="img/ring4.png" alt=""></li>
+            <li><img src="img/necklace1.png" alt=""></li>
+            <li><img src="img/necklace2.png" alt=""></li>
+            <li><img src="img/necklace3.png" alt=""></li>
             <li><img src="img/necklace4.jpg" alt=""></li>
-            <li><img src="img/necklace5.jpg" alt=""></li>
+            <li><img src="img/necklace5.png" alt=""></li>
         </ul>
             
         
@@ -727,15 +727,15 @@
             </div>
 
             <div class="right_left_fade_in_container2">
-                <img class="right_left2" src="img/jewery15.jpg" alt="">
+                <img class="right_left2" src="img/fadeimage1.png" alt="">
             </div>
 
             <div class="right_left_fade_in_container3">
-                <img class="right_left3" src="img/jewery16.jpg" alt="">
+                <img class="right_left3" src="img/fadeimage2.png" alt="">
             </div>
 
             <div class="right_left_fade_in_container4">
-                <img class="right_left4" src="img/jewery24.jpg" alt="">
+                <img class="right_left4" src="img/jewery24.png" alt="">
             </div>
         </div>
 
