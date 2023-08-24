@@ -610,7 +610,7 @@
 
         <div class="button_container">
                 <form method="post" action="">
-                    <input type="submit" class="reverse-button" name="reverse-button" value="ショッピングバッグへ戻る">
+                    <input type="submit" class="reverse-button" name="reverse-button" value="ショッピングページに戻る">
                     <input type="submit" class="next-button"  name="next-button" value="次へ">
                 </form>
         </div>

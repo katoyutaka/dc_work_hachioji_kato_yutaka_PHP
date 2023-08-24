@@ -28,7 +28,7 @@
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if(isset($_POST["reverse-button"])){
-            header('Location:index.php');
+            header('Location:catalog_page.php');
             exit();
         }
 

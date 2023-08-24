@@ -51,22 +51,6 @@
                 margin-bottom: 40px;
         }
         
-        /* .header{
-                text-align: left;
-                height:100px;
-                border-bottom:2px solid gray;
-                width:1100px;
-                
-        }
-
-        .header p{
-                display: inline-block;
-                margin-bottom: 0px;
-        } */
-
-        /* .link_text{
-  float:right;
-                } */
 </style>
 
 <body>

@@ -202,19 +202,6 @@
                     font-family:"Yu Mincho";
                     letter-spacing: 0px;   
                 }
-/* 
-                .header{
-                    text-align: center;
-                    font-size:18px;
-                    font-weight:bold;
-                    background-color: #02235F;
-                    height: 30px;
-                    line-height: 30px;
-                    font-size: 16px;
-                    padding-left:50px;
-                    color:white;
-                    
-                } */
 
                 .scrollBox {
                     margin:0 auto;

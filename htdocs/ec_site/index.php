@@ -258,22 +258,27 @@
             autoplay: true, // 自動再生
             fade: true, // スライドをフェードイン・フェードアウト
             cssEase: 'linear',// アニメーション
-            speed: 800, // フェードアニメーションの速度設定
+            speed: 300, // フェードアニメーションの速度設定
             arrows:false,
             dots: true, // インジケーター
             infinite: true, // 無限ループするかどうか
+            // centerMode:true,
             // transform: rotate(90),
+            pauseOnHover:false,
+            pauseOnFocus:false,
+            pauseOnDotsHover:false,
         });
 
         // 横にスライドできる画像
         $('.slider').slick({
             autoplay: true, // 自動再生するかどうか
-            autoplaySpeed: 1000, // 自動再生する場合のスピード（ms単位）
+            autoplaySpeed: 800, // 自動再生する場合のスピード（ms単位）
             arrows: true, // 左右の矢印を表示するかどうか
             dots: false, // ページネーションを表示するかどうか
             infinite: true, // 無限ループするかどうか
             slidesToShow: 5, // 一度に表示するスライドの数
             slidesToScroll: 1 // スライドを1つスクロールするときの数
+
         });
 
         });
@@ -577,14 +582,14 @@
 
                 .fade{
                     text-align:center;
-                    width: auto;
-                    height: 480px;
+                    width: 100vw;
+                    height: auto;
                 }
 
                 .fade img{
-                    width: auto;
-                    height: 480px;
-                    object-fit: cover;
+                    width: 100vw;
+                    height: auto;
+                    /* object-fit: cover; */
                 
                 }
 
@@ -701,7 +706,7 @@
 
      <div class="fade">
         <img src="img/topview2.png" alt="">
-        <img src="img/topview1.png" alt="">
+        <img src="img/1.png" alt="">
         <img src="img/topview3.png" alt="">
      </div>
 
