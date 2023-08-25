@@ -322,11 +322,6 @@
 
 ?>
 
-<!-- SELECT *
-FROM ec_product_table
-JOIN ec_stock_table
-ON ec_product_table.product_id = ec_stock_table.product_id; -->
-
 
 <!DOCTYPE html>
 <html lang="en">

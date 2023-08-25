@@ -61,12 +61,35 @@
             $cookie_agree = "";
             $cookie_agree_display = "visible";
         }
+        
+
+    
+
+
+
 
 ?>
 
 
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        $eye_check =$_POST["eye_check"];
+
+        
+
+        if($eye_check=="表示にする"){
+            $user_check2 = "password";
+            $eye_check ="非表示する";
+            $eye_path= "img/eye2.png";
+            
+        }else{
+            $user_check2 = "text";
+            $eye_check ="表示にする";
+            $eye_path= "img/eye1.png";
+
+        }
+
 
 
         if(isset($_POST["user_check"])){
@@ -89,7 +112,10 @@
             if(empty($login_user_name)){
                 $validation_error1[] = "ユーザー名が未入力です";
 
-            } elseif (preg_match("/^[a-z0-9]{5,}+$/",$login_user_name)){
+            } elseif($login_user_name === "ec_admin"){
+                $ok_login_user_name = "ec_admin";
+
+            } elseif(preg_match("/^[a-z0-9]{5,}+$/",$login_user_name)){
 
                 $ok_login_user_name = $login_user_name;
 
@@ -112,7 +138,10 @@
                     
                      
 
-                } elseif (preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
+                } elseif(($sign_up_password_1 === "ec_admin")){
+                    $ok_sign_up_password_1 = "ec_admin";
+
+                }elseif(preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
                     $ok_sign_up_password_1 = $sign_up_password_1;
 
                 } else {
@@ -125,6 +154,18 @@
 
             //「ログイン」が押されたときの処理
             if((isset($_POST["login_button"]))){
+
+                    //IDとパスワード共にec_adminの時は、商品管理ページへ行く
+                    if(($ok_login_user_name === "ec_admin") && ($ok_sign_up_password_1 === "ec_admin")){
+
+                        
+                        //セッションの話
+                        $_SESSION["login_user_name"]= $ok_login_user_name;
+                        $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
+
+                        header('Location:control_page.php');
+                        exit();
+                    }
 
                     //バリデーションチェックでOKならばデータ接続
                     if ((empty($validation_error1)) && (empty($validation_error2))){
@@ -199,25 +240,14 @@
                 header('Location:membership_terms.php');
                 exit();
             }
+     
 
-
-
-    
-            if(($_POST["eye_check"])==="表示にする"){
-                $user_check2 = "password";
-                $eye_check ="非表示する";
-                $eye_path= "img/eye2.png";
-                
-            }
-
-            if(($_POST["eye_check"])==="非表示する"){
-                $user_check2 = "text";
-                $eye_check ="表示にする";
-                $eye_path= "img/eye1.png";
-            }
-
-    
     }
+
+
+
+
+        
 
 
 
@@ -751,7 +781,7 @@
                     <p class="text">【 重要なお知らせ 】<br>リニューアル以前に会員登録をされたお客様は、<br>はじめてログインする際、パスワードの再設定が必要です。 </p>
                     <p class="text">【 LINE会員様へ 】<br>オンラインショップ会員と連動しておりません。<br>オンラインショップをご利用の際には新規会員登録をお願い致します。</p>
                 
-                    <form method="post" action="">
+                  
 
                             <div class="err">
                                 <?php
@@ -783,7 +813,7 @@
                                     }
                                 ?>
                             </div>
-
+                    <form method="post" action="">
                             <div class="form_container">
                                 <p class="sub_label2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
                                 <div class="password_container">
