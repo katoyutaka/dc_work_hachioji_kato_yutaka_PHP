@@ -1,20 +1,6 @@
 <?php
-       session_start();
 
-       define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
-       define("LOGIN_USER",'bcdhm_hoj_pf0001');
-       define("PASSWORD",'Au3#DZ~G');
-       define("EXPIRATION_PERIOD", 1);
-
-       $cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
-        
-       try{
-            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-   
-        } catch (PDOException $e){
-            print $e->getMessage();
-            exit();
-        }
+        require_once '../include/config/config.php';
 
         // $validation_error = array();
         $sign_up_password_1="";
@@ -112,8 +98,8 @@
             if(empty($login_user_name)){
                 $validation_error1[] = "ユーザー名が未入力です";
 
-            } elseif($login_user_name === "ec_admin"){
-                $ok_login_user_name = "ec_admin";
+            // } elseif($login_user_name === "ec_admin"){
+            //     $ok_login_user_name = "ec_admin";
 
             } elseif(preg_match("/^[a-z0-9]{5,}+$/",$login_user_name)){
 
@@ -138,8 +124,8 @@
                     
                      
 
-                } elseif(($sign_up_password_1 === "ec_admin")){
-                    $ok_sign_up_password_1 = "ec_admin";
+                // } elseif(($sign_up_password_1 === "ec_admin")){
+                //     $ok_sign_up_password_1 = "ec_admin";
 
                 }elseif(preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
                     $ok_sign_up_password_1 = $sign_up_password_1;
@@ -156,16 +142,16 @@
             if((isset($_POST["login_button"]))){
 
                     //IDとパスワード共にec_adminの時は、商品管理ページへ行く
-                    if(($ok_login_user_name === "ec_admin") && ($ok_sign_up_password_1 === "ec_admin")){
+                    // if(($ok_login_user_name === "ec_admin") && ($ok_sign_up_password_1 === "ec_admin")){
 
                         
-                        //セッションの話
-                        $_SESSION["login_user_name"]= $ok_login_user_name;
-                        $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
+                    //     //セッションの話
+                    //     $_SESSION["login_user_name"]= $ok_login_user_name;
+                    //     $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
 
-                        header('Location:control_page.php');
-                        exit();
-                    }
+                    //     header('Location:control_page.php');
+                    //     exit();
+                    // }
 
                     //バリデーションチェックでOKならばデータ接続
                     if ((empty($validation_error1)) && (empty($validation_error2))){

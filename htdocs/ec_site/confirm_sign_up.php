@@ -1,22 +1,7 @@
-<?php
-       session_start();
-
-       define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
-       define("LOGIN_USER",'bcdhm_hoj_pf0001');
-       define("PASSWORD",'Au3#DZ~G');
-
-        
-       try{
-            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-   
-        } catch (PDOException $e){
-            print $e->getMessage();
-            exit();
-        }
-
-?>
 
 <?php
+
+    require_once '../include/config/config.php';
 
     $ok_sign_up_user_name = $_SESSION["ok_sign_up_user_name"];
     $ok_sign_up_password_1 = $_SESSION["ok_sign_up_password_1"];
