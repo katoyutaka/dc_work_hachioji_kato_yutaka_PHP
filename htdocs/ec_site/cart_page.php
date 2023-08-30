@@ -183,50 +183,6 @@
                     color:red;
                 }
 
-                .header{
-                    text-align: center;
-                    font-weight:bold;
-                    height: 85px;
-                    color: #02235F;
-                    z-index: 2;
-                    position: fixed;
-                    width: 100%;
-                    background-color: #fff;
-                    top: 0px;
-                    left: 0px;
-                }
-
-                .header_label{
-                    text-align: center;
-                    font-size:18px;
-                    font-weight:bold;
-                    background-color: #02235F;
-                    height: 30px;
-                    line-height: 30px;
-                    font-size: 16px;
-                    padding-left:50px;
-                    color:white;
-                    font-family:"Yu Mincho";
-                    letter-spacing: 0px;
-
-                }
-
-                .top_tag p{
-                    font-size: 28px;
-                    font-family:"Yu Mincho";
-                    font-weight: bolder;
-                    display: block;
-                    float: left;
-                    margin-top: 25px;
-                 
-                }
-
-                .top_tag{
-                    /* display: flex; */
-                    height: 100px;
-                    width: 100%;
-                    margin-top: 100px;
-                }
 
                 .image_wrapper{
                         /* width: 1000px; */
@@ -392,62 +348,6 @@
                         
                 }
 
-                /* .btn_wrapper{
-                    height: 200px;
-                } */
-                .cart_tag{
-                    background-image: url("img/cart.jpg");
-                    background-size: cover; 
-                }                
-                
-                
-                .favorite_tag{
-                    background-image: url("img/favorite.jpg");
-                    background-size: cover; 
-                }                
-                
-                
-                .mypage_tag{
-                    background-image: url("img/mypage.jpg");
-                    background-size: cover; 
-                }
-
-                .logout_tag{
-                    background-image: url("img/logout.jpg");
-                    background-size: cover; 
-                }
-
-                .cart_tag,.favorite_tag,.mypage_tag,.logout_tag{
-                    max-width: 20px;
-                    width: 20px;
-                    margin-top: 8px;
-                    margin-right: 13px;
-                    margin-left: 13px;
-                    border:none;
-                }
-
-                .tag_wrapper{
-                    float: right;
-                    margin-right: 20px;
-                    display: flex;
-                    /* height: 30px; */
-                    /* background-color: green; */
-                    /* width:100% ; */
-                    /* float: right; */
-
-                }
-
-                .login_name{
-                    font-size :17px;
-                    color: #02235F;
-                    float: right;
-                    margin-right: 30px;
-                    height: 10px;
-                    font-family:"Yu Mincho";
-                    letter-spacing: 0px;
-
-                }
-
                 .text_product_count{
                     width: 35px;
                    
@@ -455,32 +355,12 @@
 
 
     </style>
-              
-</head>
-<body>
 
-<div class="header">
-     <p class="header_label">3万円以上のご購入で送料無料キャンペーン実施中！</p>
-     
-     <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div><br>
-        <div class="tag_wrapper">
-            <form method="post" action="">
-                    <input type="submit" class="mypage_tag" name="mypage_tag"  >
-            </form>
+    <?php
+        include_once '../include/view/header.php';
+    ?>
 
-            <form method="post" action="">
-                    <input type="submit" class="favorite_tag" name="favorite_tag"  >
-            </form>
 
-            <form method="post" action="">
-                    <input type="submit" class="cart_tag" name="cart_tag"  >
-            </form>
-
-            <form method="post" action="">
-                    <input type="submit" class="logout_tag" name="logout_tag"  >
-            </form>
-        </div>
-</div>
 <div class="main_wrapper">
     <div class="top_tag">
         <p>Shopping Bag</p>
@@ -502,7 +382,13 @@
     </div>
 
 
-    <div class="label_user">ご注文商品 <span>発送予定日  :<?php print date('Ymd')+ 2;?></span>
+    <div class="label_user">ご注文商品 
+            <span>発送予定日  :            
+                <?php
+                    print  date("Y年m月d日", strtotime("2 day")); 
+                    
+                ?>
+            </span>
         <p class="label_user3">※お届け日ではありません。またコンビニ前払いの場合は発送日が異なります。ご注意ください。</p>
     </div>
 

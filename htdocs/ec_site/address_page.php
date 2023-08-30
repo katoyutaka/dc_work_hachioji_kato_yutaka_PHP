@@ -235,7 +235,7 @@
                     color:red;
                 }
 
-                .header{
+                /* .header{
                     text-align: center;
                     font-weight:bold;
                     height: 85px;
@@ -246,8 +246,8 @@
                     background-color: #fff;
                     top: 0px;
                     left: 0px;
-                }
-
+                } */
+/* 
                 .header_label{
                     text-align: center;
                     font-size:18px;
@@ -261,9 +261,9 @@
                     font-family:"Yu Mincho";
                     letter-spacing: 0px;
 
-                }
+                } */
 
-                .top_tag p{
+                /* .top_tag p{
                     font-size: 28px;
                     font-family:"Yu Mincho";
                     font-weight: bolder;
@@ -271,14 +271,14 @@
                     float: left;
                     margin-top: 25px;
                  
-                }
-
+                } */
+/* 
                 .top_tag{
-                    /* display: flex; */
+
                     height: 80px;
                     width: 100%;
                     margin-top: 100px;
-                }
+                } */
 
                 .image_wrapper{
                         /* width: 1000px; */
@@ -340,7 +340,7 @@
                         
                 }
 
-                .cart_tag{
+                /* .cart_tag{
                     background-image: url("img/cart.jpg");
                     background-size: cover; 
                 }                
@@ -369,15 +369,15 @@
                     margin-right: 13px;
                     margin-left: 13px;
                     border:none;
-                }
+                } */
 
-                .tag_wrapper{
+                /* .tag_wrapper{
                     float: right;
                     margin-right: 20px;
                     display: flex;
 
-                }
-
+                } */
+/* 
                 .login_name{
                     font-size :17px;
                     color: #02235F;
@@ -387,7 +387,7 @@
                     font-family:"Yu Mincho";
                     letter-spacing: 0px;
 
-                }
+                } */
 
                 .text_product_count{
                     width: 35px;
@@ -446,32 +446,13 @@
 
 
     </style>
+
+
+    <?php
+        include_once '../include/view/header.php';
+    ?>
+
               
-</head>
-<body>
-
-<div class="header">
-     <p class="header_label">3万円以上のご購入で送料無料キャンペーン実施中！</p>
-     
-     <div class="login_name"><?php print $login_user_name;?> 様はログイン中です</div><br>
-        <div class="tag_wrapper">
-            <form method="post" action="">
-                    <input type="submit" class="mypage_tag" name="mypage_tag"  >
-            </form>
-
-            <form method="post" action="">
-                    <input type="submit" class="favorite_tag" name="favorite_tag"  >
-            </form>
-
-            <form method="post" action="">
-                    <input type="submit" class="cart_tag" name="cart_tag"  >
-            </form>
-
-            <form method="post" action="">
-                    <input type="submit" class="logout_tag" name="logout_tag"  >
-            </form>
-        </div>
-</div>
 
 <form method="post" action="">
     <div class="main_wrapper">

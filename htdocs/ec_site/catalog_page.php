@@ -166,7 +166,7 @@
                     /* letter-spacing: 2px; */
                 }
                 
-                .header{
+                /* .header{
                     text-align: center;
                     font-weight:bold;
                     height: 85px;
@@ -177,7 +177,7 @@
                     background-color: #fff;
                     top: 0px;
                     left: 0px;
-                }
+                } */
 
                 .label_user{
                     text-align: center;
@@ -353,7 +353,7 @@
                     
                 }
                 
-                .cart_tag,.favorite_tag,.mypage_tag,.logout_tag{
+                /* .cart_tag,.favorite_tag,.mypage_tag,.logout_tag{
                     max-width: 20px;
                     width: 20px;
                     margin-top: 8px;
@@ -367,10 +367,10 @@
                     margin-right: 20px;
                     display: flex;
 
-                }
+                } */
 
 
-                .cart_tag{
+                /* .cart_tag{
                     background-image: url("img/cart.jpg");
                     background-size: cover; 
                 }                
@@ -390,7 +390,7 @@
                 .logout_tag{
                     background-image: url("img/logout.jpg");
                     background-size: cover; 
-                }
+                } */
 
 
                 .soldout{
@@ -422,19 +422,22 @@
 
 
     </style>
+
+    <?php
+        include_once '../include/view/header.php';
+    ?>
+
               
-</head>
+<!-- </head> -->
 
 
 
 
 
-
-
-<body>
+<!-- <body>
    
      <div class="header">
-     <p class="label_user">2023 Spring Collection発売</p>
+     <p class="label_user">2023 Spring Collection発売</p> -->
 
      <?php
         if (!empty($message) ){
