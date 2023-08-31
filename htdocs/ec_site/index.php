@@ -135,12 +135,18 @@
 
                     //バリデーションチェックでOKならばデータ接続
                     if ((empty($validation_error1)) && (empty($validation_error2))){
-                        $select = 'SELECT * FROM ec_user_table WHERE user_name = "'.$ok_login_user_name.'";';
+                        // $select = 'SELECT * FROM ec_user_table WHERE user_name = "'.$ok_login_user_name.'";';
+                        $select = 'SELECT * FROM ec_user_table WHERE user_name = :user_name;';
+                        $stmt = $db -> prepare($select);
 
-                        if ($result = $db->query($select)) {
-                            while($row = $result->fetch()){
-                                $final_password= $row["password"];
-                            }
+                        $stmt -> bindValue(':user_name', $ok_login_user_name);
+                        $stmt->execute();
+
+                        
+                        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        $final_password= $row["password"];
+                        
+     
                             if($final_password === $sign_up_password_1){
 
                                 //「チェック」が入っていたらクッキー保存する
@@ -177,7 +183,8 @@
                                 setcookie("sign_up_password_1","",time()-220);
                                 
                             }
-                        }
+                        // }
+
 
                     } else{
                             //ここでクッキーに入れた失敗したログイン情報を消す。

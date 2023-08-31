@@ -185,23 +185,34 @@
                     }
 
                     .label3{
-                        margin-top: 60px;  
+                        /* margin-top: 60px;   */
                         height:35px;
                         line-height: 35px;
                         font-weight: bold;
-                        width: 50%;
+                        width: 200px;
+                        padding-left:90px;
                     }
 
                     
                     .label4{
-                        margin-top: 60px;  
+                        /* margin-top: 60px;   */
                         height:35px;
                         line-height: 35px;
-                        width: 50%;
-                        padding-left:140px;
+                        width: 200px;
+                        padding-left:190px;
                         text-align: left;
                     }
                     
+                    .label5{
+                        margin-top: 60px;  
+                        height:35px;
+                        line-height: 35px;
+                        width: 500px;
+                        padding-left:90px;
+                        text-align: left;
+                        /* background-color: #000099; */
+                        /* text-align: center; */
+                    }
 
                     .form_container{
                         display:flex;
@@ -210,6 +221,16 @@
                         height: 70px;
                         text-align: center;
 
+                    }
+
+                    .label3_4container{
+                        /* margin-top: 60px;   */
+                        height:35px;
+                        line-height: 35px;
+                        width:500px;
+                        /* padding-left:140px; */
+                        text-align: left;
+                        display: flex;
                     }
 
                     
@@ -271,9 +292,14 @@
                     <p class="label2"><?php print $ok_sign_up_user_name ?></p>
                 </div>
 
-                <div class="form_container">
-                    <p class="label3">パスワード</p>
-                    <p class="label4"><?php print $ok_sign_up_password_1 ?></p>
+                
+                <div class="form_container1">
+                    <p class="label5">パスワードは安全の為、非表示にしています</p>
+                    <div class="label3_4container">
+                        <p class="label3">パスワード</p>
+                        <p class="label4"><?php print str_repeat('*', strlen($ok_sign_up_password_1)) ?></p>
+                    </div>
+
                 </div>
             </div>
         

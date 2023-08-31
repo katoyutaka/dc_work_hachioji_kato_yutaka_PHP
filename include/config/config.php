@@ -12,6 +12,8 @@
 
        try{
             $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+            $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
    
         } catch (PDOException $e){
             print $e->getMessage();

@@ -217,7 +217,7 @@
 
                 .ring_img img ,.necklace_img img{
                     width: 200px;
-                    height:200px;
+                    height:160px;
                 }
 
                 .ring_img,.necklace_img{
@@ -278,9 +278,9 @@
                 }
 
                 .ring_title{
-                font-size: 26px;
-                text-align: center;
-                font-weight: bold;
+                    font-size: 26px;
+                    text-align: center;
+                    font-weight: bold;
                     letter-spacing: 3px;
                     margin-top: 90px;
                     margin-bottom: 30px;
@@ -315,7 +315,7 @@
 
                 .img_container{
                     width: 200px;
-                    height: 330px;
+                    height: 300px;
                 }
 
                 .buy_form{
