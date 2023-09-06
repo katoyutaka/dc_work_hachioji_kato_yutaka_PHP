@@ -93,154 +93,143 @@
 
         
 
-            if(isset($_POST['sign_up_password_1'])){
+        if(isset($_POST['sign_up_password_1'])){
 
-                $sign_up_password_1="";
-                $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+            $sign_up_password_1="";
+            $sign_up_password_1 = htmlspecialchars($_POST['sign_up_password_1'], ENT_QUOTES, 'UTF-8');
+            
+            
+            if(empty($sign_up_password_1)){
+                $validation_error2[] = "パスワードが未入力です";
                 
-                
-                if(empty($sign_up_password_1)){
-                    $validation_error2[] = "パスワードが未入力です";
-                    
-                     
-
-                } elseif(($sign_up_password_1 === "ec_admin")){
-                    $ok_sign_up_password_1 = "ec_admin";
-
-                }elseif(preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
-                    $ok_sign_up_password_1 = $sign_up_password_1;
-
-                } else {
-                    $validation_error2[] = "パスワードが半角英数字以外の形式か、８文字未満になっています";
                     
 
-                }
+            } elseif(($sign_up_password_1 === "ec_admin")){
+                $ok_sign_up_password_1 = "ec_admin";
+
+            }elseif(preg_match("/^[a-z0-9]{8,}+$/", $sign_up_password_1)){
+                $ok_sign_up_password_1 = $sign_up_password_1;
+
+            } else {
+                $validation_error2[] = "パスワードが半角英数字以外の形式か、８文字未満になっています";
+                
+
+            }
+        }
+
+
+        //「ログイン」が押されたときの処理
+        if((isset($_POST["login_button"]))){
+
+            //IDとパスワード共にec_adminの時は、商品管理ページへ行く
+            if(($ok_login_user_name === "ec_admin") && ($ok_sign_up_password_1 === "ec_admin")){
+
+                
+                //セッションの話
+                $_SESSION["login_user_name"]= $ok_login_user_name;
+                $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
+
+                header('Location:control_page.php');
+                exit();
             }
 
+            //バリデーションチェックでOKならばデータ接続
+            if ((empty($validation_error1)) && (empty($validation_error2))){
+                
+                $select = 'SELECT * FROM ec_user_table WHERE user_name = :user_name;';
+                $stmt = $db -> prepare($select);
 
-            //「ログイン」が押されたときの処理
-            if((isset($_POST["login_button"]))){
-
-                    //IDとパスワード共にec_adminの時は、商品管理ページへ行く
-                    if(($ok_login_user_name === "ec_admin") && ($ok_sign_up_password_1 === "ec_admin")){
-
+                $stmt->bindValue(':user_name', $ok_login_user_name);
+                $stmt->execute();
+                $result = $stmt->fetch();
+    
+                $final_password= $result["password"];
                         
+                if($final_password === $sign_up_password_1){
+
+                        //「チェック」が入っていたらクッキー保存する
+                        if($user_check==="checked"){
+                            //クッキーの話
+                            setcookie("user_check",$user_check,$cookie_expiration);
+                            setcookie("login_user_name",$login_user_name,$cookie_expiration);  
+                            setcookie("sign_up_password_1",$sign_up_password_1,$cookie_expiration);
+
+                                                        
+                        } else{
+                            setcookie("login_user_name","",time()-220);  
+                            setcookie("sign_up_password_1","",time()-220);
+                        }
+
                         //セッションの話
                         $_SESSION["login_user_name"]= $ok_login_user_name;
                         $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
 
-                        header('Location:control_page.php');
+
+                        //↓はショッピングサイト内へ行く
+                        header('Location:catalog_page.php');
                         exit();
-                    }
+    
+                } else {
+                    $str = "ユーザー名またはパスワードが一致しません";
 
-                    //バリデーションチェックでOKならばデータ接続
-                    if ((empty($validation_error1)) && (empty($validation_error2))){
-                        // $select = 'SELECT * FROM ec_user_table WHERE user_name = "'.$ok_login_user_name.'";';
-                        $select = 'SELECT * FROM ec_user_table WHERE user_name = :user_name;';
-                        $stmt = $db -> prepare($select);
+                    //ここでクッキーに入れた失敗したログイン情報を消す。
 
-                        $stmt -> bindValue(':user_name', $ok_login_user_name);
-                        $stmt->execute();
-
+                    setcookie("user_check","",time()-220);
+                    setcookie("login_user_name","",time()-220);  
+                    setcookie("sign_up_password_1","",time()-220);
+                    
+                }
                         
-                        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        $final_password= $row["password"];
-                        
-     
-                            if($final_password === $sign_up_password_1){
 
-                                //「チェック」が入っていたらクッキー保存する
-                                if($user_check==="checked"){
-                                    //クッキーの話
-                                    setcookie("user_check",$user_check,$cookie_expiration);
-                                    setcookie("login_user_name",$login_user_name,$cookie_expiration);  
-                                    setcookie("sign_up_password_1",$sign_up_password_1,$cookie_expiration);
 
-                                                                
-                                } else{
-                                    setcookie("login_user_name","",time()-220);  
-                                    setcookie("sign_up_password_1","",time()-220);
-                                }
+            } else{
+                    //ここでクッキーに入れた失敗したログイン情報を消す。
 
-                                //セッションの話
-                                $_SESSION["login_user_name"]= $ok_login_user_name;
-                                $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
+                    setcookie("user_check","",time()-220);
+                    setcookie("login_user_name","",time()-220);  
+                    setcookie("sign_up_password_1","",time()-220);
+                    
+            }
+        }
 
 
 
 
-                                //↓はショッピングサイト内へ行く
-                                header('Location:catalog_page.php');
-                                exit();
+        //クッキー同意の処理
+        if(isset($_POST["agree"])){
+
+            $agree="";
+            $agree = htmlspecialchars($_POST["agree"], ENT_QUOTES, 'UTF-8');
             
-                            } else {
-                                $str = "ユーザー名またはパスワードが一致しません";
-
-                                //ここでクッキーに入れた失敗したログイン情報を消す。
-
-                                setcookie("user_check","",time()-220);
-                                setcookie("login_user_name","",time()-220);  
-                                setcookie("sign_up_password_1","",time()-220);
-                                
-                            }
-                        // }
-
-
-                    } else{
-                            //ここでクッキーに入れた失敗したログイン情報を消す。
-
-                            setcookie("user_check","",time()-220);
-                            setcookie("login_user_name","",time()-220);  
-                            setcookie("sign_up_password_1","",time()-220);
-                            
-                    }
-            }
-
-
-
-
-            //クッキー同意の処理
-            if(isset($_POST["agree"])){
-
-                $agree="";
-                $agree = htmlspecialchars($_POST["agree"], ENT_QUOTES, 'UTF-8');
-                
-                setcookie("agree",$agree,$cookie_expiration);
-            }
-           
-  
-            if(isset($_POST["sign_up_button"])){
-                header('Location:membership_terms.php');
-                exit();
-            }
-
-
+            setcookie("agree",$agree,$cookie_expiration);
+        }
         
 
-        
+        if(isset($_POST["sign_up_button"])){
+            header('Location:membership_terms.php');
+            exit();
+        }
 
-            if(($_POST["eye_check"])==="表示にする"){
-                $user_check2 = "password";
-                $eye_check ="非表示する";
-                $eye_path= "img/eye2.png";
-                
-            }
 
-            if(($_POST["eye_check"])==="非表示する"){
-                $user_check2 = "text";
-                $eye_check ="表示にする";
-                $eye_path= "img/eye1.png";
-            }
+
+
+
+
+        if(($_POST["eye_check"])==="表示にする"){
+            $user_check2 = "password";
+            $eye_check ="非表示する";
+            $eye_path= "img/eye2.png";
+            
+        }
+
+        if(($_POST["eye_check"])==="非表示する"){
+            $user_check2 = "text";
+            $eye_check ="表示にする";
+            $eye_path= "img/eye1.png";
+        }
     
 
     }
-
-
-
-
-        
-
-
 
         
     //ログイン中であれば、catalog_page.phpに遷移させ、index.phpには行かないようにする。
@@ -248,11 +237,6 @@
         header('Location:catalog_page.php');
         exit(); 
     }
-
-
-
-
-
 
             
 ?>
