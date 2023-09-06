@@ -12,17 +12,23 @@
                 $delete_cart_id_number = htmlspecialchars($_POST["delete_cart_id_value"], ENT_QUOTES, 'UTF-8');
 
                 //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$delete_number';";
-                if($result2 = $db->query($select)){
-                    $row2 =$result2->fetch();
-                }
-
-                $delete = "DELETE FROM ec_cart_table WHERE cart_id = '$delete_cart_id_number';";
-                $result = $db->query($delete);
+                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = :product_id;";
+                $stmt = $db->prepare($select);
+                $stmt->bindValue(":product_id",$delete_number);
+                $stmt->execute();
+                $result = $stmt->fetch();
                 
-                $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
 
+                $delete = "DELETE FROM ec_cart_table WHERE cart_id = :cart_id;";
+                $stmt = $db->prepare($delete);
+                $stmt->bindValue(":cart_id",$delete_cart_id_number);
+                $stmt->execute();
+
+                $update_message[]= "『".$result["product_name"]."』を削除しました"."<br>";
             }
+
+            
+            
 
             if(isset($_POST["reverse-button"])){
                 header('Location:catalog_page.php');
@@ -75,18 +81,28 @@
                 $update_date = date('Ymd');
 
             
-                //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$product_count_id_number';";
-                if($result5 = $db->query($select)){
-                    $row5 =$result5->fetch();
-                }
+                //何の商品を変更したのか知るために以下の商品名を取ってくるコードも記載。
+                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = :product_id;";
+
+                $stmt = $db->prepare($select);
+                $stmt->bindValue(":product_id",$product_count_id_number);
+                $stmt->execute();
+                $row5 = $stmt->fetch();
 
 
-                $update = "UPDATE ec_cart_table SET product_count = '$text_product_count_number' WHERE ec_cart_table.product_id = '$product_count_id_number';";
-                $result = $db->query($update);
+                $update = "UPDATE ec_cart_table SET product_count = :product_count WHERE product_id = :product_id;";
+                $stmt = $db->prepare($update);
+                $stmt->bindValue(":product_count",$text_product_count_number);
+                $stmt->bindValue(":product_id",$product_count_id_number);
 
-                $update = "UPDATE ec_cart_table SET update_date = '$update_date' WHERE ec_cart_table.product_id = '$product_count_id_number';";
-                $result = $db->query($update);
+                $stmt->execute();
+
+
+                $update = "UPDATE ec_cart_table SET update_date = :update_date WHERE product_id = :product_id;";
+                $stmt = $db->prepare($update);
+                $stmt->bindValue(":update_date",$update_date);
+                $stmt->bindValue(":product_id",$product_count_id_number);
+                $stmt->execute();
 
                 $update_message[]= "『".$row5["product_name"]."』の個数を変更しました"."<br>";
 
@@ -159,6 +175,7 @@
                     line-height: 40px;
                     width: 1000px;
                     padding-left:50px;
+                    margin-top: 50px;
 
                     
                 }
@@ -299,9 +316,9 @@
                     width: 1000px;
                     height: 200px;
                     background-color: #fff;
-                    /* padding-bottom: 50px; */
+                    padding-bottom: 50px; 
                     
-                    /* margin-left: 50px; */
+                    margin-left: 50px;
                     
                 }
 
@@ -394,62 +411,67 @@
 
     <?php
         $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
-        if($result = $db->query($sql)){
 
-            $total_sum = 0;
-            while($row =$result->fetch()){
-                $get_img_url = $row["image_path"];
+        
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $all = $stmt->fetchAll();
 
-                $total = $row["price"]*$row["product_count"];
 
-                $total_sum = $total_sum + $total;
-               
+        $total_sum = 0;
+        foreach($all as $row){
+            $get_img_url = $row["image_path"];
 
-                // ３万円以上で送料無料で、未満で送料８００円
-                if($total_sum >= 30000){
-                    $delivery_charge=0;
-                }else{
-                    $delivery_charge=800;
-                }
+            $total = $row["price"]*$row["product_count"];
 
-                $grand_total = $total_sum + $delivery_charge;
+            $total_sum = $total_sum + $total;
+            
+
+            // ３万円以上で送料無料で、未満で送料８００円
+            if($total_sum >= 30000){
+                $delivery_charge=0;
+            }else{
+                $delivery_charge=800;
+            }
+
+            $grand_total = $total_sum + $delivery_charge;
 
     ?>
-                <div class="catalog_wrapper">
-                    <table>
-                                <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
-                                <td class="td_product_name"><?php print $row["product_name"];?></td>
+            <div class="catalog_wrapper">
+                <table>
+                            <td><img class="product_image_container" src= "<?php print $get_img_url; ?>"></td>
+                            <td class="td_product_name"><?php print $row["product_name"];?></td>
 
-                                <!-- number_format関数で数値にカンマを付けられる。 -->
-                                <td class="td_price"><?php print number_format($row["price"])."(税込)";?></td>
+                            <!-- number_format関数で数値にカンマを付けられる。 -->
+                            <td class="td_price"><?php print number_format($row["price"])."(税込)";?></td>
 
-                                <td class="td_product_count">
+                            <td class="td_product_count">
+                            <form method="post" action="">
+                                    <input type ="hidden" name="product_count_id_value" value ="<?php print $row["product_id"]?>">
+                                    <input type ="text" name="text_product_count" class="text_product_count" value ="<?php print $row["product_count"];?>">
+                                    <input type="submit" class="product_count_button" name="product_count_button" value="変更"  >
+
+                                    
+                            </form>
+                            </td>
+
+
+                            <td class="td_delete">
                                 <form method="post" action="">
-                                        <input type ="hidden" name="product_count_id_value" value ="<?php print $row["product_id"]?>">
-                                        <input type ="text" name="text_product_count" class="text_product_count" value ="<?php print $row["product_count"];?>">
-                                        <input type="submit" class="product_count_button" name="product_count_button" value="変更"  >
-
-                                        
+                                    <input type ="hidden" name="delete_id_value" value ="<?php print $row["product_id"]?>">
+                                    <input type ="hidden" name="delete_cart_id_value" value ="<?php print $row["cart_id"]?>">
+                                    <input type="submit" class="delete_button" name="delete_button" value="削除"  >
                                 </form>
-                                </td>
+                            </td>
 
-
-                                <td class="td_delete">
-                                    <form method="post" action="">
-                                        <input type ="hidden" name="delete_id_value" value ="<?php print $row["product_id"]?>">
-                                        <input type ="hidden" name="delete_cart_id_value" value ="<?php print $row["cart_id"]?>">
-                                        <input type="submit" class="delete_button" name="delete_button" value="削除"  >
-                                    </form>
-                                </td>
-
-                    </table>
+                </table>
               
     <?php
             }
-        }
+        
     ?>
-                </div>
-        </div>
+            </div>
+    </div>
 
         <div class="sub_wrapper">
             <div class="total5">
