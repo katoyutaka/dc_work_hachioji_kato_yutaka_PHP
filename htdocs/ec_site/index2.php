@@ -2,14 +2,10 @@
 
         require_once '../include/config/config.php';
 
-        // $validation_error = array();
         $sign_up_password_1="";
         $user_check="";
-        // $cookie_agree= "";
         $login_user_name="";
-        $user_check2 = "password";
-        $eye_check ="表示にする";
-        $eye_path="img/eye2.png";
+
 
         $validation_error1 =array();
         $validation_error2 =array();
@@ -36,18 +32,6 @@
         } else {
             $cookie_sign_up_password_1 = "";
         }
-
-
-        if(isset($_COOKIE["agree"])){
-            $cookie_agree = $_COOKIE["agree"];
-            $cookie_agree_display = "hidden";
-
-
-        } else {
-            $cookie_agree = "";
-            $cookie_agree_display = "visible";
-        }
-        
 
 
 ?>
@@ -193,41 +177,10 @@
         }
 
 
-
-
-        //クッキー同意の処理
-        if(isset($_POST["agree"])){
-
-            $agree="";
-            $agree = htmlspecialchars($_POST["agree"], ENT_QUOTES, 'UTF-8');
-            
-            setcookie("agree",$agree,$cookie_expiration);
-        }
-        
-
         if(isset($_POST["sign_up_button"])){
             header('Location:membership_terms.php');
             exit();
         }
-
-
-
-
-
-
-        if(($_POST["eye_check"])==="表示にする"){
-            $user_check2 = "password";
-            $eye_check ="非表示する";
-            $eye_path= "img/eye2.png";
-            
-        }
-
-        if(($_POST["eye_check"])==="非表示する"){
-            $user_check2 = "text";
-            $eye_check ="表示にする";
-            $eye_path= "img/eye1.png";
-        }
-    
 
     }
 
@@ -267,8 +220,6 @@
             arrows:false,
             dots: true, // インジケーター
             infinite: true, // 無限ループするかどうか
-            // centerMode:true,
-            // transform: rotate(90),
             pauseOnHover:false,
             pauseOnFocus:false,
             pauseOnDotsHover:false,
@@ -339,12 +290,33 @@
                 let currentType = passwordField.getAttribute("type");
 
                 if (currentType === "password") {
-                passwordField.setAttribute("type", "text");
-                // eyeCheck.textContent = "Hide";
+                    passwordField.setAttribute("type", "text");
+                    eyeCheck.src = "img/eye1.png";
+
                 } else {
-                passwordField.setAttribute("type", "password");
-                // eyeCheck.textContent = "Show";
+                    passwordField.setAttribute("type", "password");
+                    eyeCheck.src = "img/eye2.png";
                 }
+            });
+        });
+
+
+        //Cookie Consent
+        document.addEventListener("DOMContentLoaded", function() {
+            let cookieConsentButton = document.getElementById("cookieConsentButton");
+            let cookieConsentBanner = document.getElementById("cookieConsentBanner");
+
+        // 初期状態で、クッキーの同意があればバナーを非表示にする
+        if (document.cookie.indexOf("cookieConsent=agree") !== -1) {
+            cookieConsentBanner.style.display = "none";
+        }
+
+        cookieConsentButton.addEventListener("click", function() {
+            // クッキーに同意したという情報を保存
+            document.cookie = "cookieConsent=agree; path=/; max-age=" + 60 * 60 * 24 * 30;  // 30日間有効
+
+            // バナーを非表示にする
+            cookieConsentBanner.style.display = "none";
             });
         });
     </script>
@@ -467,6 +439,8 @@
                     margin-top: 20px;
                 }
 
+
+
                 .user_name_form,.password_name_form{
                     background-color: #f8f8f8;
                     height: 35px;
@@ -564,24 +538,6 @@
                     font-size: 16px;
                     text-align: left;
                     margin-top: 30px;
-                }
-
-                /* .eye_check{
-                    padding:10px;
-                    opacity: 0;
-                    cursor: pointer;
-                    z-index: 2;
-                    position: absolute;
-                    top:40px;
-                    left:380px;
-                    width: 50px;
-                    height:30px;
-                } */
-
-
-                #eye_check{
-                    color:blue;
-
                 }
 
                 .image{
@@ -816,12 +772,15 @@
 
                             <div class="form_container">
                                 <p class="sub_label2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
-                                <div class="password_container">
-                                    <input type="<?php print $user_check2;?>" class="password_name_form" name="sign_up_password_1" value="<?php print  $cookie_sign_up_password_1;?>" >
-                                    <img src= <?php print $eye_path;?> class="image">
-                                </div>
 
-                                <input type="submit" name="eye_check" class="eye_check" value="<?php print $eye_check;?>">
+                                <div class="password_container">
+
+                                    <form action="" method="post">
+                                        <input type="password"  id="password" class="password_name_form" name="password" >
+                                        <img src="img/eye2.png" id="eye_check" class="image" >
+                                    </form>
+
+                                </div>
                                 <br>
                                 <div class="checkbox">
                                     <input type="checkbox" name="user_check" value="checked" <?php print $cookie_user_check; ?>>次回からユーザー名・パスワード省略する
@@ -834,12 +793,6 @@
 
                     
                 </div>
-
-                <form action="" method="post">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" />
-                    <a href="javascript:void(0);" id="eye_check">Show<</a>
-                </form>
 
                <div class="sub_container2">
                  <p class="label_user3">New Customer  <span>新規会員登録</span></p>
@@ -856,7 +809,7 @@
      </div>
 
      
-     <div style="visibility:<?php print $cookie_agree_display;?>;"class="cookie-consent">
+     <div id="cookieConsentBanner" class="cookie-consent">
         <div class="cookie-text">
             当サイトはクッキー(cookie)を使用します。クッキーはサイト内の一部の機能および、<br>
             サイトの使用状況の分析からマーケティング活動に利用することを目的としています。<br>
@@ -866,7 +819,7 @@
         </div>
 
         <form method="post" action="">
-            <input type="submit" class="agree" name="agree" value="同意する">
+            <input type="submit" id="cookieConsentButton" class="agree" name="agree" value="同意する">
         </form>
      </div>
 
