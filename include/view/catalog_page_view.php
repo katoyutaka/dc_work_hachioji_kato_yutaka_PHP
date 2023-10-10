@@ -1,141 +1,11 @@
 
 
-<?php
-
-    require_once '../include/config/config.php';
-
-    $login_user_name = $_SESSION["login_user_name"];
-    $sign_up_password_1 = $_SESSION["sign_up_password_1"];
-
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-        if(isset($_POST["logout_tag"])){  
-             //ログアウトが押されたら、セッションのみを消してクッキーは消さず、index.phpに遷移する。
-            $_SESSION=[];
-            session_destroy();
-
-            header('Location:index.php');
-            exit();
-        }
-
-
-
-        if(isset($_POST["cart_tag"])){
-            header('Location:cart_page.php');
-            exit();
-
-         }
-
-         if(isset($_POST["favorite_tag"])){
-            // header('Location:index.php');
-            // exit();
-
-         }
-
-         if(isset($_POST["mypage_tag"])){
-            // header('Location:index.php');
-            // exit();
-
-         }
-
-
-         if(isset($_POST["buy_button"])){
-            $product_id = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
-            $product_count = htmlspecialchars($_POST["product_count_value"], ENT_QUOTES, 'UTF-8');
-
-            $login_user_name = $_SESSION["login_user_name"];
-
-            $create_date = date('Ymd');
-            $update_date = date('Ymd');
-
-            
-
-            $sql =  " SELECT * FROM ec_cart_table WHERE product_id = '$product_id'";
-            if($result = $db->query($sql)){
-                $row4 =$result->fetch();
-
-                //指定商品がすでにDBのショッピングカート情報を保存するテーブルに保存されている時、DBの数量をDBの数量＋１に更新する。
-                if($row4["product_id"]==""){
-                    
-                        $sql =  " SELECT * FROM ec_user_table WHERE user_name = '$login_user_name'";
-                        if($result = $db->query($sql)){
-                            $row =$result->fetch();
-                            $user_id = $row["user_id"];
-                            
-                        }
-
-                        //新規にデータベースにカートに入れた情報を挿入
-                        $insert = "INSERT INTO ec_cart_table (user_id,product_id,product_count,create_date, update_date) VALUES ('$user_id','$product_id','$product_count','$create_date','$update_date');";
-
-                        if($result=$db->query($insert)){
-
-                            $sql =  " SELECT * FROM ec_product_table WHERE product_id = '$product_id'";
-                            if($result = $db->query($sql)){
-                                $row3 =$result->fetch();
-
-                                $message[]=  "『". $row3["product_name"]."』の商品は正常にカートに追加されました";
-
-                            }
-                            
-                        }
-
-                }else{  
-                        $product_count =$row4["product_count"]+1;
- 
-                        $update = "UPDATE ec_cart_table SET product_count = '$product_count' WHERE product_id = '$product_id';";
-                        $result = $db->query($update);
-
-                        $sql =  " SELECT * FROM ec_product_table WHERE product_id = '$product_id'";
-                            if($result = $db->query($sql)){
-                                $row3 =$result->fetch();
-                    
-                                $message[]=  "『". $row3['product_name']."』の商品は正常にカートに追加されました";
-                               
-                            }
-                }
-                
-                
-            }
-
-
-            
-
-
-            
-
-          
-         }
-
-        
-
-
-    }
-
-
-
-    //ログアウトであれば、catalog_page.phpに来ても、index.phpに遷移するようにする。
-    if (empty($_SESSION['login_user_name'])) {
-        header('Location:index.php');
-        exit(); 
-    }
-                
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Catalog page</title>
 
-
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script>
-      -->
     </script>
 
 
@@ -165,20 +35,7 @@
                     font-family:"Yu Mincho";
                     /* letter-spacing: 2px; */
                 }
-                
-                /* .header{
-                    text-align: center;
-                    font-weight:bold;
-                    height: 85px;
-                    color: #02235F;
-                    z-index: 2;
-                    position: fixed;
-                    width: 100%;
-                    background-color: #fff;
-                    top: 0px;
-                    left: 0px;
-                } */
-
+   
                 .label_user{
                     text-align: center;
                     font-size:18px;
@@ -353,45 +210,7 @@
                     
                 }
                 
-                /* .cart_tag,.favorite_tag,.mypage_tag,.logout_tag{
-                    max-width: 20px;
-                    width: 20px;
-                    margin-top: 8px;
-                    margin-right: 13px;
-                    margin-left: 13px;
-                    border:none;
-                }
-
-                .tag_wrapper{
-                    float: right;
-                    margin-right: 20px;
-                    display: flex;
-
-                } */
-
-
-                /* .cart_tag{
-                    background-image: url("img/cart.jpg");
-                    background-size: cover; 
-                }                
-                
-                
-                .favorite_tag{
-                    background-image: url("img/favorite.jpg");
-                    background-size: cover; 
-                }                
-                
-                
-                .mypage_tag{
-                    background-image: url("img/mypage.jpg");
-                    background-size: cover; 
-                }
-
-                .logout_tag{
-                    background-image: url("img/logout.jpg");
-                    background-size: cover; 
-                } */
-
+ 
 
                 .soldout{
                     max-width: 250px;
@@ -426,18 +245,6 @@
     <?php
         include_once '../include/view/header.php';
     ?>
-
-              
-<!-- </head> -->
-
-
-
-
-
-<!-- <body>
-   
-     <div class="header">
-     <p class="label_user">2023 Spring Collection発売</p> -->
 
      <?php
         if (!empty($message) ){
