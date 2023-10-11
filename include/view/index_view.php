@@ -574,6 +574,7 @@
                                     }
                                 ?>
                             </div>
+                            
 
                             <div class="form_container">
                                 <p class="sub_label2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>

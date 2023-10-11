@@ -1,6 +1,4 @@
-<?php
-    require_once '../include/config/config.php';
-?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
