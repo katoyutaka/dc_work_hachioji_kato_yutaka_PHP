@@ -131,6 +131,9 @@
                         
                 if($final_password === $sign_up_password_1){
 
+
+
+
                         //「チェック」が入っていたらクッキー保存する
                         if($user_check==="checked"){
                             //クッキーの話

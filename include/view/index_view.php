@@ -88,7 +88,7 @@
         //eye check
         document.addEventListener("DOMContentLoaded", function() {
             let eyeCheck = document.getElementById("eye_check");
-            let passwordField = document.getElementById("password");
+            let passwordField = document.getElementById("sign_up_password_1");
 
             eyeCheck.addEventListener("click", function() {
                 let currentType = passwordField.getAttribute("type");
@@ -580,22 +580,16 @@
                                 <p class="sub_label2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
 
                                 <div class="password_container">
-
-                                    <form action="" method="post">
-                                        <input type="password"  id="password" class="password_name_form" name="password" >
+                                        <input type="password"  id="password" class="password_name_form" name="sign_up_password_1" >
                                         <img src="img/eye2.png" id="eye_check" class="image" >
-                                    </form>
-
                                 </div>
                                 <br>
                                 <div class="checkbox">
                                     <input type="checkbox" name="user_check" value="checked" <?php print $cookie_user_check; ?>>次回からユーザー名・パスワード省略する
                                 </div>
                             </div>
-                            <form method="post" action="">
-                                <input type="submit" class="login_button"  name="login_button" value="ログインする">
-                            </form>
-
+                            
+                            <input type="submit" class="login_button"  name="login_button" value="ログインする">
                     </form>
 
                     
