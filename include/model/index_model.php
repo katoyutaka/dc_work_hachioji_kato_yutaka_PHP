@@ -1,10 +1,32 @@
 <?php
 
-        require_once '../include/config/config.php';
 
-        $sign_up_password_1="";
+session_start();
+
+define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
+define("LOGIN_USER",'bcdhm_hoj_pf0001');
+define("PASSWORD",'Au3#DZ~G');
+define("EXPIRATION_PERIOD", 1);
+
+$cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
+$login_user_name = $_SESSION["login_user_name"];
+
+try{
+     $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+     $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+
+ } catch (PDOException $e){
+     print $e->getMessage();
+     exit();
+ }
+
+
+        // $ok_sign_up_password_1="";
         $user_check="";
+        $ok_login_user_name="";
         $login_user_name="";
+        $sign_up_password_1="";
 
 
         $validation_error1 =array();
@@ -105,6 +127,8 @@
         //「ログイン」が押されたときの処理
         if((isset($_POST["login_button"]))){
 
+
+
             //IDとパスワード共にec_adminの時は、商品管理ページへ行く
             if(($ok_login_user_name === "ec_admin") && ($ok_sign_up_password_1 === "ec_admin")){
 
@@ -119,20 +143,28 @@
 
             //バリデーションチェックでOKならばデータ接続
             if ((empty($validation_error1)) && (empty($validation_error2))){
+
+                $AS ="1";
+                // $select = 'SELECT * FROM ec_user_table WHERE user_name = "yutaka12345678";';
+                
+
+                // $result = $db->query($select);
+                //     $row = $result->fetch();
+                //         $final_password= $row["password"];
+                    
+
+
                 
                 $select = 'SELECT * FROM ec_user_table WHERE user_name = :user_name;';
                 $stmt = $db -> prepare($select);
 
-                $stmt->bindValue(':user_name', $ok_login_user_name);
+                $stmt->bindValue(":user_name","yutaka12345678");
                 $stmt->execute();
                 $result = $stmt->fetch();
     
                 $final_password= $result["password"];
                         
-                if($final_password === $sign_up_password_1){
-
-
-
+                if($final_password === $ok_sign_up_password_1){
 
                         //「チェック」が入っていたらクッキー保存する
                         if($user_check==="checked"){
@@ -153,8 +185,8 @@
 
 
                         //↓はショッピングサイト内へ行く
-                        header('Location:catalog_page.php');
-                        exit();
+                        // header('Location:catalog_page.php');
+                        // exit();
     
                 } else {
                     $str = "ユーザー名またはパスワードが一致しません";
@@ -166,9 +198,9 @@
                     setcookie("sign_up_password_1","",time()-220);
                     
                 }
-                        
+            }          
 
-
+        
             } else{
                     //ここでクッキーに入れた失敗したログイン情報を消す。
 
@@ -177,7 +209,8 @@
                     setcookie("sign_up_password_1","",time()-220);
                     
             }
-        }
+        
+    
 
 
         if(isset($_POST["sign_up_button"])){
@@ -189,10 +222,10 @@
 
         
     //ログイン中であれば、catalog_page.phpに遷移させ、index.phpには行かないようにする。
-    if (isset($_SESSION['login_user_name'])) {
-        header('Location:catalog_page.php');
-        exit(); 
-    }
+    // if (isset($_SESSION['login_user_name'])) {
+    //     header('Location:catalog_page.php');
+    //     exit(); 
+    // }
 
             
 ?>

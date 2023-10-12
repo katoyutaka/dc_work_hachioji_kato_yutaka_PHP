@@ -379,6 +379,14 @@
    <?php print $product_id;?>
     <div class="main_form">
         <h1>商品登録フォーム</h1>
+
+      <?php
+
+       print $ok_login_user_name;
+       print $ok_sign_up_password_1;
+      ?>
+
+
      
 
         <form method="post" action="" enctype="multipart/form-data" class="input_area">

@@ -88,7 +88,7 @@
         //eye check
         document.addEventListener("DOMContentLoaded", function() {
             let eyeCheck = document.getElementById("eye_check");
-            let passwordField = document.getElementById("sign_up_password_1");
+            let passwordField = document.getElementById("password");
 
             eyeCheck.addEventListener("click", function() {
                 let currentType = passwordField.getAttribute("type");
@@ -494,6 +494,17 @@
 
 <body>
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
+     <?php
+
+            print $ok_login_user_name;
+            print $ok_sign_up_password_1;
+            // print $login_user_name;
+            // print $sign_up_password_1;
+            print $final_password;
+            // print $AS;
+
+    ?>
+
 
      <div class="fade">
         <img src="img/topview2.png" alt="">
@@ -537,12 +548,14 @@
 
         <div class="sub_wrapper">
             <p class="label_user1">Login</p>
+
                <div class="sub_container1">
                     <p class="label_user2">Membership  <span>会員</span></p>
                     <p class="text">【 重要なお知らせ 】<br>リニューアル以前に会員登録をされたお客様は、<br>はじめてログインする際、パスワードの再設定が必要です。 </p>
                     <p class="text">【 LINE会員様へ 】<br>オンラインショップ会員と連動しておりません。<br>オンラインショップをご利用の際には新規会員登録をお願い致します。</p>
+
                 
-                    <form method="post" action="">
+                    <!-- <form method="post" action=""> -->
 
                             <div class="err">
                                 <?php
@@ -559,7 +572,7 @@
                                     }
                                 ?>
                             </div>
-
+                    <form method="post" action="">
                             <div class="form_container">
                                 <p class="sub_label1">ユーザー名<span class="limit">（半角英数字で５文字以上）</span></p>
                                     <input type="text" class="user_name_form" name="login_user_name" value="<?php print $cookie_login_user_name ;?>">
@@ -574,22 +587,24 @@
                                     }
                                 ?>
                             </div>
-                            
 
                             <div class="form_container">
                                 <p class="sub_label2">パスワード<span class="limit">（半角英数字で８文字以上）</span></p>
 
                                 <div class="password_container">
+
+                                
                                         <input type="password"  id="password" class="password_name_form" name="sign_up_password_1" >
                                         <img src="img/eye2.png" id="eye_check" class="image" >
+                                    
+
                                 </div>
                                 <br>
                                 <div class="checkbox">
                                     <input type="checkbox" name="user_check" value="checked" <?php print $cookie_user_check; ?>>次回からユーザー名・パスワード省略する
                                 </div>
                             </div>
-                            
-                            <input type="submit" class="login_button"  name="login_button" value="ログインする">
+                                    <input type="submit" class="login_button"  name="login_button" value="ログインする">
                     </form>
 
                     

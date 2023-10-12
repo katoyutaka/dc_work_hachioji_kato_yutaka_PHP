@@ -3,6 +3,9 @@
 
     require_once '../include/config/config.php';
 
+    $ok_login_user_name = $_SESSION["login_user_name"];
+    $ok_sign_up_password_1 = $_SESSION["sign_up_password_1"];
+
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(isset($_POST["submit"])){
 
@@ -264,6 +267,10 @@
 
          if(isset($_POST["logout_button"])){
             //ログアウトが押されたら、セッションとクッキーを空にして、index.phpに遷移する。
+
+            $ok_login_user_name ="";
+            $ok_sign_up_password_1="";
+            
             $_SESSION=[];
             session_destroy();
 
