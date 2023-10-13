@@ -494,17 +494,6 @@
 
 <body>
      <p class="label_user">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
-     <?php
-
-            print $ok_login_user_name;
-            print $ok_sign_up_password_1;
-            // print $login_user_name;
-            // print $sign_up_password_1;
-            print $final_password;
-            // print $AS;
-
-    ?>
-
 
      <div class="fade">
         <img src="img/topview2.png" alt="">
@@ -594,7 +583,7 @@
                                 <div class="password_container">
 
                                 
-                                        <input type="password"  id="password" class="password_name_form" name="sign_up_password_1" >
+                                        <input type="password"  id="password" class="password_name_form" name="sign_up_password_1" value="<?php print $cookie_sign_up_password_1;?>" >
                                         <img src="img/eye2.png" id="eye_check" class="image" >
                                     
 

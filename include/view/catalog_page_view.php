@@ -6,9 +6,6 @@
     <meta charset="UTF-8">
     <title>Catalog page</title>
 
-    </script>
-
-
     <style>
                 html,
                 body,
@@ -35,7 +32,9 @@
                     font-family:"Yu Mincho";
                     /* letter-spacing: 2px; */
                 }
-   
+                
+
+
                 .label_user{
                     text-align: center;
                     font-size:18px;
@@ -74,7 +73,7 @@
 
                 .ring_img img ,.necklace_img img{
                     width: 200px;
-                    height:160px;
+                    height:200px;
                 }
 
                 .ring_img,.necklace_img{
@@ -135,9 +134,9 @@
                 }
 
                 .ring_title{
-                    font-size: 26px;
-                    text-align: center;
-                    font-weight: bold;
+                font-size: 26px;
+                text-align: center;
+                font-weight: bold;
                     letter-spacing: 3px;
                     margin-top: 90px;
                     margin-bottom: 30px;
@@ -172,7 +171,7 @@
 
                 .img_container{
                     width: 200px;
-                    height: 300px;
+                    height: 330px;
                 }
 
                 .buy_form{
@@ -205,12 +204,12 @@
                     width: 100%;
                     height: 400px; ; 
                     z-index: -1; 
-                    background-image: url("img/under_area2.gif");
+                    background-image: url("img/under_area2.jpg");
                     background-size: cover; 
                     
                 }
                 
- 
+
 
                 .soldout{
                     max-width: 250px;
@@ -242,9 +241,16 @@
 
     </style>
 
+
     <?php
         include_once '../include/view/header.php';
     ?>
+              
+
+<body>
+   
+     <div class="header">
+     <p class="label_user">2023 Spring Collection発売</p>
 
      <?php
         if (!empty($message) ){
