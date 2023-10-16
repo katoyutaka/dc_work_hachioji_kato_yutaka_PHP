@@ -82,10 +82,6 @@
                         $validation_error[] = "拡張子がJPEG,PNG,JPG以外の形式になっています"."<br>";
                     }
 
-
-
-                    
-                   
                     if(!empty($_POST['public_flg'])){
                         $public_flg = htmlspecialchars($_POST['public_flg'], ENT_QUOTES, 'UTF-8');
 
@@ -185,27 +181,33 @@
                 $stmt->execute();
 
                 $row2 =$stmt->fetch();
-
                 $update_message[]= "『".$row2["product_name"]."』を公開に変更しました"."<br>";
 
             } 
 
             if($_POST["public_flg_button"] === "非公開にする"){
                 
-                $update = "UPDATE ec_product_table SET public_flg = '0' WHERE product_id = '$number';";
-                $result = $db->query($update);
-                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = '$number';";
-                $result = $db->query($update);
+                $update = "UPDATE ec_product_table SET public_flg = '0' WHERE product_id = :product_id_number;";
+                $stmt = $db -> prepare($update);
+                $stmt->bindValue(":product_id_number",$number);
+                $stmt->execute();
+
+                $update = "UPDATE ec_product_table SET update_date = :update_date WHERE product_id = :product_id_number;";
+                $stmt = $db -> prepare($update);
+                $stmt->bindValue(":product_id_number",$number);
+                $stmt->bindValue(":update_date",$update_date);
+                $stmt->execute();
 
 
                 //何の商品を非公開にしたのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT * FROM  ec_product_table WHERE product_id = '$number';";
-                if($result2 = $db->query($select)){
-                    $row2 =$result2->fetch();
-                }
+                // $select = "SELECT * FROM  ec_product_table WHERE product_id = '$number';";
+                $select = "SELECT * FROM  ec_product_table WHERE product_id = :product_id_number;";
+                $stmt = $db -> prepare($select);
+                $stmt->bindValue(":product_id_number",$number);
+                $stmt->execute();
 
+                $row2 =$stmt->fetch();
                 $update_message[]= "『".$row2["product_name"]."』を非公開に変更しました"."<br>";
-
 
             }
 
@@ -307,12 +309,6 @@
             header('Location:index.php');
             exit();
          }
-
-       
-
-        
-
-
 
 
     }
