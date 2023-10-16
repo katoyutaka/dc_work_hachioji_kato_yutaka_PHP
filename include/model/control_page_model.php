@@ -121,31 +121,40 @@
 
 
                             //➀個数（在庫数）以外の情報は別のテーブル（ec_product_table）に挿入。
-                            $insert = "INSERT INTO ec_product_table (product_name,category, price,public_flg, create_date, update_date,image_path) VALUES ('$product_name', '$category','$price','$cg_public_flg', '$create_date','$update_date','$image_path');";
+                            $insert = "INSERT INTO ec_product_table (product_name,category, price,public_flg, create_date, update_date,image_path) VALUES (:product_name,:category,:price,:cg_public_flg,:create_date,:update_date,:image_path);";
+                            $stmt = $db -> prepare($insert);
+                            $stmt->bindValue(":product_name",$product_name);
+                            $stmt->bindValue(":category",$category);
+                            $stmt->bindValue(":price",$price);
+                            $stmt->bindValue(":cg_public_flg",$cg_public_flg);
+                            $stmt->bindValue(":create_date",$create_date);
+                            $stmt->bindValue(":update_date",$update_date);
+                            $stmt->bindValue(":image_path",$image_path);
 
-                            if($result=$db->query($insert)){
-                                $save = 'ec_site/img/'.basename($product_image);
-                                move_uploaded_file($product_image_tmp_name,$save);
+                            $stmt->execute();
+                        
+                            $result = $stmt->fetch();
+                            $save = 'ec_site/img/'.basename($product_image);
+                            move_uploaded_file($product_image_tmp_name,$save);
 
-                                //lastInsertId()関数は直前のやつのIDを持ってくる関数！！
-                                $product_id = $db->lastInsertId();
+                            //lastInsertId()関数は直前のやつのIDを持ってくる関数！！
+                            $product_id = $db->lastInsertId();
+                            $insert= "INSERT INTO ec_stock_table (product_id,stock_count,create_date, update_date) VALUES (:product_id,:stock_count,:create_date,:update_date);";
+                            
+                            $stmt = $db -> prepare($insert);
+                            $stmt->bindValue(":product_id",$product_id);
+                            $stmt->bindValue(":stock_count",$stock_count);
+                            $stmt->bindValue(":create_date",$create_date);
+                            $stmt->bindValue(":update_date",$update_date);
 
-                                //「ec_stock_table」と「ec_product_table」のテーブル結合をしたいが、結合部分の「product_id」が➀で作成されるので、作成されてから持ってこないといけない。
-                                //個数（在庫数）と「ec_product_table」から持ってきた「product_id」を「ec_stock_table」に挿入。
-                                $insert= "INSERT INTO ec_stock_table (product_id,stock_count,create_date, update_date) VALUES ('$product_id','$stock_count','$create_date','$update_date');";
-                                $result=$db->query($insert);
-
-
+                            if($stmt->execute()){
                                 $str ="『".$product_name."』の商品登録が完了しました";
-                               
-                              
+                            
                             } else {
                                 $str = "データベースに既に同じファイル名が存在している為か、その他の理由により登録失敗しました。"."<br>";
                             
                             }
-
                      }
-
 
         }
 
@@ -153,20 +162,29 @@
 
         if(isset($_POST["public_flg_button"])){
             $number = htmlspecialchars($_POST["id_value"], ENT_QUOTES, 'UTF-8');
+            $update_date = date('Ymd');
 
             if($_POST["public_flg_button"] === "公開にする"){
 
-                $update = "UPDATE ec_product_table SET public_flg = '1' WHERE product_id = '$number';";
-                $result = $db->query($update);
-                $update = "UPDATE ec_product_table SET update_date = '".date('Ymd')."' WHERE product_id = '$number';";
-                $result = $db->query($update);
+                $update = "UPDATE ec_product_table SET public_flg = '1' WHERE product_id =:product_id_number;";
+                $stmt = $db -> prepare($update);
+                $stmt->bindValue(":product_id_number",$number);
+                $stmt->execute();
 
+                $update = "UPDATE ec_product_table SET update_date = :update_date WHERE product_id = :product_id_number;";
+
+                $stmt = $db -> prepare($update);
+                $stmt->bindValue(":product_id_number",$number);
+                $stmt->bindValue(":update_date",$update_date);
+                $stmt->execute();
 
                 //何の商品を公開にしたのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT * FROM  ec_product_table WHERE product_id = '$number';";
-                if($result2 = $db->query($select)){
-                    $row2 =$result2->fetch();
-                }
+                $select = "SELECT * FROM  ec_product_table WHERE product_id = :product_id_number;";
+                $stmt = $db -> prepare($select);
+                $stmt->bindValue(":product_id_number",$number);
+                $stmt->execute();
+
+                $row2 =$stmt->fetch();
 
                 $update_message[]= "『".$row2["product_name"]."』を公開に変更しました"."<br>";
 
@@ -200,17 +218,25 @@
             $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
 
             //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-            $select = "SELECT product_name FROM  ec_product_table WHERE product_id = '$delete_number';";
-            if($result2 = $db->query($select)){
-                $row2 =$result2->fetch();
-            }
+            $select = "SELECT product_name FROM  ec_product_table WHERE product_id = :delete_number;";
+            $stmt = $db -> prepare($select);
+            $stmt->bindValue(":delete_number",$delete_number);
+            $stmt->execute();
+            $row2 = $stmt->fetch();
 
-            $delete = "DELETE FROM ec_product_table WHERE ec_product_table.product_id = '$delete_number';";
-            $result = $db->query($delete);
-            
+
+            $delete = "DELETE FROM ec_product_table WHERE ec_product_table.product_id = :delete_number;";
+            $stmt = $db -> prepare($delete);
+            $stmt->bindValue(":delete_number",$delete_number);
+            $stmt->execute();
+
+
+            $delete = "DELETE FROM ec_stock_table WHERE ec_stock_table.product_id = :delete_number;";
+            $stmt = $db -> prepare($delete);
+            $stmt->bindValue(":delete_number",$delete_number);
+            $stmt->execute();
+
             $update_message[]= "『".$row2["product_name"]."』を削除しました"."<br>";
-
-
 
          }
 
