@@ -93,8 +93,8 @@
         //バリデーションチェックOKならば次のページへ行く
         if ((empty($validation_error1)) && (empty($validation_error2)) && (empty($validation_error3)) && (empty($validation_error4))){
     
-            $_SESSION["ok_sign_up_user_name"] = $ok_sign_up_user_name;
-            $_SESSION["ok_sign_up_password_1"] = $ok_sign_up_password_1;
+            $_SESSION["login_user_name"]= $ok_sign_up_user_name;
+            $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
 
             header('Location:confirm_sign_up.php');
             exit();

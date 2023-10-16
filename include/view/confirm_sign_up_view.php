@@ -245,7 +245,7 @@
 
                 <div class="form_container">
                     <p class="label1">ユーザー名</p>
-                    <p class="label2"><?php print $ok_sign_up_user_name ?></p>
+                    <p class="label2"><?php print $ok_login_user_name?></p>
                 </div>
 
                 
