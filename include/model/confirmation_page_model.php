@@ -44,6 +44,7 @@
             
             $db->beginTransaction();
 
+            //ここは変数がないのでプリペアードステートメントやらない。
             $sql = "SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id LEFT JOIN ec_stock_table ON ec_stock_table.product_id = ec_product_table.product_id;";
             if ($result = $db->query($sql)) {
                 $commitTransaction = true; // ロールバックを行うかどうかを判断するフラグ
@@ -57,12 +58,22 @@
                         break;
                     }
 
-                    $update = "UPDATE ec_stock_table SET stock_count = " . $new_stock_count . " WHERE product_id = " . $row["product_id"] . ";";
-                    $db->query($update);
+                    $update = "UPDATE ec_stock_table SET stock_count = :new_stock_count  WHERE product_id = :product_id;";
+
+                    $stmt = $db -> prepare($update);
+                    $stmt->bindValue(":new_stock_count",$new_stock_count);
+                    $stmt->bindValue(":product_id",$row["product_id"] );
+                    $stmt->execute();
+
 
                     $update_date = date('Ymd');
-                    $update = "UPDATE ec_stock_table SET update_date = " . $update_date . " WHERE product_id = " . $row["product_id"] . ";";
-                    $db->query($update);
+                    $update = "UPDATE ec_stock_table SET update_date =:update_date WHERE product_id = :product_id;";
+
+                    $stmt = $db -> prepare($update);
+                    $stmt->bindValue(":update_date",$update_date);
+                    $stmt->bindValue(":product_id",$row["product_id"]);
+                    $stmt->execute();
+                    
                 }
 
                 if ($commitTransaction) {
