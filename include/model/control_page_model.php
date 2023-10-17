@@ -250,16 +250,19 @@
                 if(isset($_POST["count_text"])){
                     $count_button_number = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
                     $count_text = htmlspecialchars($_POST["count_text"], ENT_QUOTES, 'UTF-8');
+                    $update_date = date('Ymd');
 
                  
 
                     
                     //何の商品の在庫数を変更したのか知るために以下の商品名を取ってくるコードも記載。
-                    $sql= " SELECT *FROM ec_product_table JOIN ec_stock_table ON ec_product_table.product_id = ec_stock_table.product_id WHERE stock_id = '$count_button_number';";
-                    if($result2 = $db->query($sql)){
-                        $row2 =$result2->fetch();
-                    }
+                    $sql= " SELECT *FROM ec_product_table JOIN ec_stock_table ON ec_product_table.product_id = ec_stock_table.product_id WHERE stock_id = :count_button_number;";
+                    
+                    $stmt = $db -> prepare($sql);
 
+                    $stmt->bindValue(":count_button_number",$count_button_number);
+                    $stmt->execute();
+                    $row2 = $stmt->fetch();
 
                     if(($_POST["count_text"])===""){
                     
@@ -275,14 +278,19 @@
 
                         $update_message[]= "『".$row2["product_name"]."』の在庫数に変更がないため更新できません"."<br>";
 
-
-
                     }else{
-                        $update = "UPDATE ec_stock_table SET stock_count = ".$count_text." WHERE stock_id = '$count_button_number';";
-                        $result = $db->query($update);
-                        $update = "UPDATE ec_stock_table SET update_date = '".date('Ymd')."' WHERE stock_id = '$count_button_number';";
-                        $result = $db->query($update);
 
+                        $update = "UPDATE ec_stock_table SET stock_count = :count_text WHERE stock_id = :count_button_number;";
+                        $stmt = $db -> prepare($update);
+                        $stmt->bindValue(":count_button_number",$count_button_number);
+                        $stmt->bindValue(":count_text",$count_text);
+                        $stmt->execute();
+   
+                        $update = "UPDATE ec_stock_table SET update_date = :update_date WHERE stock_id = :count_button_number;";
+                        $stmt = $db -> prepare($update);
+                        $stmt->bindValue(":count_button_number",$count_button_number);
+                        $stmt->bindValue(":update_date",$update_date);
+                        $stmt->execute();
                         $update_message[]= "『".$row2["product_name"]."』の在庫数を変更しました"."<br>";
 
 
