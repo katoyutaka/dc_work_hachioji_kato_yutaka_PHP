@@ -8,23 +8,38 @@
 
             if(isset($_POST["delete_button"])){
 
-                $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
-                $delete_cart_id_number = htmlspecialchars($_POST["delete_cart_id_value"], ENT_QUOTES, 'UTF-8');
+                function sql_func(){
 
-                //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
-                $select = "SELECT product_name FROM  ec_product_table WHERE product_id = :product_id;";
-                $stmt = $db->prepare($select);
-                $stmt->bindValue(":product_id",$delete_number);
-                $stmt->execute();
-                $result = $stmt->fetch();
-                
+                    $db = get_connect();
 
-                $delete = "DELETE FROM ec_cart_table WHERE cart_id = :cart_id;";
-                $stmt = $db->prepare($delete);
-                $stmt->bindValue(":cart_id",$delete_cart_id_number);
-                $stmt->execute();
+                    $delete_number = htmlspecialchars($_POST["delete_id_value"], ENT_QUOTES, 'UTF-8');
+                    $delete_cart_id_number = htmlspecialchars($_POST["delete_cart_id_value"], ENT_QUOTES, 'UTF-8');
 
-                $update_message[]= "『".$result["product_name"]."』を削除しました"."<br>";
+                    //何の商品を削除したのか知るために以下の商品名を取ってくるコードも記載。
+                    $select = "SELECT product_name FROM  ec_product_table WHERE product_id = :product_id;";
+                    $stmt = $db->prepare($select);
+                    $stmt->bindValue(":product_id",$delete_number);
+                    $stmt->execute();
+                    $result = $stmt->fetch();
+                    
+
+                    $delete = "DELETE FROM ec_cart_table WHERE cart_id = :cart_id;";
+                    $stmt = $db->prepare($delete);
+                    $stmt->bindValue(":cart_id",$delete_cart_id_number);
+                    $stmt->execute();
+
+                    $update_message[]= "『".$result["product_name"]."』を削除しました"."<br>";
+
+                    return array($delete_number,$delete_cart_id_number,$update_message);
+                }
+
+                $sql_func = array();
+                $sql_func = sql_func();
+
+                $delete_number = $sql_func[0];
+                $delete_cart_id_number  = $sql_func[1];
+                $update_message  = $sql_func[2];
+
             }
 
             

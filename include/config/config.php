@@ -11,16 +11,17 @@
        $login_user_name = $_SESSION["login_user_name"];
 
 
+        function get_connect(){
+
             try{
-                    $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-                    $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+                $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+                $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
-                } catch (PDOException $e){
-                    print $e->getMessage();
-                    exit();
-                }
-
-    
-
+            } catch (PDOException $e){
+                print $e->getMessage();
+                exit();
+            }
+            return $db;
+        }
 
 ?>
