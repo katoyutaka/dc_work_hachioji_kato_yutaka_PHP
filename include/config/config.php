@@ -10,14 +10,17 @@
        $cookie_expiration= time()+EXPIRATION_PERIOD*60*60*24;
        $login_user_name = $_SESSION["login_user_name"];
 
-       try{
-            $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-            $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
-   
-        } catch (PDOException $e){
-            print $e->getMessage();
-            exit();
-        }
+            try{
+                    $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+                    $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+                } catch (PDOException $e){
+                    print $e->getMessage();
+                    exit();
+                }
+
+    
+
 
 ?>
