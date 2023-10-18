@@ -1,6 +1,19 @@
 
 
-<?php
+<?php   
+        function get_connect(){
+
+            try{
+                $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+                $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+            } catch (PDOException $e){
+                print $e->getMessage();
+                exit();
+            }
+            return $db;
+        }
+
 
         //バリデーションチェックの関数
         function address_validation_func(){

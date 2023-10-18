@@ -4,6 +4,20 @@
 
     require_once '../include/config/config.php';
 
+
+    function get_connect(){
+
+    try{
+        $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+        $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+    } catch (PDOException $e){
+        print $e->getMessage();
+        exit();
+    }
+    return $db;
+    }
+
     $login_user_name = $_SESSION["login_user_name"];
     $sign_up_password_1 = $_SESSION["sign_up_password_1"];
 
@@ -39,6 +53,8 @@
 
 
          if(isset($_POST["buy_button"])){
+
+
             $product_id = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
             $product_count = htmlspecialchars($_POST["product_count_value"], ENT_QUOTES, 'UTF-8');
 
@@ -55,9 +71,15 @@
             $stmt->execute();
             $row4 = $stmt->fetch();
 
-
             //指定商品がすでにDBのショッピングカート情報を保存するテーブルに保存されている時、DBの数量をDBの数量＋１に更新する。
             if($row4["product_id"]==""){
+  
+               function insert_func1(){
+
+                    $login_user_name = $_SESSION["login_user_name"];
+                    $sign_up_password_1 = $_SESSION["sign_up_password_1"];
+
+                    $db = get_connect();
 
                     $sql =  " SELECT * FROM ec_user_table WHERE user_name = :user_name";
                     $stmt = $db->prepare($sql);
@@ -88,7 +110,17 @@
 
                     $message[]=  "『". $row3["product_name"]."』の商品は正常にカートに追加されました";
 
+                    return array();
+               }
+
+               $insert_func1 = array();
+               $insert_func1 = insert_func1();
+    
+
+
             }else{  
+
+                function insert_func2(){
                     $product_count =$row4["product_count"]+1;
 
                     $update = "UPDATE ec_cart_table SET product_count = '$product_count' WHERE product_id = :product_id;";
@@ -108,13 +140,19 @@
                     $row3 = $stmt->fetch();
 
                     $message[]=  "『". $row3['product_name']."』の商品は正常にカートに追加されました";
-                            
-                        
+                                      
+                    return array();
+                }
+
             }
-        
         }
-          
+    
     }
+
+
+            
+
+
 
 
 
