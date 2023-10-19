@@ -3,6 +3,20 @@
 
     require_once '../include/config/config.php';
 
+    function get_connect(){
+
+    try{
+        $db=new PDO(DSN,LOGIN_USER,PASSWORD);
+        $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+    } catch (PDOException $e){
+        print $e->getMessage();
+        exit();
+    }
+    return $db;
+}
+
+
     $login_user_name = $_SESSION["login_user_name"];
 
     //注文者情報
@@ -58,22 +72,33 @@
                         break;
                     }
 
-                    $update = "UPDATE ec_stock_table SET stock_count = :new_stock_count  WHERE product_id = :product_id;";
+                    function update_stock_count(){
 
-                    $stmt = $db -> prepare($update);
-                    $stmt->bindValue(":new_stock_count",$new_stock_count);
-                    $stmt->bindValue(":product_id",$row["product_id"] );
-                    $stmt->execute();
+                        $db = get_connect();
+                        global $new_stock_count;
+                        global $row;
 
+                        $update = "UPDATE ec_stock_table SET stock_count = :new_stock_count  WHERE product_id = :product_id;";
 
-                    $update_date = date('Ymd');
-                    $update = "UPDATE ec_stock_table SET update_date =:update_date WHERE product_id = :product_id;";
+                        $stmt = $db -> prepare($update);
+                        $stmt->bindValue(":new_stock_count",$new_stock_count);
+                        $stmt->bindValue(":product_id",$row["product_id"] );
+                        $stmt->execute();
+    
+    
+                        $update_date = date('Ymd');
+                        $update = "UPDATE ec_stock_table SET update_date =:update_date WHERE product_id = :product_id;";
+    
+                        $stmt = $db -> prepare($update);
+                        $stmt->bindValue(":update_date",$update_date);
+                        $stmt->bindValue(":product_id",$row["product_id"]);
+                        $stmt->execute();
 
-                    $stmt = $db -> prepare($update);
-                    $stmt->bindValue(":update_date",$update_date);
-                    $stmt->bindValue(":product_id",$row["product_id"]);
-                    $stmt->execute();
-                    
+                        // return array();
+                    }
+
+                    // $update_stock_count = array();
+                    // $update_stock_count = update_stock_count();
                 }
 
                 if ($commitTransaction) {
