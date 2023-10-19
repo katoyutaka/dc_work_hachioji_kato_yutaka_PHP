@@ -2,6 +2,7 @@
     
     require_once '../include/config/config.php';
     require_once '../../include/model/catalog_page_model.php';
+    
 
     $login_user_name = $_SESSION["login_user_name"];
     $sign_up_password_1 = $_SESSION["sign_up_password_1"];
