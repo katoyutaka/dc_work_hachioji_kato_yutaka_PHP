@@ -2,7 +2,6 @@
 <?php
 
     require_once '../include/config/config.php';
-
     require_once '../../include/model/cart_page_model.php';
 
 
@@ -73,8 +72,7 @@
             }
 
     }
-
-            
+  
 
     //ログアウトであれば、catalog_page.phpに来ても、index.phpに遷移するようにする。
     if (empty($_SESSION['login_user_name'])) {
