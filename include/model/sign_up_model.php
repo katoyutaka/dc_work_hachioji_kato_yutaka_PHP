@@ -1,25 +1,20 @@
 
 <?php
-      session_start();
 
-       define("DSN",'mysql:dbname=bcdhm_hoj_pf0001;host=mysql34.conoha.ne.jp');
-       define("LOGIN_USER",'bcdhm_hoj_pf0001');
-       define("PASSWORD",'Au3#DZ~G');
-
-       try{
+    function get_connect(){
+        try{
             $db=new PDO(DSN,LOGIN_USER,PASSWORD);
-   
+            $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
         } catch (PDOException $e){
             print $e->getMessage();
             exit();
         }
+        return $db;
+    }
 
-?>
 
-<?php
-
-    //バリデーションチェック
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    function sign_up(){
 
         if(isset($_POST['sign_up_user_name'])){
             
@@ -81,33 +76,17 @@
             
         }
 
-
-        
         if((!($ok_sign_up_password_1 === $ok_sign_up_password_2)||!($sign_up_password_1 === $sign_up_password_2))){
             
             $validation_error4[]="パスワードとパスワード（再確認）が一致しません"."<br>";
 
         }
-
-
-        //バリデーションチェックOKならば次のページへ行く
-        if ((empty($validation_error1)) && (empty($validation_error2)) && (empty($validation_error3)) && (empty($validation_error4))){
     
-            $_SESSION["login_user_name"]= $ok_sign_up_user_name;
-            $_SESSION["sign_up_password_1"] = $ok_sign_up_password_1;
-
-            header('Location:confirm_sign_up.php');
-            exit();
-        }
-
-
-        if(isset($_POST["reverse-button"])){
-            header('Location:membership_terms.php');
-            exit();
-
-        }
-
+        
+        return array($sign_up_user_name, $ok_sign_up_user_name,$sign_up_password_1,$ok_sign_up_password_1,$validation_error1,$sign_up_password_2,$ok_sign_up_password_2,$validation_error2,$validation_error3,$validation_error4); 
     }
+
+
     
 ?>
 
