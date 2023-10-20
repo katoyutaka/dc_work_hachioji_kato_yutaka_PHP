@@ -39,20 +39,18 @@
 
          if(isset($_POST["buy_button"])){
 
-                $product_id = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
-                $product_count = htmlspecialchars($_POST["product_count_value"], ENT_QUOTES, 'UTF-8');
-    
-                $login_user_name = $_SESSION["login_user_name"];
-    
-                $create_date = date('Ymd');
-                $update_date = date('Ymd');
-    
-                
-                $sql =  " SELECT * FROM ec_cart_table WHERE product_id = :product_id";
-                $stmt = $db -> prepare($sql);
-                $stmt->bindValue(":product_id",$product_id);
-                $stmt->execute();
-                $row4 = $stmt->fetch();
+
+            $catalog_page_buy_button = array();
+            $catalog_page_buy_button = catalog_page_buy_button();
+
+            $product_id       = $catalog_page_buy_button[0];
+            $product_count    = $catalog_page_buy_button[1];
+            $login_user_name  = $catalog_page_buy_button[2];
+            $create_date      = $catalog_page_buy_button[3];
+            $update_date      = $catalog_page_buy_button[4];
+            $stmt             = $catalog_page_buy_button[5];
+            $row4             = $catalog_page_buy_button[6];
+
 
 
             //指定商品がすでにDBのショッピングカート情報を保存するテーブルに保存されている時、DBの数量をDBの数量＋１に更新する。

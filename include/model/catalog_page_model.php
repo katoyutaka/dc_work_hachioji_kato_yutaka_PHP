@@ -15,6 +15,31 @@
     }
 
 
+    
+    function catalog_page_buy_button(){
+
+        $db = get_connect();
+
+        $product_id = htmlspecialchars($_POST["count_id_value"], ENT_QUOTES, 'UTF-8');
+        $product_count = htmlspecialchars($_POST["product_count_value"], ENT_QUOTES, 'UTF-8');
+
+        $login_user_name = $_SESSION["login_user_name"];
+
+        $create_date = date('Ymd');
+        $update_date = date('Ymd');
+
+        
+        $sql =  " SELECT * FROM ec_cart_table WHERE product_id = :product_id";
+        $stmt = $db -> prepare($sql);
+        $stmt->bindValue(":product_id",$product_id);
+        $stmt->execute();
+        $row4 = $stmt->fetch();
+
+        return array($product_id,$product_count,$login_user_name,$create_date, $update_date,$stmt,$row4);
+
+    }
+
+
     function insert_func1(){
 
         $login_user_name = $_SESSION["login_user_name"];
@@ -78,6 +103,8 @@
                             
         return array($message);
     }
+
+
             
 ?>
 
