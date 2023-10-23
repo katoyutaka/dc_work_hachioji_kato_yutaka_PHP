@@ -55,6 +55,8 @@
             $_SESSION=[];
             session_destroy();
 
+            logout_delete_cart();
+
             header('Location:index.php');
             exit();
         }

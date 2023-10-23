@@ -14,6 +14,10 @@
              //ログアウトが押されたら、セッションのみを消してクッキーは消さず、index.phpに遷移する。
             $_SESSION=[];
             session_destroy();
+
+            logout_delete_cart();
+
+            
             header('Location:index.php');
             exit();
         }

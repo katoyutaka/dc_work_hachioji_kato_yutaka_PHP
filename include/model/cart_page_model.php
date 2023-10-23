@@ -75,6 +75,14 @@
 
             return array($product_count_id_number,$text_product_count_number,$update_date,$update_message);
         }
+
+
+        
+        function logout_delete_cart(){
+            $db = get_connect();
+            $delete ="DELETE FROM ec_cart_table;";
+            $db->query($delete);
+        }
                 
 
 ?>

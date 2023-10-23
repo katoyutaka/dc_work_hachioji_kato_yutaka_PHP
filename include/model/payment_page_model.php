@@ -113,7 +113,14 @@
 
             return array($input_card_number_form,$input_security_number_form,$expiration_date_month, $expiration_date_year,$select_conveni,$smartphone_payment_method_button,$payment_method_button,$validation_error1,$validation_error2,$validation_error3,$validation_error4,$validation_error5,$validation_error7,$validation_error8);
 
-}
+    }
+
+    function logout_delete_cart(){
+        $db = get_connect();
+        $delete ="DELETE FROM ec_cart_table;";
+        $db->query($delete);
+    }
+        
 
 
 ?>
