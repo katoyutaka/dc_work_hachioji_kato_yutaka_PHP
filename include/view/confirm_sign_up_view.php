@@ -3,7 +3,7 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>会員登録確認</title>
+        <title>入力内容の確認</title>
         
         <style>
                     html,

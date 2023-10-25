@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>お届け先住所</title>
+    <title>お届け先情報入力</title>
     <style>
                 html,
                 body,

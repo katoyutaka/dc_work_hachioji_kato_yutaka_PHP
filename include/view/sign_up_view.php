@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>新規会員登録ページ</title>
+    <title>新規会員登録</title>
     
     <style>
                 html,
@@ -203,7 +203,7 @@
 
         <div class="sign_up_wrapper">
             <div class="sign_up_text">
-            <p>JEWELRY HOMME ONLINE SHOP 会員へのお申込みにあたっては、以下の項目にご入力が必要です。<br>下記の項目に入力の上、「確認する」ボタンを押して下さい。</p>
+            <p>JEWERLY HOMME ONLINE SHOP 会員へのお申込みにあたっては、以下の項目にご入力が必要です。<br>下記の項目に入力の上、「確認する」ボタンを押して下さい。</p>
             </div> 
             <div>
                

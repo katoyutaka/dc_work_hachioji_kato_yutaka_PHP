@@ -247,7 +247,7 @@
 
 <div class="main_wrapper">
     <div class="top_tag">
-        <p>Shopping Bag</p>
+        <p>Shopping Cart</p>
 
         <div class="image_wrapper">
             <img src='img/shopping1.png' class="image">

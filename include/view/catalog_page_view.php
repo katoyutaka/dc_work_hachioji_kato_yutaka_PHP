@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Catalog page</title>
+    <title>ショッピングページ</title>
 
     <style>
                 html,

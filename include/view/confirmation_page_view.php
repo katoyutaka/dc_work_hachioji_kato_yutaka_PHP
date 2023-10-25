@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>注文内容のご確認</title>
+    <title>ご注文内容の確認</title>
     <style>
                 html,
                 body,
@@ -493,7 +493,7 @@
             </div>
         </div>
             
-        <div class="label_user5"><span>注文内容のご確認</span><br><br>以下の項目を確認していただき、「注文を確定する」ボタンをクリックして下さい。</div>
+        <div class="label_user5"><span>ご注文内容の確認</span><br><br>以下の項目を確認していただき、「注文を確定する」ボタンをクリックして下さい。</div>
         
         <div class="address_label">お届け先</div>
 

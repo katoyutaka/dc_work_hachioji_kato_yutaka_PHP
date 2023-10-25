@@ -190,13 +190,13 @@
               
 </head>
 <body>
-    <p class="header">72Sec JEWERY HOMME＋ 銀座本店オープン</p>
+    <p class="header">72Sec JEWERLY HOMME＋ 銀座本店オープン</p>
         <div class="image_wrapper">
             <img src='img/status1.png' class="image">
         </div>
     <div class="main_wrapper">
         <p class="label_user">登録前にご確認下さい</p>
-        <div class="text">「72Sec JEWELRY HOMME+ ONLINE SHOP」入会お申込の前に、以下の会員規約・利用規約を必ずお読み下さい。<br>ご同意いただける方は、「同意する」をクリックして入会お申込フォームへお進み下さい。</div>
+        <div class="text">「72Sec JEWERLY HOMME+ ONLINE SHOP」入会お申込の前に、以下の会員規約・利用規約を必ずお読み下さい。<br>ご同意いただける方は、「同意する」をクリックして入会お申込フォームへお進み下さい。</div>
         <p class="label_user2">会員規約</p>
         
         <div class="scrollBox">
@@ -349,7 +349,7 @@
             <br>
             当サイトにおける商品販売については、下記にお問合せください。<br>
             <br> 
-            72Sec JEWELRY HOMME+ ONLINE SHOP問い合わせ窓口<br>
+            72Sec JEWERLY HOMME+ ONLINE SHOP問い合わせ窓口<br>
             メール: XXX_XX@gamil.com<br>
             お電話: 03-XXXX-XXXX (受付時間：平日11:00～17:30 ※年末年始除く)<br>
             <br>

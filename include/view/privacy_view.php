@@ -4,7 +4,7 @@
 
 <head>
    <meta charset="UTF-8">
-   <title>privacy</title>
+   <title>プライバシーポリシー</title>
 </head>
 
 <style>
