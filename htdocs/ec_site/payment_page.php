@@ -1,7 +1,5 @@
 <?php
 
-
-    require_once '../include/config/config.php';
     require_once '../../include/model/payment_page_model.php';
 
 

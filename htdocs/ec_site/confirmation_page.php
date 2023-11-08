@@ -1,6 +1,6 @@
 <?php
    
-    require_once '../include/config/config.php';
+
     require_once '../../include/model/confirmation_page_model.php';
 
     $login_user_name = $_SESSION["login_user_name"];

@@ -3,6 +3,7 @@
 
     require_once '../include/config/config.php';
 
+
     function get_connect(){
         try{
             $db=new PDO(DSN,LOGIN_USER,PASSWORD);

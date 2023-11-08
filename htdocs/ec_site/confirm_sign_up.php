@@ -1,6 +1,6 @@
 <?php
 
-    require_once '../include/config/config.php';
+
     require_once '../../include/model/confirm_sign_up_model.php';
 
 

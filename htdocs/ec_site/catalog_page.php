@@ -1,6 +1,6 @@
 <?php
     
-    require_once '../include/config/config.php';
+
     require_once '../../include/model/catalog_page_model.php';
     
 

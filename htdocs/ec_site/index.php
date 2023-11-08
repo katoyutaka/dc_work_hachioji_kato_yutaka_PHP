@@ -1,7 +1,6 @@
 
 
 <?php
-    require_once '../include/config/config.php';
     require_once '../../include/model/index_model.php';
 
     $user_check="";

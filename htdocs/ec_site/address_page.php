@@ -1,6 +1,4 @@
 <?php
-
-    require_once '../include/config/config.php';
     require_once '../../include/model/address_page_model.php';
 
     // $db = get_connect();

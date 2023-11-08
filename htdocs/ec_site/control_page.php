@@ -1,6 +1,6 @@
 <?php
 
-    require_once '../include/config/config.php';
+ 
     require_once '../../include/model/control_page_model.php';
 
     $ok_login_user_name = $_SESSION["login_user_name"];

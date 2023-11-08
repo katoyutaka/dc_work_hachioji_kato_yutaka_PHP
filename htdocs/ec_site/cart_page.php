@@ -1,7 +1,7 @@
 
 <?php
 
-    require_once '../include/config/config.php';
+
     require_once '../../include/model/cart_page_model.php';
 
 
