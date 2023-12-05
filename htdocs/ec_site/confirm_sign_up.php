@@ -1,7 +1,7 @@
 <?php
 
 
-    require_once '../../include/model/confirm_sign_up_model.php';
+    require_once __DIR__.'/../../include/model/confirm_sign_up_model.php';
 
 
 
@@ -29,6 +29,6 @@
         }
     }
 
-    include_once '../../include/view/confirm_sign_up_view.php';
+    include_once __DIR__.'/../../include/view/confirm_sign_up_view.php';
 
 ?>

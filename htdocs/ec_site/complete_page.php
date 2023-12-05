@@ -1,5 +1,5 @@
 <?php
-    require_once '../include/config/config.php';
+    require_once __DIR__.'/../../include/config/config.php';
 
     $login_user_name = $_SESSION["login_user_name"];
 
@@ -54,6 +54,6 @@
     }
 
     
-    include_once '../../include/view/complete_page_view.php';
+    include_once __DIR__.'/../../include/view/complete_page_view.php';
 
 ?>

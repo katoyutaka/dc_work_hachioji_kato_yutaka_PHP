@@ -49,7 +49,10 @@
                     background-size: cover; 
                 }                
                 
-                
+                .favorite_tag{
+                    background-image: url("./img/favorite.jpg");
+                    background-size: cover; 
+                }
                 
                 .mypage_tag{
                     background-image: url("./img/mypage.jpg");

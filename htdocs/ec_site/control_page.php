@@ -1,7 +1,7 @@
 <?php
 
  
-    require_once '../../include/model/control_page_model.php';
+    require_once __DIR__.'/../../include/model/control_page_model.php';
 
     $ok_login_user_name = $_SESSION["login_user_name"];
     $ok_sign_up_password_1 = $_SESSION["sign_up_password_1"];
@@ -98,6 +98,6 @@
 
 
     
-    include_once '../../include/view/control_page_view.php';
+    include_once __DIR__.'/../../include/view/control_page_view.php';
 
 ?>

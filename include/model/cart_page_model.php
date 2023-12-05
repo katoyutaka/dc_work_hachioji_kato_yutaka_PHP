@@ -1,7 +1,8 @@
 
 
 <?php
-    require_once '../include/config/config.php';
+    require_once __DIR__.'/../config/config.php';
+    
     //何故かconfig.phpに以下の関数(function get_connect)を持ってくるとエラーになる。なぜ？
         function get_connect(){
             try{

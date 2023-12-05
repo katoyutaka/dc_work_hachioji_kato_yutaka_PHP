@@ -569,7 +569,7 @@
     </style>
 
     <?php
-        include_once '../include/view/header.php';
+        include_once __DIR__.'/header.php';
     ?>
 
               

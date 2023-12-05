@@ -1,3 +1,3 @@
 <?php    
-    include_once '../../include/view/privacy_view.php';
+    include_once __DIR__.'/../../include/view/privacy_view.php';
 ?>

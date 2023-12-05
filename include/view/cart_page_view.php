@@ -241,7 +241,7 @@
     </style>
 
     <?php
-        include_once '../include/view/header.php';
+        include_once __DIR__.'/header.php';
     ?>
 
 
@@ -279,9 +279,12 @@
     <?php
         $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
 
+
+        //↓ここがprepareでなくただのqueryなので修正すること。12月1現在！
         
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
+        $stmt = $db->query($sql);
+
+
         $all = $stmt->fetchAll();
 
 

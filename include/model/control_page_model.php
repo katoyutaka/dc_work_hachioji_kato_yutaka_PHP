@@ -1,7 +1,7 @@
 
 <?php
 
-    require_once '../include/config/config.php';
+    require_once __DIR__.'/../config/config.php';
 
 
     function get_connect(){

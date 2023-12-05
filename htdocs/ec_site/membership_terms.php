@@ -1,5 +1,5 @@
 <?php
-    require_once '../include/config/config.php';
+    require_once __DIR__.'/../../include/config/config.php';
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -15,6 +15,6 @@
 
    }
 
-    include_once '../../include/view/membership_terms_view.php';
+    include_once __DIR__.'/../../include/view/membership_terms_view.php';
 
 ?>

@@ -1,7 +1,7 @@
 
 
 <?php
-    require_once '../../include/model/index_model.php';
+    require_once __DIR__.'/../../include/model/index_model.php';
 
     $user_check="";
     $ok_login_user_name="";
@@ -146,6 +146,6 @@
 
 
     
-    include_once '../../include/view/index_view.php';
+    include_once __DIR__.'/../../include/view/index_view.php';
 
 ?>

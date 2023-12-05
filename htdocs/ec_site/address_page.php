@@ -1,9 +1,9 @@
 <?php
-    require_once '../../include/model/address_page_model.php';
-
+    require_once __DIR__. '/../../include/model/address_page_model.php';
     // $db = get_connect();
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+        
         //バリデーションチェック
 
         $add = array();
@@ -87,6 +87,6 @@
     }
 
 
-    include_once '../../include/view/address_page_view.php';
+    include_once __DIR__.'/../../include/view/address_page_view.php';
 
 ?>

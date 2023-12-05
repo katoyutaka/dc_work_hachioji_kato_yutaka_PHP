@@ -1,7 +1,7 @@
 <?php
    
 
-    require_once '../../include/model/confirmation_page_model.php';
+    require_once __DIR__.'/../../include/model/confirmation_page_model.php';
 
     $login_user_name = $_SESSION["login_user_name"];
 
@@ -115,6 +115,6 @@
         exit(); 
     }
 
-    include_once '../../include/view/confirmation_page_view.php';
+    include_once __DIR__.'/../../include/view/confirmation_page_view.php';
 
 ?>

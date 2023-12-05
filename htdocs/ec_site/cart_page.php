@@ -2,7 +2,7 @@
 <?php
 
 
-    require_once '../../include/model/cart_page_model.php';
+    require_once  __DIR__.'/../../include/model/cart_page_model.php';
 
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -83,6 +83,6 @@
     }
 
     
-    include_once '../../include/view/cart_page_view.php';
+    include_once __DIR__.'/../../include/view/cart_page_view.php';
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 
     
-    require_once '../../include/model/sign_up_model.php';
+    require_once __DIR__.'/../../include/model/sign_up_model.php';
 
     //バリデーションチェック
     if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -41,6 +41,6 @@
 
     }
 
-    include_once '../../include/view/sign_up_view.php';
+    include_once __DIR__.'/../../include/view/sign_up_view.php';
 
 ?>

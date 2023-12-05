@@ -1,6 +1,6 @@
 <?php
 
-    require_once '../../include/model/payment_page_model.php';
+    require_once __DIR__.'/../../include/model/payment_page_model.php';
 
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -92,6 +92,6 @@
 
    
     
-    include_once '../../include/view/payment_page_view.php';
+    include_once __DIR__.'/../../include/view/payment_page_view.php';
 
 ?>
