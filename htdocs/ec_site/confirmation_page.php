@@ -40,7 +40,7 @@
 
         //注文確定ボタンで、「在庫数のデータベース変更」と「カートのデータベース変更」をする。
         if(isset($_POST["order-button"])){
-
+            $db = get_connect();
             $db->beginTransaction();
 
             //ここは変数がないのでプリペアードステートメントやらない。

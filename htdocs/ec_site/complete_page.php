@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__.'/../../include/config/config.php';
+    require_once __DIR__.'/../../include/model/complete_page_model.php';
 
     $login_user_name = $_SESSION["login_user_name"];
 
