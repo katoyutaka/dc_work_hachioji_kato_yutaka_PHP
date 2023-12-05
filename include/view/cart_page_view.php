@@ -279,6 +279,8 @@
     <?php
         $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
 
+        $db = get_connect();
+
 
         //↓ここがprepareでなくただのqueryなので修正すること。12月1現在！
         

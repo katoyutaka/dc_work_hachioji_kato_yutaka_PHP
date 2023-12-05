@@ -441,6 +441,8 @@
 
     $sql =  " SELECT * FROM ec_product_table JOIN ec_stock_table ON ec_product_table.product_id = ec_stock_table.product_id";
 
+    $db = get_connect();
+
     if($result = $db->query($sql)){
         while($row =$result->fetch()){ 
         $get_img_url = $row["image_path"];

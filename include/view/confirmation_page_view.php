@@ -582,6 +582,7 @@
 
                 <?php
                 $sql ="SELECT * FROM ec_cart_table JOIN ec_product_table ON ec_cart_table.product_id = ec_product_table.product_id; ";
+                $db = get_connect();
                 if($result = $db->query($sql)){
 
                     $total_sum = 0;
