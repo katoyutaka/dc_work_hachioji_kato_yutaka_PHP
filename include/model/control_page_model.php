@@ -140,7 +140,7 @@
         $stmt->execute();
     
         $result = $stmt->fetch();
-        $save = 'ec_site/img/'.basename($product_image);
+        $save = __DIR__.'/../../htdocs/ec_site/img/'.basename($product_image);
         move_uploaded_file($product_image_tmp_name,$save);
 
         //lastInsertId()関数は直前のやつのIDを持ってくる関数！！
