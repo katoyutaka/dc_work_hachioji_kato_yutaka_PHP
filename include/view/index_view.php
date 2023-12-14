@@ -11,7 +11,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script>
+    <script src="script.js"></script>
+    <!-- <script>
         
         $(document).ready(function(){
 
@@ -123,7 +124,7 @@
             cookieConsentBanner.style.display = "none";
             });
         });
-    </script>
+    </script> -->
 
 
     <style>
