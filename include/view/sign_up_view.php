@@ -194,7 +194,7 @@
               
 </head>
 <body>
-    <p class="header">【MEN'S VERY 7月号掲載】2023 Summer Collection 発売中 </p>
+    <p class="header">【MEN'S VERY 7月号掲載】2024 Summer Collection 発売中 </p>
     <div class="image_wrapper">
         <img src='img/status2.png' class="image">
     </div>

@@ -250,7 +250,7 @@
 <body>
    
      <div class="header">
-     <p class="label_user">2023 Spring Collection発売</p>
+     <p class="label_user">2024 Spring Collection発売</p>
 
      <?php
         if (!empty($message) ){
@@ -374,7 +374,7 @@
 
         </div>
 
-        <div class="under_area">2023 Spring Collection 72Sec jewerly homme＋<br><br>華やかでいて肌馴染みも良い<br>オリジナルカラーの「72Secアクアゴールド」
+        <div class="under_area">2024 Spring Collection 72Sec jewerly homme＋<br><br>華やかでいて肌馴染みも良い<br>オリジナルカラーの「72Secアクアゴールド」
           <br><br>72Secだけの特別な輝きを纏った<br>大人の洗練されたジュエリーコレクションです</p> </div>
  
 
