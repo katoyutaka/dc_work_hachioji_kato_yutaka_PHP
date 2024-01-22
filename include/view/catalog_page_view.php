@@ -204,7 +204,7 @@
                     width: 100%;
                     height: 400px; ; 
                     z-index: -1; 
-                    background-image: url("img/under_area2.jpg");
+                    background-image: url("img/under_area2.gif");
                     background-size: cover; 
                     
                 }
